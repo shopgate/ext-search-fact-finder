@@ -27,7 +27,7 @@ class FactFinderClient {
   /**
    * @returns {FactFinderClientSearchBuilder}
    */
-  static searchBuilder () {
+  static searchRequestBuilder () {
     return new SearchBuilder()
   }
 }
