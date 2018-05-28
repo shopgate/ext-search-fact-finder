@@ -1,0 +1,18 @@
+{
+  "version": "1",
+  "pipeline": {
+    "id": "shopgate.search-fact-finder.awesomePipeline.v1",
+    "public": true,
+    "input": [],
+    "output": [],
+    "steps": [
+      {
+        "type": "extension",
+        "id": "@shopgate/search-fact-finder",
+        "path": "@shopgate/search-fact-finder/lib/awesomeStep.js",
+        "input": [],
+        "output": []
+      }
+    ]
+  }
+}
