@@ -16,7 +16,7 @@ class FactFinderClient {
   /**
    * add other options here, like page, filters
    *
-   * @param {StringHashMap} searchRequest
+   * @param {FactFinderClientSearchRequest} searchRequest
    * @returns {Promise<*>}
    */
   search (searchRequest) {

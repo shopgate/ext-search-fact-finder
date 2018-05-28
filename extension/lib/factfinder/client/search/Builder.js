@@ -18,17 +18,16 @@ class FactFinderClientSearchBuilder {
   }
 
   /**
-   * @returns {StringHashMap}
+   * @returns {FactFinderClientSearchRequest}
    */
   build () {
-    const parameters = []
-    parameters.push(['format', 'json'])
+    const parameters = /** @type FactFinderClientSearchRequest */ { }
     if (this._query) {
-      parameters.push(['query', encodeURIComponent(this._query)])
+      parameters.query = encodeURIComponent(this._query)
     }
 
     if (this._channel) {
-      parameters.push(['channel', this._channel])
+      parameters.channel = this._channel
     }
 
     return parameters

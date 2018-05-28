@@ -1,5 +1,6 @@
 const ENDPOINT = '/Search.ff'
 const needle = require('needle')
+const URL = require('url').URL
 
 class FactFinderClientSearch {
   /**
@@ -17,13 +18,16 @@ class FactFinderClientSearch {
   }
 
   /**
-   * @param {StringHashMap} parameters
+   * @param {FactFinderClientSearchRequest} parameters
    * @returns {Promise<*>}
    */
   async execute (parameters) {
-    const url = `${this.url}?${parameters.map(parameter => parameter.join('=')).join('&')}`
+    const url = new URL(this.url)
+    url.searchParams.append('format', 'json')
+    url.searchParams.append('query', parameters.query)
+    url.searchParams.append('channel', parameters.channel)
 
-    return await needle('get', url, { })
+    return needle('get', url.toString(), { })
   }
 }
 

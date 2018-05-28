@@ -7,10 +7,9 @@ describe('FactFinderClientSearchBuilder', function () {
     const request = new Builder().query('my search text').channel('de').build()
 
     assert.deepStrictEqual(request,
-      [
-        [ 'format', 'json' ],
-        [ 'query', 'my%20search%20text' ],
-        [ 'channel', 'de' ]
-      ])
+      {
+        query: 'my%20search%20text',
+        channel: 'de'
+      })
   })
 })
