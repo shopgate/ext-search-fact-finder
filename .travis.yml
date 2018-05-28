@@ -1,0 +1,34 @@
+language: node_js
+
+install:
+- cd extension; npm install; cd ..
+
+env: # important! Without the top-level env, no job will be allowed to fail.
+  - JOB_DEFAULT=test
+
+matrix:
+  fast_finish: true
+  include:
+    - node_js: 8
+      env: TYPE=UNIT_CODESTYLE_DEPENDENCY
+      script:
+      - cd extension
+      - npm run test:unit
+      - npm run lint
+      - npm run check
+    - node_js: 8
+      env: TYPE=INTEGRATION
+      script:
+      - if [[ "$INTEGRATION_CREDENTIALS" ]]; then echo "${INTEGRATION_CREDENTIALS}" > .integration-credentials.js; fi
+      - cd extension
+      - if [[ "$INTEGRATION_CREDENTIALS" ]]; then npm run test:integration; fi
+  allow_failures:
+    - node_js: 8
+      env: TYPE=INTEGRATION
+
+notifications:
+  slack:
+    rooms:
+      secure: I8gRWWeqODU9jV2xf7gGx+5jshP1bSIOhbJJuxjTeP/DI74+gyERMmYFJPgXbBkcQs6VQv7Xr3Sds/O7Fceum3u+Gx8XRNc/CcCqzojFAvln3FraJc/fzPr1of9iUYFBxozQS5eBoFvxZ4KKEHYHiw/AigLGHTJGPT+KfFTwBfqXRZpLopy0kNYmqJYWUvIoiWaQ9YQ82HvOBcbifWLxouI6pj/ZYiL59WPkGe/OEOV1yAKSZeuErrwf+6Qhzdb8DMavA+MeF+OaTMXtfN6sbTQ9faYrvJCu9/F4Kh0WGUte2RuB6F72ph6ejlK6UhjO3icP+8fcm3rMGGLuZ2focf0jfwt+sNUTnB0Owq4lZjLXn3soVQsg1hCr22NQ7FRkKvi+/wtITu1daYRsulFTi8ZrFdtWTsE7LBy7jgOb2Wi0RhiWnzr1I7iNXLxSmVewVo3AuSbovSTsOXCttROY3akmpO/VmiqnPLl/3cU5Pp1rb9jocdWGWzffal4i18bfeBROs8tNmgTaMHh3D9kOJaAbnGkfI+61nvF/iLaCJHHocWmhIqKuTGXFtX8ZY7S71tuVz3JsjzJ/6n5gRGbd+D+ZNx3I84sVG2rG84d0JeIIXS/3Lk5rF+3zBy8QrCWy8UVBATDKulEnKTwPonA3IfpWSbFaZaUPuaMRilca5FY=
+    on_success: change
+    on_failure: always

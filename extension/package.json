@@ -1,0 +1,37 @@
+{
+  "name": "@shopgate/search-fact-finder",
+  "version": "0.1.0",
+  "description": "",
+  "license": "Apache-2.0",
+  "scripts": {
+    "test": "mocha --use_strict --recursive test",
+    "test:watch": "_mocha --watch --use_strict --recursive test",
+    "test:unit": "mocha --use_strict --recursive test/unit",
+    "test:integration": "mocha --use_strict --timeout 3000 --recursive test/integration",
+    "cover:unit": "nyc mocha --recursive test/unit",
+    "cover:integration": "nyc mocha --use_strict --timeout 3000 --recursive test/integration",
+    "cover": "nyc mocha --use_strict --timeout 3000 --recursive test/integration --recursive test/unit",
+    "lint": "eslint --ignore-path ../.gitignore --ext .js .",
+    "check": "nsp check"
+  },
+  "devDependencies": {
+    "@types/bunyan": "^1.8.4",
+    "@types/chai": "^4.1.2",
+    "@types/mocha": "^5.2.0",
+    "@types/sinon": "^5.0.0",
+    "bunyan": "^1.8.12",
+    "chai": "^4.1.2",
+    "eslint": "^4.19.1",
+    "eslint-config-standard": "^11.0.0",
+    "eslint-plugin-import": "^2.12.0",
+    "eslint-plugin-node": "^6.0.1",
+    "eslint-plugin-promise": "^3.8.0",
+    "eslint-plugin-standard": "^3.1.0",
+    "lint-staged": "^7.1.2",
+    "mocha": "^5.2.0",
+    "nsp": "^3.1.0",
+    "nyc": "^11.3.0",
+    "sinon": "^5.0.10",
+    "standard": "^11.0.1"
+  }
+}
