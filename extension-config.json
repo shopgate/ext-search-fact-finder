@@ -3,5 +3,38 @@
   "id": "@shopgate/search-fact-finder",
   "components": [],
   "configuration": {
+    "baseUri": {
+      "type": "bigApi",
+      "destination": "backend",
+      "default": null,
+      "params": {
+        "method": "GET",
+        "service": "config",
+        "path": "/v1/shop/%(shopId)s/sgc_ext_fact_finder_settings?parsed=true",
+        "key": "value.merchantUrlWithoutAction"
+      }
+    },
+    "username": {
+      "type": "bigApi",
+      "destination": "backend",
+      "default": null,
+      "params": {
+        "method": "GET",
+        "service": "config",
+        "path": "/v1/shop/%(shopId)s/sgc_ext_fact_finder_settings?parsed=true",
+        "key": "value.username"
+      }
+    },
+    "password": {
+      "type": "bigApi",
+      "destination": "backend",
+      "default": null,
+      "params": {
+        "method": "GET",
+        "service": "config",
+        "path": "/v1/shop/%(shopId)s/sgc_ext_fact_finder_settings?parsed=true",
+        "key": "value.password"
+      }
+    }
   }
 }
