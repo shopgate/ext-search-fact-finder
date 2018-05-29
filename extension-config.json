@@ -35,6 +35,39 @@
         "path": "/v1/shop/%(shopId)s/sgc_ext_fact_finder_settings?parsed=true",
         "key": "value.password"
       }
+    },
+    "authenticationType": {
+      "type": "bigApi",
+      "destination": "backend",
+      "default": null,
+      "params": {
+        "method": "GET",
+        "service": "config",
+        "path": "/v1/shop/%(shopId)s/sgc_ext_fact_finder_settings?parsed=true",
+        "key": "value.authenticationType"
+      }
+    },
+    "authenticationPrefix": {
+      "type": "bigApi",
+      "destination": "backend",
+      "default": null,
+      "params": {
+        "method": "GET",
+        "service": "config",
+        "path": "/v1/shop/%(shopId)s/sgc_ext_fact_finder_settings?parsed=true",
+        "key": "value.authenticationPrefix"
+      }
+    },
+    "authenticationPostfix": {
+      "type": "bigApi",
+      "destination": "backend",
+      "default": null,
+      "params": {
+        "method": "GET",
+        "service": "config",
+        "path": "/v1/shop/%(shopId)s/sgc_ext_fact_finder_settings?parsed=true",
+        "key": "value.authenticationPostfix"
+      }
     }
   }
 }

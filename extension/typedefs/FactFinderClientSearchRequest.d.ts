@@ -1,4 +1,5 @@
-interface FactFinderClientSearchRequest {
-  query : string
-  channel : string
+interface FactFinderClientSearchRequest extends FactFinderClientAuthorisedRequest {
+  query?: string
+  channel?: string
+  version?: string
 }
