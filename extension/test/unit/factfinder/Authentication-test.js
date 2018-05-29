@@ -35,4 +35,14 @@ describe('FactFinderClientSearchBuilder', function () {
         password: '167539c3e7aba8388eee252f429a4a1a'
       })
   })
+
+  it('should not add authentication parameter when username is missing', function () {
+    const subjectUnderTest = new FactFinderAuthentication('', 'userpw', AUTHENTICATION_TYPE_EXTENDED, 'FACT-FINDER', 'FACT-FINDER')
+    assert.deepStrictEqual(subjectUnderTest.addAuthentication({}), {})
+  })
+
+  it('should not add authentication parameter when password is missing', function () {
+    const subjectUnderTest = new FactFinderAuthentication('user', '', AUTHENTICATION_TYPE_EXTENDED, 'FACT-FINDER', 'FACT-FINDER')
+    assert.deepStrictEqual(subjectUnderTest.addAuthentication({}), {})
+  })
 })

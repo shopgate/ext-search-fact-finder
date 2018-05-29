@@ -26,6 +26,10 @@ class FactFinderAuthentication {
    * @returns {FactFinderClientSearchRequest}
    */
   addAuthentication (parameters) {
+    if (!this._user || !this._password) {
+      return parameters
+    }
+
     parameters.username = this._user
 
     let tempPassword = crypto.createHash('md5').update(this._password).digest('hex')
