@@ -22,7 +22,7 @@ class FactFinderAuthentication {
   }
 
   /**
-   * @param {FactFinderClientSearchRequest} parameters
+   * @param {FactFinderClientSearchRequest} inputParameters
    * @returns {FactFinderClientSearchRequest}
    */
   addAuthentication (inputParameters) {
