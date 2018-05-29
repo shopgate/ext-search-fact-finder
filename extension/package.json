@@ -4,7 +4,7 @@
   "description": "",
   "license": "Apache-2.0",
   "scripts": {
-    "precommit": "if [[ ${RUN_PRECOMMIT_HOOK} == \"YES\" ]]; then npm run test && npm run lint-staged fi",
+    "precommit": "if test -f precommit.hook ; then npm run test && npm run lint-staged; fi",
     "test": "mocha --use_strict --recursive test",
     "test:watch": "_mocha --watch --use_strict --recursive test",
     "test:unit": "mocha --use_strict --recursive test/unit",
@@ -13,6 +13,7 @@
     "cover:integration": "nyc mocha --use_strict --timeout 3000 --recursive test/integration",
     "cover": "nyc mocha --use_strict --timeout 3000 --recursive test/integration --recursive test/unit",
     "lint": "eslint --ignore-path ../.gitignore --ext .js .",
+    "lint-staged": "lint-staged",
     "check": "nsp check"
   },
   "lint-staged": {

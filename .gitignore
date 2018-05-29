@@ -64,3 +64,4 @@ typings/
 package-lock.json
 frontend/config.json
 extension/config.json
+extension/precommit.hook
