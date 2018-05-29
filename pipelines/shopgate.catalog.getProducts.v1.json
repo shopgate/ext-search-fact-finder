@@ -23,9 +23,10 @@
     ],
     "steps": [
       {
-        "type": "static",
-
-        "value": "shopgate.catalog.getProducts.v1"
+        "type": "staticValue",
+        "input": [],
+        "values": [{ "key": "callId", "value": "shopgate.catalog.getProducts.v1"}],
+        "output": [{ "key": "callId", "id": "2099" }]
       },
       {
         "type": "extension",
@@ -90,7 +91,7 @@
           "input": [
             {"key": "isSearch", "id": "2001"}
           ],
-          "expression": { "ok": { "type": "input", "name": "isSearch" } },
+          "expression": { "ok": [{ "type": "input", "name": "isSearch" }] },
           "then": {
             "type": "extension",
             "id": "@shopgate/search-fact-finder",
@@ -100,14 +101,15 @@
               {"key": "offset", "id": "4", "optional": true},
               {"key": "limit", "id": "5", "optional": true},
               {"key": "sort", "id": "6", "optional": true}
-            ]
+            ],
+            "output": []
           },
           "else": {
             "type": "conditional",
             "input": [
               {"key": "isSearchFilter", "id": "2002"}
             ],
-            "expression": { "ok": { "type": "input", "name": "isSearchFilter" } },
+            "expression": { "ok": [{ "type": "input", "name": "isSearchFilter" }] },
             "then": {
               "type": "extension",
               "id": "@shopgate/search-fact-finder",
@@ -118,7 +120,8 @@
                 {"key": "offset", "id": "4", "optional": true},
                 {"key": "limit", "id": "5", "optional": true},
                 {"key": "sort", "id": "6", "optional": true}
-              ]
+              ],
+              "output": []
             },
             "else": {
               "type": "extension",
@@ -136,8 +139,10 @@
                 {"key": "skipLiveshoppingLoading", "id": "9", "optional": true},
                 {"key": "showInactive", "id": "15", "optional": true},
                 {"key": "sgxsMeta", "id": "750"},
-                {"key": "characteristics", "id": "751", "optional": true}
-              ]
+                {"key": "characteristics", "id": "751", "optional": true},
+                {"key": "callId", "id": "2099"}
+              ],
+              "output": []
             }
           }
         }

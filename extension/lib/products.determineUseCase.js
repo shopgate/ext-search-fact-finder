@@ -1,13 +1,16 @@
 /**
  * @param {PipelineContext} context
- * @param {Object} input
+ * @param {getProductsInput} input
  * @returns {Promise<Object>}
  */
-module.exports = async function (context, input) {
+module.exports = async (context, input) => {
+  const hasSearchPhrase = typeof input.searchPhrase !== 'undefined'
+  const hasFilters = Object.keys(input.filters || {}).length > 0
+
   return {
-    isSearch: false,
-    isSearchFilter: false,
-    isCategoryBrowsing: false,
-    isProductsById: false
+    isSearch: hasSearchPhrase && !hasFilters,
+    isSearchFilter: hasSearchPhrase && hasFilters,
+    isCategoryBrowsing: typeof input.categoryId !== 'undefined',
+    isProductsById: typeof input.productIds !== 'undefined'
   }
 }

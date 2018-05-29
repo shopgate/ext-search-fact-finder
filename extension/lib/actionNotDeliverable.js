@@ -4,17 +4,18 @@ const { decorateDebug } = require('./shopgate/logDecorator')
  * @param {Object} input
  * @returns {Promise}
  */
-module.exports = async function (context, input) {
-  const callId = input.callId
-  const inputParameters = input
+module.exports = async (context, input) => {
+  const inputParameters = Object.assign({}, input)
   delete inputParameters.callId
 
   Object.keys(inputParameters).forEach(key => {
     context.log.error(decorateDebug({
       inputKey: key,
-      inputValue: input.getProperty(key),
-      problem: 'unsupported',
-      callId
-    }), `Unsupported use case of ${callId}`)
+      inputValue: input[key],
+      problem: 'unsupportedInputParamsCombination',
+      callId: input.callId
+    }), `Unsupported combination of input parameters for ${input.callId}`)
   })
+
+  throw new Error('Provided parameter combination is not known.')
 }
