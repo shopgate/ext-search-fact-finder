@@ -8,7 +8,6 @@ describe('FactFinderClientSearchBuilder', function () {
 
   beforeEach(() => {
     sandbox = sinon.createSandbox()
-    sandbox.useFakeTimers()
   })
 
   afterEach(() => {
