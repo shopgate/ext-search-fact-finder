@@ -1,8 +1,5 @@
-interface FactFinderClientSearchRequest {
+interface FactFinderClientSearchRequest extends FactFinderClientAuthorisedRequest {
   query?: string
   channel?: string
   version?: string
-  username?: string
-  password?: string
-  timestamp?: string
 }

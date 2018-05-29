@@ -7,11 +7,11 @@ const AUTHENTICATION_TYPE_EXTENDED = 'extended'
 
 class FactFinderAuthentication {
   /**
-   * @param {string} user
-   * @param {string} password
-   * @param {string} authenticationType
-   * @param {string} authenticationPrefix
-   * @param {string} authenticationPostfix
+   * @param {string|null} user
+   * @param {string|null} password
+   * @param {string} [authenticationType=AUTHENTICATION_TYPE_SIMPLE]
+   * @param {string} [authenticationPrefix=DEFAULT_AUTHENTICATION_PREFIX]
+   * @param {string} [authenticationPostfix=DEFAULT_AUTHENTICATION_POSTFIX]
    */
   constructor (user, password, authenticationType = AUTHENTICATION_TYPE_SIMPLE, authenticationPrefix = DEFAULT_AUTHENTICATION_PREFIX, authenticationPostfix = DEFAULT_AUTHENTICATION_POSTFIX) {
     this._user = user
@@ -25,7 +25,9 @@ class FactFinderAuthentication {
    * @param {FactFinderClientSearchRequest} parameters
    * @returns {FactFinderClientSearchRequest}
    */
-  addAuthentication (parameters) {
+  addAuthentication (inputParameters) {
+    const parameters = Object.assign({}, inputParameters)
+
     if (!this._user || !this._password) {
       return parameters
     }
