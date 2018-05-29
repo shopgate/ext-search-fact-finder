@@ -4,13 +4,11 @@ const SearchBuilder = require('./client/search/Builder')
 class FactFinderClient {
   /**
    * @param {string} baseUri
-   * @param {string} user
-   * @param {string} password
+   * @param {FactFinderAuthentication} authentication
    */
-  constructor (baseUri, user, password) {
+  constructor (baseUri, authentication) {
     this._baseUri = baseUri
-    this._user = user
-    this._password = password
+    this._authentication = authentication
   }
 
   /**
@@ -21,7 +19,8 @@ class FactFinderClient {
    */
   search (searchRequest) {
     const searchAdapter = new SearchAdapter(this._baseUri)
-    return searchAdapter.execute(searchRequest)
+
+    return searchAdapter.execute(this._authentication.addAuthentication(searchRequest))
   }
 
   /**
