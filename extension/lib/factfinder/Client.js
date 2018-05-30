@@ -26,7 +26,7 @@ class FactFinderClient {
     let searchRequest = Object.assign({}, inputSearchRequest)
 
     if (this._encoding !== DEFAULT_ENCODING) {
-      searchRequest.query = urlencode(searchRequest.query, 'iso-8859-1')
+      searchRequest.query = urlencode(searchRequest.query, this._encoding)
     }
 
     const searchAdapter = new SearchAdapter(this._baseUri)
