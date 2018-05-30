@@ -72,7 +72,7 @@
     "encoding": {
       "type": "bigApi",
       "destination": "backend",
-      "default": null,
+      "default": "utf8",
       "params": {
         "method": "GET",
         "service": "config",
