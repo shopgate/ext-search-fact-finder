@@ -35,8 +35,8 @@ class FactFinderClientSearch {
     }
 
     url.searchParams.append('format', 'json')
-    url.searchParams.append('query', parameters.query)
-    url.searchParams.append('channel', parameters.channel)
+    url.searchParams.append('query', inputSearchRequest.query)
+    url.searchParams.append('channel', inputSearchRequest.channel)
 
     return needle('get', url.toString(), { })
   }
