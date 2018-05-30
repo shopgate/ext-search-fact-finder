@@ -1,0 +1,26 @@
+{
+  "version": "1",
+  "pipeline": {
+    "id": "shopgate.catalog.getSearchSuggestions.v1",
+    "public": true,
+    "input": [
+      {"key": "searchPhrase", "id": "1000"}
+    ],
+    "output": [
+      {"key": "suggestions", "id": "1010"}
+    ],
+    "steps": [
+      {
+        "type": "extension",
+        "id": "@shopgate/search-fact-finder",
+        "path": "@shopgate/search-fact-finder/lib/getSuggestions.js",
+        "input": [
+          {"key": "searchPhrase", "id": "1000"}
+        ],
+        "output": [
+          {"key": "suggestions", "id": "1010"}
+        ]
+      }
+    ]
+  }
+}

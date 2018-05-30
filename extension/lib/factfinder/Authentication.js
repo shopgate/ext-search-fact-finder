@@ -1,3 +1,4 @@
+'use strict'
 const crypto = require('crypto')
 
 const DEFAULT_AUTHENTICATION_PREFIX = 'FACT-FINDER'
