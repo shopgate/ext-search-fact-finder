@@ -1,3 +1,4 @@
+'use strict'
 const needle = require('needle')
 const urlencode = require('urlencode')
 const { DEFAULT_ENCODING } = require('./Encoding')
