@@ -36,25 +36,25 @@ class FactFinderClient {
 
   /**
    * @param {string} baseUri
-   * @param {string} [encoding=DEFAULT_ENCODING]
+   * @param {string|null} [encoding]
    * @returns {FactFinderClient}
    */
-  static createPublicClient (baseUri, encoding = DEFAULT_ENCODING) {
-    return new FactFinderClient(baseUri, new FactFinderAuthentication(null, null), encoding)
+  static createPublicClient (baseUri, encoding) {
+    return new FactFinderClient(baseUri, new FactFinderAuthentication(null, null), encoding || DEFAULT_ENCODING)
   }
 
   /**
    * @param {string} baseUri
    * @param {string} username
    * @param {string} password
-   * @param {string} [encoding=DEFAULT_ENCODING]
+   * @param {string|null} [encoding]
    * @returns {FactFinderClient}
    */
-  static createClientWithSimpleAuthentication (baseUri, username, password, encoding = DEFAULT_ENCODING) {
+  static createClientWithSimpleAuthentication (baseUri, username, password, encoding) {
     return new FactFinderClient(
       baseUri,
       new FactFinderAuthentication(username, password),
-      encoding
+      encoding || DEFAULT_ENCODING
     )
   }
 
@@ -64,7 +64,7 @@ class FactFinderClient {
    * @param {string} password
    * @param {string} authenticationPrefix
    * @param {string} authenticationPostfix
-   * @param {string} [encoding=DEFAULT_ENCODING]
+   * @param {string|null} [encoding]
    * @returns {FactFinderClient}
    */
   static createClientWithExtendedAuthentication ({baseUri, username, password, authenticationPrefix, authenticationPostfix, encoding}) {
@@ -76,7 +76,7 @@ class FactFinderClient {
         AUTHENTICATION_TYPE_EXTENDED,
         authenticationPrefix,
         authenticationPostfix),
-      encoding
+      encoding || DEFAULT_ENCODING
     )
   }
 }

@@ -18,18 +18,64 @@ describe('factFinderClientFactoryMapper', async () => {
     sandbox.verifyAndRestore()
   })
 
-  it('should create public client when there are no auth parameters', async () => {
-    factFinderClientFactoryMapper({})
-    sinon.assert.calledOnce(publicClientStub)
+  describe('public fact-finder client', async () => {
+    it('should create public client when there are no auth parameters', async () => {
+      factFinderClientFactoryMapper({})
+      sinon.assert.calledOnce(publicClientStub)
+    })
+
+    it('should create public client when auth parameters are not supported', async () => {
+      factFinderClientFactoryMapper({ authenticationType: 'invalid' })
+      sinon.assert.calledOnce(publicClientStub)
+    })
+
+    it('should create public client according to config', async () => {
+      factFinderClientFactoryMapper({ baseUri: 'http://www.shopgate.com', encoding: 'utf8' })
+      sinon.assert.calledOnce(publicClientStub.withArgs('http://www.shopgate.com', 'utf8'))
+    })
   })
 
-  it('should create client with simple auth', async () => {
-    factFinderClientFactoryMapper({ authenticationType: 'simple' })
-    sinon.assert.calledOnce(clientWithSimpleAuthStub)
+  describe('simple auth fact-finder client', async () => {
+    it('should create client with simple auth', async () => {
+      factFinderClientFactoryMapper({ authenticationType: 'simple' })
+
+      sinon.assert.calledOnce(clientWithSimpleAuthStub)
+    })
+    it('should create client with simple auth according to config', async () => {
+      factFinderClientFactoryMapper({
+        baseUri: 'http://www.shopgate.com',
+        authenticationType: 'simple',
+        username: 'john',
+        password: 'simple',
+        encoding: 'utf8'})
+
+      sinon.assert.calledOnce(clientWithSimpleAuthStub.withArgs('http://www.shopgate.com', 'john', 'simple', 'utf8'))
+    })
   })
 
-  it('should create a client with extended stub', async () => {
-    factFinderClientFactoryMapper({ authenticationType: 'extended' })
-    sinon.assert.calledOnce(clientWithExtendedAuthStub)
+  describe('extended auth fact-finder client', async () => {
+    it('should create a client with extended auth', async () => {
+      factFinderClientFactoryMapper({authenticationType: 'extended'})
+      sinon.assert.calledOnce(clientWithExtendedAuthStub)
+    })
+    it('should create a client with extended auth according to config', async () => {
+      factFinderClientFactoryMapper({
+        baseUri: 'http://www.shopgate.com',
+        authenticationType: 'extended',
+        username: 'john',
+        password: 'simple',
+        encoding: 'utf8',
+        authenticationPrefix: 'factfinder',
+        authenticationPostfix: 'factfinder'
+      })
+      sinon.assert.calledOnce(clientWithExtendedAuthStub.withArgs({
+        baseUri: 'http://www.shopgate.com',
+        username: 'john',
+        password: 'simple',
+        encoding: 'utf8',
+        authenticationPrefix: 'factfinder',
+        authenticationPostfix: 'factfinder'
+      }))
+    })
   })
 })
