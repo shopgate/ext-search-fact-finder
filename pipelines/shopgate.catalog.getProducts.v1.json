@@ -102,7 +102,10 @@
               {"key": "limit", "id": "5", "optional": true},
               {"key": "sort", "id": "6", "optional": true}
             ],
-            "output": []
+            "output": [
+              {"key": "searchProductCount", "id": "2020"},
+              {"key": "searchProductIds", "id": "2021"}
+            ]
           },
           "else": {
             "type": "conditional",
@@ -121,7 +124,10 @@
                 {"key": "limit", "id": "5", "optional": true},
                 {"key": "sort", "id": "6", "optional": true}
               ],
-              "output": []
+              "output": [
+                {"key": "searchProductCount", "id": "2020"},
+                {"key": "searchProductIds", "id": "2021"}
+              ]
             },
             "else": {
               "type": "extension",
@@ -145,6 +151,27 @@
               "output": []
             }
           }
+        }
+      },
+      {
+        "type": "conditional",
+        "input": [
+          {"key": "searchProductCount", "id": "2020"}
+        ],
+        "expression": {
+          "ok": [{"type": "input", "name": "searchProductCount"}]]
+        },
+        "then": {
+          "type": "pipeline",
+          "id": "__shopgate.catalog.getProducts.default.v1",
+          "input": [
+            {"key": "productIds", "id": "2021"},
+            {"key": "sgxsMeta", "id": "750"}
+          ],
+          "output": [
+            {"key": "totalProductCount", "id": "1000"},
+            {"key": "products", "id": "100"}
+          ]
         }
       }
     ]

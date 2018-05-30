@@ -68,6 +68,17 @@
         "path": "/v1/shop/%(shopId)s/sgc_ext_fact_finder_settings?parsed=true",
         "key": "value.authenticationPostfix"
       }
+    },
+    "channel": {
+      "type": "bigApi",
+      "destination": "backend",
+      "default": "de",
+      "params": {
+        "method": "GET",
+        "service": "config",
+        "path": "/v1/shop/%(shopId)s/sgc_ext_fact_finder_settings?parsed=true",
+        "key": "value.channel"
+      }
     }
   }
 }
