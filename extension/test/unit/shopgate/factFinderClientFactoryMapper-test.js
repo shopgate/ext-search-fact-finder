@@ -1,5 +1,4 @@
 const sinon = require('sinon')
-const { describe, it, beforeEach, afterEach } = require('mocha')
 
 const FactFinderClient = require('../../../lib/factfinder/Client')
 const factFinderClientFactoryMapper = require('../../../lib/shopgate/factFinderClientFactoryMapper')
@@ -49,7 +48,8 @@ describe('factFinderClientFactoryMapper', async () => {
         password: 'simple',
         encoding: 'utf8'})
 
-      sinon.assert.calledOnce(clientWithSimpleAuthStub.withArgs('http://www.shopgate.com', 'john', 'simple', 'utf8'))
+      sinon.assert.calledOnce(clientWithSimpleAuthStub)
+      sinon.assert.calledWith(clientWithSimpleAuthStub, 'http://www.shopgate.com', 'john', 'simple', 'utf8')
     })
   })
 
@@ -68,14 +68,15 @@ describe('factFinderClientFactoryMapper', async () => {
         authenticationPrefix: 'factfinder',
         authenticationPostfix: 'factfinder'
       })
-      sinon.assert.calledOnce(clientWithExtendedAuthStub.withArgs({
+      sinon.assert.calledOnce(clientWithExtendedAuthStub)
+      sinon.assert.calledWith(clientWithExtendedAuthStub, {
         baseUri: 'http://www.shopgate.com',
         username: 'john',
         password: 'simple',
         encoding: 'utf8',
         authenticationPrefix: 'factfinder',
         authenticationPostfix: 'factfinder'
-      }))
+      })
     })
   })
 })

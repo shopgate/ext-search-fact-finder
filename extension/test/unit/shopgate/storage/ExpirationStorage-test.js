@@ -1,5 +1,4 @@
 const sinon = require('sinon')
-const { describe, it, beforeEach, afterEach } = require('mocha')
 
 const ExpirationStorage = require('../../../../lib/shopgate/storage/ExpirationStorage')
 
@@ -25,7 +24,8 @@ describe('ExpirationStorage', async () => {
     it('should call get() on the PipelineStorage', async () => {
       storage.get('fake_key')
 
-      sinon.assert.calledOnce(pipelineStorageStub.get.withArgs('expiration_fake_key'))
+      sinon.assert.calledOnce(pipelineStorageStub.get)
+      sinon.assert.calledWith(pipelineStorageStub.get, 'expiration_fake_key')
     })
 
     it('should return null if key has expired', async () => {
@@ -51,7 +51,8 @@ describe('ExpirationStorage', async () => {
     it('should call set() on the PipelineStorage', async () => {
       storage.set('fake_key', 'fake_value')
 
-      sinon.assert.calledOnce(pipelineStorageStub.set.withArgs('expiration_fake_key', sinon.match.any))
+      sinon.assert.calledOnce(pipelineStorageStub.set)
+      sinon.assert.calledWith(pipelineStorageStub.set, 'expiration_fake_key', sinon.match.any)
     })
   })
 
@@ -59,7 +60,8 @@ describe('ExpirationStorage', async () => {
     it('should call del() on the PipelineStorage', async () => {
       storage.del('fake_key')
 
-      sinon.assert.calledOnce(pipelineStorageStub.del.withArgs('expiration_fake_key'))
+      sinon.assert.calledOnce(pipelineStorageStub.del)
+      sinon.assert.calledWith(pipelineStorageStub.del, 'expiration_fake_key')
     })
   })
 
