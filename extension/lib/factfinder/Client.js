@@ -2,7 +2,6 @@
 const SearchAdapter = require('./client/Search')
 const SuggestAdapter = require('./client/Suggest')
 const SearchBuilder = require('./client/search/Builder')
-const { FactFinderAuthentication } = require('./Authentication')
 const { DEFAULT_ENCODING } = require('./client/Encoding')
 const { FactFinderAuthentication, AUTHENTICATION_TYPE_EXTENDED } = require('./Authentication')
 
