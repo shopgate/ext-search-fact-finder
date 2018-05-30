@@ -3,15 +3,18 @@ const SearchAdapter = require('./client/Search')
 const SuggestAdapter = require('./client/Suggest')
 const SearchBuilder = require('./client/search/Builder')
 const { FactFinderAuthentication } = require('./Authentication')
+const { DEFAULT_ENCODING } = require('./client/Encoding')
 
 class FactFinderClient {
   /**
    * @param {string} baseUri
    * @param {FactFinderAuthentication} factFinderAuthentication
+   * @param {string} [encoding=DEFAULT_ENCODING]
    */
-  constructor (baseUri, factFinderAuthentication) {
+  constructor (baseUri, factFinderAuthentication, encoding = DEFAULT_ENCODING) {
     this._baseUri = baseUri
     this._factFinderAuthentication = factFinderAuthentication
+    this._encoding = encoding.toLowerCase()
   }
 
   /**
@@ -21,7 +24,7 @@ class FactFinderClient {
    * @returns {Promise<*>}
    */
   search (searchRequest) {
-    const searchAdapter = new SearchAdapter(this._baseUri)
+    const searchAdapter = new SearchAdapter(this._baseUri, this._encoding)
 
     return searchAdapter.execute(this._factFinderAuthentication.addAuthentication(searchRequest))
   }
