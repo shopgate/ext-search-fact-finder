@@ -1,8 +1,6 @@
 const SearchAdapter = require('./client/Search')
 const SearchBuilder = require('./client/search/Builder')
-const urlencode = require('urlencode')
-
-const DEFAULT_ENCODING = 'utf8'
+const { DEFAULT_ENCODING } = require('./client/Encoding')
 
 class FactFinderClient {
   /**
@@ -19,17 +17,11 @@ class FactFinderClient {
   /**
    * add other options here, like page, filters
    *
-   * @param {FactFinderClientSearchRequest} inputSearchRequest
+   * @param {FactFinderClientSearchRequest} searchRequest
    * @returns {Promise<*>}
    */
-  search (inputSearchRequest) {
-    let searchRequest = Object.assign({}, inputSearchRequest)
-
-    if (this._encoding !== DEFAULT_ENCODING) {
-      searchRequest.query = urlencode(searchRequest.query, this._encoding)
-    }
-
-    const searchAdapter = new SearchAdapter(this._baseUri)
+  search (searchRequest) {
+    const searchAdapter = new SearchAdapter(this._baseUri, this._encoding)
 
     return searchAdapter.execute(this._factFinderAuthentication.addAuthentication(searchRequest))
   }
