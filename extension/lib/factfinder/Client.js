@@ -1,6 +1,7 @@
 const SearchAdapter = require('./client/Search')
 const SearchBuilder = require('./client/search/Builder')
 const { DEFAULT_ENCODING } = require('./client/Encoding')
+const { FactFinderAuthentication, AUTHENTICATION_TYPE_EXTENDED } = require('./Authentication')
 
 class FactFinderClient {
   /**
@@ -31,6 +32,52 @@ class FactFinderClient {
    */
   static searchRequestBuilder () {
     return new SearchBuilder()
+  }
+
+  /**
+   * @param {string} baseUri
+   * @param {string} [encoding=DEFAULT_ENCODING]
+   * @returns {FactFinderClient}
+   */
+  static createPublicClient (baseUri, encoding = DEFAULT_ENCODING) {
+    return new FactFinderClient(baseUri, new FactFinderAuthentication(null, null), encoding)
+  }
+
+  /**
+   * @param {string} baseUri
+   * @param {string} username
+   * @param {string} password
+   * @param {string} [encoding=DEFAULT_ENCODING]
+   * @returns {FactFinderClient}
+   */
+  static createClientWithSimpleAuthentication (baseUri, username, password, encoding = DEFAULT_ENCODING) {
+    return new FactFinderClient(
+      baseUri,
+      new FactFinderAuthentication(username, password),
+      encoding
+    )
+  }
+
+  /**
+   * @param {string} baseUri
+   * @param {string} username
+   * @param {string} password
+   * @param {string} authenticationPrefix
+   * @param {string} authenticationPostfix
+   * @param {string} [encoding=DEFAULT_ENCODING]
+   * @returns {FactFinderClient}
+   */
+  static createClientWithExtendedAuthentication ({baseUri, username, password, authenticationPrefix, authenticationPostfix, encoding}) {
+    return new FactFinderClient(
+      baseUri,
+      new FactFinderAuthentication(
+        username,
+        password,
+        AUTHENTICATION_TYPE_EXTENDED,
+        authenticationPrefix,
+        authenticationPostfix),
+      encoding
+    )
   }
 }
 

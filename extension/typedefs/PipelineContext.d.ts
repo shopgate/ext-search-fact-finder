@@ -1,7 +1,7 @@
 import * as Logger from 'bunyan'
 
 interface PipelineContext {
-  config: Object
+  config: PipelineConfiguration
   log: Logger
   storage: PipelineStorageContainer
 }
@@ -18,4 +18,15 @@ interface PipelineStorageContainer {
   user: PipelineStorage
   device: PipelineStorage
   extension: PipelineStorage
+}
+
+interface PipelineConfiguration {
+  baseUri: string
+  username?: string
+  password?: string
+  authenticationType?: string
+  authenticationPrefix?: string
+  authenticationPostfix?: string
+  channel: string
+  encoding: string
 }
