@@ -41,6 +41,7 @@
     "standard": "^11.0.1"
   },
   "dependencies": {
-    "needle": "^2.2.1"
+    "needle": "^2.2.1",
+    "urlencode": "^1.1.0"
   }
 }
