@@ -4,6 +4,7 @@
   "description": "",
   "license": "Apache-2.0",
   "scripts": {
+    "precommit": "if test -f precommit.hook ; then npm run test && npm run lint-staged; fi",
     "test": "mocha --use_strict --recursive test",
     "test:watch": "_mocha --watch --use_strict --recursive test",
     "test:unit": "mocha --use_strict --recursive test/unit",
@@ -12,7 +13,11 @@
     "cover:integration": "nyc mocha --use_strict --timeout 3000 --recursive test/integration",
     "cover": "nyc mocha --use_strict --timeout 3000 --recursive test/integration --recursive test/unit",
     "lint": "eslint --ignore-path ../.gitignore --ext .js .",
+    "lint-staged": "lint-staged",
     "check": "nsp check"
+  },
+  "lint-staged": {
+    "*.js": "npm run lint"
   },
   "devDependencies": {
     "@types/bunyan": "^1.8.4",
@@ -27,6 +32,7 @@
     "eslint-plugin-node": "^6.0.1",
     "eslint-plugin-promise": "^3.8.0",
     "eslint-plugin-standard": "^3.1.0",
+    "husky": "^0.14.3",
     "lint-staged": "^7.1.2",
     "mocha": "^5.2.0",
     "nsp": "^3.1.0",
