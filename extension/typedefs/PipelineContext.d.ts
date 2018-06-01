@@ -27,4 +27,6 @@ interface PipelineConfiguration {
   authenticationType?: string
   authenticationPrefix?: string
   authenticationPostfix?: string
+  channel: string
+  encoding: string
 }
