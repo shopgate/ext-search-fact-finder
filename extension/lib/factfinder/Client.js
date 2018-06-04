@@ -36,13 +36,9 @@ class FactFinderClient {
    * @returns {Promise<*>}
    */
   suggest (searchRequest) {
-    const suggestAdapter = new SuggestAdapter(this._baseUri)
+    const suggestAdapter = new SuggestAdapter(this._baseUri, this._encoding)
 
     return suggestAdapter.execute(this._factFinderAuthentication.addAuthentication(searchRequest))
-  }
-
-  static create (baseUri, user, password) {
-    return new FactFinderClient(baseUri, new FactFinderAuthentication(user, password))
   }
 
   /**

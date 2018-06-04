@@ -6,76 +6,50 @@ const Logger = require('bunyan')
 chai.use(require('chai-as-promised')).should()
 
 const FactFinderClient = require('../../lib/factfinder/Client')
-const FactFinderClientError = require('../../lib/factfinder/errors/FactFinderClientError')
-const FactFinderServerError = require('../../lib/factfinder/errors/FactFinderServerError')
-const FactFinderInvalidResponseError = require('../../lib/factfinder/errors/FactFinderInvalidResponseError')
-
 const getSuggestions = require('../../lib/getSuggestions')
 
 describe('getSuggestions', async () => {
   const sandbox = sinon.createSandbox()
   const context = {
     config: {
-      baseUri: 'https://example.com/FactFinder',
-      username: 'test',
-      password: 'test',
-      channel: 'pollin-de'
+      baseUri: 'https://www.shopgate.com/FactFinder',
+      channel: 'de'
     }
   }
+
   let clientStub
 
   beforeEach(() => {
     context.log = sandbox.createStubInstance(Logger)
     clientStub = sandbox.createStubInstance(FactFinderClient)
-    sandbox.stub(FactFinderClient, 'create').returns(clientStub)
+    sandbox.stub(FactFinderClient, 'createPublicClient').returns(clientStub)
   })
 
   afterEach(() => {
     sandbox.verifyAndRestore()
   })
 
-  it('should return a list of suggestions', async () => {
-    clientStub.suggest
-      .withArgs({query: 'raspberry', channel: 'pollin-de'})
-      .resolves({
-        statusCode: 200,
-        body: require('./mockedApiResponses/getSuggestions.success')
-      })
-
-    const expected = { suggestions: [
+  it('should return list of suggestions from search', async function () {
+    const returnedSuggestions = [
       'RASPBERRY',
       'RASPBERRY PI 3',
       'RASPBERRY PI ZERO W',
       'RASPBERRY GEHAEUSE',
       'RASPBERRY PI GEHAEUSE'
-    ]}
-    const actual = await getSuggestions(context, { searchPhrase: 'raspberry' })
-    chai.assert.deepEqual(actual, expected)
+    ]
+
+    clientStub.suggest
+      .withArgs({ query: 'raspberry', channel: 'de' })
+      .resolves(returnedSuggestions)
+
+    chai.assert.deepEqual(await getSuggestions(context, { searchPhrase: 'raspberry' }), { suggestions: returnedSuggestions })
   })
 
-  it('should handle 4xx errors from FACT-Finder', async () => {
+  it('should log arrors', async function () {
     clientStub.suggest
-      .resolves({
-        statusCode: 400
-      })
+      .rejects(new Error())
 
-    await getSuggestions(context, { searchPhrase: 'raspberry' }).should.eventually.be.rejectedWith(FactFinderClientError)
-  })
-
-  it('should handle 5xx errors from FACT-Finder', async () => {
-    clientStub.suggest
-      .resolves({
-        statusCode: 500
-      })
-    await getSuggestions(context, { searchPhrase: 'raspberry' }).should.eventually.be.rejectedWith(FactFinderServerError)
-  })
-
-  it('should handle invalid responses from FACT-Finder', async () => {
-    clientStub.suggest
-      .resolves({
-        statusCode: 200,
-        body: {}
-      })
-    await getSuggestions(context, { searchPhrase: 'raspberry' }).should.eventually.be.rejectedWith(FactFinderInvalidResponseError)
+    await getSuggestions(context, { searchPhrase: 'raspberry' }).should.be.rejected
+    sinon.assert.called(context.log.error)
   })
 })
