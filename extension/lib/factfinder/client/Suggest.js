@@ -3,10 +3,14 @@ const needle = require('needle')
 const urlencode = require('urlencode')
 const { DEFAULT_ENCODING } = require('./Encoding')
 
-const ENDPOINT = '/Search.ff'
+const ENDPOINT = '/Suggest.ff'
 const URL = require('url').URL
 
-class FactFinderClientSearch {
+const FactFinderClientError = require('./errors/FactFinderClientError')
+const FactFinderServerError = require('./errors/FactFinderServerError')
+const FactFinderInvalidResponseError = require('./errors/FactFinderInvalidResponseError')
+
+class FactFinderClientSuggest {
   /**
    * @param {string} baseUri
    * @param {string} encoding
@@ -25,7 +29,7 @@ class FactFinderClientSearch {
 
   /**
    * @param {FactFinderClientSearchRequest} inputSearchRequest
-   * @returns {Promise<number[]>}
+   * @returns {Promise<string[]>}
    */
   async execute (inputSearchRequest) {
     let searchRequest = Object.assign({}, inputSearchRequest)
@@ -39,8 +43,24 @@ class FactFinderClientSearch {
     url.searchParams.append('query', inputSearchRequest.query)
     url.searchParams.append('channel', inputSearchRequest.channel)
 
-    return needle('get', url.toString(), { })
+    const response = await needle('get', url.toString(), { })
+
+    if (response.statusCode >= 500) {
+      throw new FactFinderServerError(response.statusCode)
+    }
+
+    if (response.statusCode >= 400) {
+      throw new FactFinderClientError(response.statusCode)
+    }
+
+    if (!response.body || !response.body.suggestions) {
+      throw new FactFinderInvalidResponseError()
+    }
+
+    return response.body.suggestions
+      .filter(suggestion => suggestion.type === 'searchTerm')
+      .map(suggestion => suggestion.name)
   }
 }
 
-module.exports = FactFinderClientSearch
+module.exports = FactFinderClientSuggest
