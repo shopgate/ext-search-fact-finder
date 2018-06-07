@@ -44,6 +44,7 @@
   },
   "dependencies": {
     "needle": "^2.2.1",
-    "urlencode": "^1.1.0"
+    "urlencode": "^1.1.0",
+    "jsonpath": "^1.0.0"
   }
 }

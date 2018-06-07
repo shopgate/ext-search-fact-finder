@@ -26,7 +26,9 @@ class FactFinderClient {
   search (searchRequest) {
     const searchAdapter = new SearchAdapter(this._baseUri, this._encoding)
 
-    return searchAdapter.execute(this._factFinderAuthentication.addAuthentication(searchRequest))
+    return searchAdapter.execute(
+      this._factFinderAuthentication.addAuthentication(searchRequest)
+    )
   }
 
   /**
