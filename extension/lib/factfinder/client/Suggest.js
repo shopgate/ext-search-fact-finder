@@ -40,10 +40,14 @@ class FactFinderClientSuggest {
     }
 
     url.searchParams.append('format', 'json')
-    url.searchParams.append('query', inputSearchRequest.query)
-    url.searchParams.append('channel', inputSearchRequest.channel)
+    url.searchParams.append('query', searchRequest.query)
+    url.searchParams.append('channel', searchRequest.channel)
 
-    const response = await needle('get', url.toString(), { })
+    const response = await needle('get', url.toString(), {
+      open_timeout: 5000,
+      response_timeout: 5000,
+      read_timeout: 10000
+    })
 
     if (response.statusCode >= 500) {
       throw new FactFinderServerError(response.statusCode)

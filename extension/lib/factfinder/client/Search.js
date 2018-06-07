@@ -13,10 +13,10 @@ const URL = require('url').URL
 class FactFinderClientSearch {
   /**
    * @param {string} baseUri
-   * @param {string} [uidSelector=@id]
    * @param {string} encoding
+   * @param {string} [uidSelector=$.id]
    */
-  constructor (baseUri, uidSelector, encoding) {
+  constructor (baseUri, encoding, uidSelector = '$.id') {
     this._baseUri = baseUri
     this._uidSelector = uidSelector
     this._encoding = encoding
@@ -31,11 +31,9 @@ class FactFinderClientSearch {
 
   /**
    * @param {FactFinderClientSearchRequest} inputSearchRequest
-   * @param {number} [limit=20]
-   * @param {number} [offset=0]
    * @returns {Promise<FactFinderClientSearchResponse>}
    */
-  async execute (inputSearchRequest, limit = 20, offset = 0) {
+  async execute (inputSearchRequest) {
     let searchRequest = Object.assign({}, inputSearchRequest)
 
     const url = new URL(this.url)
@@ -44,29 +42,16 @@ class FactFinderClientSearch {
     }
 
     url.searchParams.append('format', 'json')
-    url.searchParams.append('query', inputSearchRequest.query)
-    url.searchParams.append('channel', inputSearchRequest.channel)
     url.searchParams.append('version', '7.3')
-    url.searchParams.append('sortPREIS', 'desc')
-    url.searchParams.append('productsPerPage', '36') // Default: 36
-    url.searchParams.append('page', String(1 + Math.floor(offset / limit))) // Default: 1
-    // url.searchParams.append('idsOnly', 'true') will not return the needed shopid property for Pollin
-
-    let testUrl = url.toString()
 
     for (const parameter in searchRequest) {
-      if (!searchRequest.hasOwnProperty(parameter)) {
-        continue
-      }
-      testUrl += '&' + parameter + '=' + searchRequest[parameter]
       url.searchParams.append(parameter, searchRequest[parameter])
     }
 
-    const response = await needle('get', testUrl, {
+    const response = await needle('get', url.toString(), {
       open_timeout: 5000,
       response_timeout: 5000,
-      read_timeout: 10000,
-      follow_max: 0
+      read_timeout: 10000
     })
 
     if (response.statusCode >= 500) {
@@ -77,7 +62,7 @@ class FactFinderClientSearch {
       throw new FactFinderClientError(response.statusCode)
     }
 
-    if (!response.body || !response.body.searchResult) {
+    if (!response.body || !response.body.searchResult || !response.body.searchResult.records) {
       throw new FactFinderInvalidResponseError()
     }
 

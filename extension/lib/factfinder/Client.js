@@ -24,9 +24,11 @@ class FactFinderClient {
    * @returns {Promise<*>}
    */
   search (searchRequest) {
-    const searchAdapter = new SearchAdapter(this._baseUri, '$.id', this._encoding)
+    const searchAdapter = new SearchAdapter(this._baseUri, this._encoding)
 
-    return searchAdapter.execute(this._factFinderAuthentication.addAuthentication(searchRequest))
+    return searchAdapter.execute(
+      this._factFinderAuthentication.addAuthentication(searchRequest)
+    )
   }
 
   /**

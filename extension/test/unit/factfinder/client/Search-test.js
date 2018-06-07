@@ -19,7 +19,7 @@ describe('FactFinderClientSearch', function () {
     Search = proxyquire('../../../../lib/factfinder/client/Search', {
       'needle': needleStub
     })
-    subjectUnderTest = new Search('http://shopgate.fact-finder.com', '$.id')
+    subjectUnderTest = new Search('http://shopgate.fact-finder.com')
   })
 
   afterEach(() => {
@@ -43,7 +43,7 @@ describe('FactFinderClientSearch', function () {
   })
 
   it('should return uids with a more complex selector', async function () {
-    subjectUnderTest = new Search('http://shopgate.fact-finder.com', '$.record.ARTNR')
+    subjectUnderTest = new Search('http://shopgate.fact-finder.com', 'utf8', '$.record.ARTNR')
     needleStub.returns({body: require('./mockedApiResponses/Search-uids')})
     assert.deepStrictEqual(await subjectUnderTest.execute({query: 'test', channel: 'test'}),
       {
