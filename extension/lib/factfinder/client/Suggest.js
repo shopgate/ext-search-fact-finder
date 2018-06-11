@@ -1,24 +1,22 @@
 'use strict'
-const urlencode = require('urlencode')
 const needle = require('needle')
-const jsonPath = require('jsonpath')
-const {DEFAULT_ENCODING} = require('./Encoding')
+const urlencode = require('urlencode')
+const { DEFAULT_ENCODING } = require('./Encoding')
+
+const ENDPOINT = '/Suggest.ff'
+const URL = require('url').URL
+
 const FactFinderClientError = require('./errors/FactFinderClientError')
 const FactFinderServerError = require('./errors/FactFinderServerError')
 const FactFinderInvalidResponseError = require('./errors/FactFinderInvalidResponseError')
 
-const ENDPOINT = '/Search.ff'
-const URL = require('url').URL
-
-class FactFinderClientSearch {
+class FactFinderClientSuggest {
   /**
    * @param {string} baseUri
    * @param {string} encoding
-   * @param {string} [uidSelector=$.id]
    */
-  constructor (baseUri, encoding, uidSelector = '$.id') {
+  constructor (baseUri, encoding) {
     this._baseUri = baseUri
-    this._uidSelector = uidSelector
     this._encoding = encoding
   }
 
@@ -31,7 +29,7 @@ class FactFinderClientSearch {
 
   /**
    * @param {FactFinderClientSearchRequest} inputSearchRequest
-   * @returns {Promise<FactFinderClientSearchResponse>}
+   * @returns {Promise<string[]>}
    */
   async execute (inputSearchRequest) {
     let searchRequest = Object.assign({}, inputSearchRequest)
@@ -42,11 +40,8 @@ class FactFinderClientSearch {
     }
 
     url.searchParams.append('format', 'json')
-    url.searchParams.append('version', '7.3')
-
-    for (const parameter in searchRequest) {
-      url.searchParams.append(parameter, searchRequest[parameter])
-    }
+    url.searchParams.append('query', searchRequest.query)
+    url.searchParams.append('channel', searchRequest.channel)
 
     const response = await needle('get', url.toString(), {
       open_timeout: 5000,
@@ -62,19 +57,14 @@ class FactFinderClientSearch {
       throw new FactFinderClientError(response.statusCode)
     }
 
-    if (!response.body || !response.body.searchResult || !response.body.searchResult.records) {
+    if (!response.body || !response.body.suggestions) {
       throw new FactFinderInvalidResponseError()
     }
 
-    const factFinderSearchResult = response.body.searchResult
-
-    return {
-      uids: factFinderSearchResult.records.map((product) => {
-        return jsonPath.query(product, this._uidSelector)
-      }),
-      totalProductCount: factFinderSearchResult.resultCount
-    }
+    return response.body.suggestions
+      .filter(suggestion => suggestion.type === 'searchTerm')
+      .map(suggestion => suggestion.name)
   }
 }
 
-module.exports = FactFinderClientSearch
+module.exports = FactFinderClientSuggest

@@ -1,4 +1,4 @@
-const Builder = require('../../../../../../lib/factfinder/client/search/Builder')
+const Builder = require('../../../../../lib/factfinder/client/search/Builder')
 const assert = require('assert')
 const { describe, it } = require('mocha')
 
