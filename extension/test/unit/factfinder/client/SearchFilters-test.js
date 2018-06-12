@@ -6,7 +6,7 @@ const proxyquire = require('proxyquire')
 chai.use(require('chai-as-promised')).should()
 
 const FactFinderServerError = require('../../../../lib/factfinder/client/errors/FactFinderServerError')
-const FactFinderInvalidResponseError = require('../../../../lib/factfinder/client/errors/FactFinderInvalidResponseError')
+const FactFinderClientError = require('../../../../lib/factfinder/client/errors/FactFinderClientError')
 
 let { FactFinderClientSearchFilters } = require('../../../../lib/factfinder/client/SearchFilters')
 
@@ -162,7 +162,7 @@ describe('FactFinderClientSearchFilters', function () {
         ]
       }
     ]
-    const actual = await searchFilters.execute({ query: 'raspberry', channel: 'de' })
+    const actual = await searchFilters.execute({ query: 'raspberry', channel: 'de', filters: [] })
     chai.assert.deepEqual(actual, expected)
   })
 
@@ -171,15 +171,15 @@ describe('FactFinderClientSearchFilters', function () {
       .resolves({
         statusCode: 500
       })
-    await searchFilters.execute({ query: 'raspberry' }).should.eventually.be.rejectedWith(FactFinderServerError)
+    await searchFilters.execute({ query: 'raspberry', channel: 'de', filters: [] }).should.eventually.be.rejectedWith(FactFinderServerError)
   })
 
-  it('should handle invalid responses from FACT-Finder', async () => {
+  it('should handle 4xx errors from FACT-Finder', async () => {
     needleStub
       .resolves({
-        statusCode: 200,
-        body: {}
+        statusCode: 400
       })
-    await searchFilters.execute({ query: 'raspberry' }).should.eventually.be.rejectedWith(FactFinderInvalidResponseError)
+
+    await searchFilters.execute({ query: 'raspberry', filters: [] }).should.eventually.be.rejectedWith(FactFinderClientError)
   })
 })

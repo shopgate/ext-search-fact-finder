@@ -84,7 +84,7 @@ describe('getFilters', async () => {
     ]
 
     clientStub.searchFilters
-      .withArgs({ query: 'raspberry', channel: 'de' })
+      .withArgs({ query: 'raspberry', channel: 'de', filters: [] })
       .resolves(returnedFilters)
 
     chai.assert.deepEqual(await getFilters(context, { searchPhrase: 'raspberry' }), {

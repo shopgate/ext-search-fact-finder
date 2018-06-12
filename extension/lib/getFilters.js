@@ -8,27 +8,41 @@ const filterTypeMap = {
   MULTISELECT: 'multiselect'
 }
 
+let factFinderClient
+
 /**
  * @param {PipelineContext} context
- * @param {Object} input
+ * @param {getFiltersRequest} input
  * @returns {Promise<getFiltersResponse>}
  */
 module.exports = async function (context, input) {
-  /**
-   * @type {FactFinderClient}
-   */
-  const factFinderClient = factFinderClientFactoryMapper(context.config)
+  if (!input.searchPhrase) {
+    return { filters: [] }
+  }
+
+  if (!factFinderClient) {
+    /**
+     * @type {FactFinderClient}
+     */
+    factFinderClient = factFinderClientFactoryMapper(context.config)
+  }
 
   try {
-    const factfinderFilters = await factFinderClient.searchFilters(
-      FactFinderClient.searchRequestBuilder()
-        .channel(context.config.channel)
-        .query(input.searchPhrase)
-        .build()
-    )
+    const searchRequest = FactFinderClient.searchRequestBuilder()
+      .channel(context.config.channel)
+      .query(input.searchPhrase)
+
+    if (input.filters) {
+      Object.keys(input.filters).forEach(filter => {
+        const shopgatefilter = input.filters[filter]
+        // atm we support only multi select
+        searchRequest.filter(shopgatefilter.label, FactFinderClient.groups.filterType.MULTISELECT, shopgatefilter.values)
+      })
+    }
+    const factFinderFilters = await factFinderClient.searchFilters(searchRequest.build())
 
     const filters = []
-    factfinderFilters.forEach(group => {
+    factFinderFilters.forEach(group => {
       // skip unsupported filters
       if (undefined === filterTypeMap[group.filterStyle]) {
         return

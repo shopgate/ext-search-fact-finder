@@ -36,7 +36,7 @@ class FactFinderClient {
    * add other options here, like page, filters
    *
    * @param {FactFinderClientSearchRequest} searchRequest
-   * @returns {Promise<*>}
+   * @returns {Promise<FactFinderClientSearchFilter[]>}
    */
   searchFilters (searchRequest) {
     const searchFilters = new FactFinderClientSearchFilters(this._baseUri, this._encoding)

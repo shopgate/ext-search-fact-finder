@@ -73,8 +73,12 @@ class FactFinderClientSearchFilters {
     url.searchParams.append('format', 'json')
     url.searchParams.append('version', '7.3')
 
-    for (const parameter in searchRequest) {
-      url.searchParams.append(parameter, searchRequest[parameter])
+    Object.keys(searchRequest)
+      .filter(parameter => parameter !== 'filters')
+      .forEach(parameter => url.searchParams.append(parameter, searchRequest[parameter]))
+
+    for (const filter of searchRequest.filters) {
+      url.searchParams.append(`filter${filter.name}`, this._getFilterValue(filter.values))
     }
 
     const response = await needle('get', url.toString(), {
@@ -116,6 +120,19 @@ class FactFinderClientSearchFilters {
     })
 
     return filters
+  }
+
+  /**
+   * @param {any} value
+   * @returns {string}
+   * @private
+   */
+  _getFilterValue (value) {
+    if (Array.isArray(value)) {
+      return value.join('~~~')
+    }
+
+    return value
   }
 }
 
