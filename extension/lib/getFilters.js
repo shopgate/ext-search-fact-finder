@@ -1,15 +1,17 @@
+'use strict'
+
 const FactFinderClient = require('./factfinder/Client')
 const factFinderClientFactoryMapper = require('./shopgate/factFinderClientFactoryMapper')
 
-// const filterTypeMap = {
-//   DEFAULT: 'single_select',
-//   MULTISELECT: 'multiselect'
-// }
+const filterTypeMap = {
+  // DEFAULT: 'single_select',
+  MULTISELECT: 'multiselect'
+}
 
 /**
  * @param {PipelineContext} context
  * @param {Object} input
- * @returns {Promise<Object>}
+ * @returns {Promise<getFiltersResponse>}
  */
 module.exports = async function (context, input) {
   /**
@@ -18,34 +20,38 @@ module.exports = async function (context, input) {
   const factFinderClient = factFinderClientFactoryMapper(context.config)
 
   try {
-    const filters = await factFinderClient.searchFilters(
+    const factfinderFilters = await factFinderClient.searchFilters(
       FactFinderClient.searchRequestBuilder()
         .channel(context.config.channel)
         .query(input.searchPhrase)
         .build()
     )
 
+    const filters = []
+    factfinderFilters.forEach(group => {
+      // skip unsupported filters
+      if (undefined === filterTypeMap[group.filterStyle]) {
+        return
+      }
+
+      filters.push({
+        id: group.associatedFieldName,
+        label: group.name,
+        source: 'fact-finder',
+        type: filterTypeMap[group.filterStyle],
+        values: group.elements.map(element => {
+          return {
+            id: element.name,
+            label: element.name,
+            hits: element.recordCount
+          }
+        })
+      })
+    })
+
     return { filters }
   } catch (e) {
     context.log.error(e)
     throw e
   }
-
-  // const filters = searchResults.body.searchResult.groups.map(group => {
-  //   const firstElementWithFieldName = group.elements.find(element => element.associatedFieldName !== undefined)
-  //
-  //   return {
-  //     id: firstElementWithFieldName.associatedFieldName,
-  //     label: group.name,
-  //     source: 'fact-finder',
-  //     type: filterTypeMap[group.filterStyle],
-  //     values: group.elements.map(element => {
-  //       return {
-  //         id: element.name,
-  //         label: element.name,
-  //         hits: element.recordCount
-  //       }
-  //     })
-  //   }
-  // })
 }

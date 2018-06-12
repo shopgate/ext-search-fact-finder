@@ -1,0 +1,635 @@
+{
+  "searchResult": {
+    "breadCrumbTrailItems": [
+      {
+        "associatedFieldName": null,
+        "searchParams": "/Shopgate6.8/Search.ff?query=roxette&channel=de&followSearch=8855&format=JSON",
+        "text": "roxette",
+        "type": "search",
+        "value": "roxette"
+      },
+      {
+        "associatedFieldName": "breadcrumbROOT",
+        "searchParams": "/Shopgate6.8/Search.ff?query=roxette&filterbreadcrumbROOT=Gitarren&channel=de&followSearch=8855&format=JSON",
+        "text": "Gitarren",
+        "type": "filter",
+        "value": "Gitarren"
+      },
+      {
+        "associatedFieldName": "breadcrumbROOT/Gitarren",
+        "searchParams": "/Shopgate6.8/Search.ff?query=roxette&filterbreadcrumbROOT%2FGitarren=Westerngitarren&filterbreadcrumbROOT=Gitarren&channel=de&followSearch=8855&format=JSON",
+        "text": "Westerngitarren",
+        "type": "filter",
+        "value": "Westerngitarren"
+      },
+      {
+        "associatedFieldName": "marke",
+        "searchParams": "/Shopgate6.8/Search.ff?query=roxette&filterbreadcrumbROOT%2FGitarren=Westerngitarren&filtermarke=Yamaha&filterbreadcrumbROOT=Gitarren&channel=de&followSearch=8855&format=JSON",
+        "text": "Yamaha",
+        "type": "filter",
+        "value": "Yamaha"
+      },
+      {
+        "associatedFieldName": "Farbe",
+        "searchParams": "/Shopgate6.8/Search.ff?query=roxette&filterFarbe=Schwarz&filterbreadcrumbROOT=Gitarren&filterbreadcrumbROOT%2FGitarren=Westerngitarren&filtermarke=Yamaha&channel=de&followSearch=8855&format=JSON",
+        "text": "Schwarz",
+        "type": "filter",
+        "value": "Schwarz"
+      }
+    ],
+    "campaigns": [
+
+    ],
+    "channel": "de",
+    "filters": [
+      {
+        "name": "Farbe",
+        "substring": false,
+        "valueList": [
+          {
+            "exclude": false,
+            "type": "or",
+            "value": "Schwarz"
+          }
+        ]
+      },
+      {
+        "name": "marke",
+        "substring": false,
+        "valueList": [
+          {
+            "exclude": false,
+            "type": "or",
+            "value": "Yamaha"
+          }
+        ]
+      },
+      {
+        "name": "breadcrumbROOT/Gitarren",
+        "substring": false,
+        "valueList": [
+          {
+            "exclude": false,
+            "type": "or",
+            "value": "Westerngitarren"
+          }
+        ]
+      },
+      {
+        "name": "breadcrumbROOT",
+        "substring": false,
+        "valueList": [
+          {
+            "exclude": false,
+            "type": "or",
+            "value": "Gitarren"
+          }
+        ]
+      }
+    ],
+    "groups": [
+      {
+        "detailedLinks": 5,
+        "elements": [
+          {
+            "associatedFieldName": "breadcrumbROOT/Gitarren/Westerngitarren",
+            "clusterLevel": 2,
+            "name": "Dreadnought",
+            "previewImageURL": null,
+            "recordCount": 2,
+            "searchParams": "/Shopgate6.8/Search.ff?query=roxette&filterFarbe=Schwarz&filterbreadcrumbROOT=Gitarren&filtermarke=Yamaha&filterbreadcrumbROOT%2FGitarren=Westerngitarren&filterbreadcrumbROOT%2FGitarren%2FWesterngitarren=Dreadnought&channel=de&followSearch=8855&format=JSON",
+            "selected": false
+          },
+          {
+            "associatedFieldName": "breadcrumbROOT/Gitarren/Westerngitarren",
+            "clusterLevel": 2,
+            "name": "Folk-Gitarren",
+            "previewImageURL": null,
+            "recordCount": 1,
+            "searchParams": "/Shopgate6.8/Search.ff?query=roxette&filterFarbe=Schwarz&filterbreadcrumbROOT=Gitarren&filtermarke=Yamaha&filterbreadcrumbROOT%2FGitarren=Westerngitarren&filterbreadcrumbROOT%2FGitarren%2FWesterngitarren=Folk-Gitarren&channel=de&followSearch=8855&format=JSON",
+            "selected": false
+          }
+        ],
+        "filterStyle": "TREE",
+        "groupOrder": 0,
+        "name": "CategoryPath",
+        "selectedElements": [
+          {
+            "associatedFieldName": "breadcrumbROOT",
+            "clusterLevel": 0,
+            "name": "Gitarren",
+            "previewImageURL": null,
+            "recordCount": 0,
+            "searchParams": "/Shopgate6.8/Search.ff?query=roxette&filtermarke=Yamaha&filterFarbe=Schwarz&channel=de&followSearch=8855&format=JSON",
+            "selected": true
+          },
+          {
+            "associatedFieldName": "breadcrumbROOT/Gitarren",
+            "clusterLevel": 1,
+            "name": "Westerngitarren",
+            "previewImageURL": null,
+            "recordCount": 0,
+            "searchParams": "/Shopgate6.8/Search.ff?query=roxette&filtermarke=Yamaha&filterFarbe=Schwarz&filterbreadcrumbROOT=Gitarren&channel=de&followSearch=8855&format=JSON",
+            "selected": true
+          }
+        ],
+        "showPreviewImages": false,
+        "type": "attribute",
+        "unit": ""
+      },
+      {
+        "detailedLinks": 5,
+        "elements": [
+
+        ],
+        "filterStyle": "DEFAULT",
+        "groupOrder": 1,
+        "name": "Marke",
+        "selectedElements": [
+          {
+            "associatedFieldName": "marke",
+            "clusterLevel": 0,
+            "name": "Yamaha",
+            "previewImageURL": null,
+            "recordCount": 0,
+            "searchParams": "/Shopgate6.8/Search.ff?query=roxette&filterbreadcrumbROOT%2FGitarren=Westerngitarren&filterFarbe=Schwarz&filterbreadcrumbROOT=Gitarren&channel=de&followSearch=8855&format=JSON",
+            "selected": true
+          }
+        ],
+        "showPreviewImages": false,
+        "type": "text",
+        "unit": ""
+      },
+      {
+        "detailedLinks": 5,
+        "elements": [
+          {
+            "associatedFieldName": "serie",
+            "clusterLevel": 0,
+            "name": "FG/FS Series",
+            "previewImageURL": null,
+            "recordCount": 2,
+            "searchParams": "/Shopgate6.8/Search.ff?query=roxette&filterserie=FG%2FFS+Series&filterFarbe=Schwarz&filterbreadcrumbROOT=Gitarren&filtermarke=Yamaha&filterbreadcrumbROOT%2FGitarren=Westerngitarren&channel=de&followSearch=8855&format=JSON",
+            "selected": false
+          },
+          {
+            "associatedFieldName": "serie",
+            "clusterLevel": 0,
+            "name": "FGX/FSX Series",
+            "previewImageURL": null,
+            "recordCount": 1,
+            "searchParams": "/Shopgate6.8/Search.ff?query=roxette&filterserie=FGX%2FFSX+Series&filterFarbe=Schwarz&filterbreadcrumbROOT=Gitarren&filtermarke=Yamaha&filterbreadcrumbROOT%2FGitarren=Westerngitarren&channel=de&followSearch=8855&format=JSON",
+            "selected": false
+          }
+        ],
+        "filterStyle": "DEFAULT",
+        "groupOrder": 2,
+        "name": "Serie",
+        "selectedElements": [
+
+        ],
+        "showPreviewImages": false,
+        "type": "text",
+        "unit": ""
+      },
+      {
+        "detailedLinks": 5,
+        "elements": [
+          {
+            "associatedFieldName": "Tonabnehmer",
+            "clusterLevel": 0,
+            "name": "nein",
+            "previewImageURL": null,
+            "recordCount": 2,
+            "searchParams": "/Shopgate6.8/Search.ff?query=roxette&filterTonabnehmer=nein&filterFarbe=Schwarz&filterbreadcrumbROOT=Gitarren&filtermarke=Yamaha&filterbreadcrumbROOT%2FGitarren=Westerngitarren&channel=de&followSearch=8855&format=JSON",
+            "selected": false
+          },
+          {
+            "associatedFieldName": "Tonabnehmer",
+            "clusterLevel": 0,
+            "name": "ja",
+            "previewImageURL": null,
+            "recordCount": 1,
+            "searchParams": "/Shopgate6.8/Search.ff?query=roxette&filterTonabnehmer=ja&filterFarbe=Schwarz&filterbreadcrumbROOT=Gitarren&filtermarke=Yamaha&filterbreadcrumbROOT%2FGitarren=Westerngitarren&channel=de&followSearch=8855&format=JSON",
+            "selected": false
+          }
+        ],
+        "filterStyle": "DEFAULT",
+        "groupOrder": 3,
+        "name": "Tonabnehmer",
+        "selectedElements": [
+
+        ],
+        "showPreviewImages": false,
+        "type": "attribute",
+        "unit": ""
+      },
+      {
+        "detailedLinks": 5,
+        "elements": [
+          {
+            "associatedFieldName": "Korpusform",
+            "clusterLevel": 0,
+            "name": "Dreadnought",
+            "previewImageURL": null,
+            "recordCount": 2,
+            "searchParams": "/Shopgate6.8/Search.ff?query=roxette&filterFarbe=Schwarz&filterbreadcrumbROOT=Gitarren&filtermarke=Yamaha&filterbreadcrumbROOT%2FGitarren=Westerngitarren&filterKorpusform=Dreadnought&channel=de&followSearch=8855&format=JSON",
+            "selected": false
+          },
+          {
+            "associatedFieldName": "Korpusform",
+            "clusterLevel": 0,
+            "name": "Folk",
+            "previewImageURL": null,
+            "recordCount": 1,
+            "searchParams": "/Shopgate6.8/Search.ff?query=roxette&filterFarbe=Schwarz&filterbreadcrumbROOT=Gitarren&filtermarke=Yamaha&filterbreadcrumbROOT%2FGitarren=Westerngitarren&filterKorpusform=Folk&channel=de&followSearch=8855&format=JSON",
+            "selected": false
+          }
+        ],
+        "filterStyle": "DEFAULT",
+        "groupOrder": 3,
+        "name": "Korpusform",
+        "selectedElements": [
+
+        ],
+        "showPreviewImages": false,
+        "type": "attribute",
+        "unit": ""
+      },
+      {
+        "detailedLinks": 5,
+        "elements": [
+
+        ],
+        "filterStyle": "DEFAULT",
+        "groupOrder": 3,
+        "name": "Farbe",
+        "selectedElements": [
+          {
+            "associatedFieldName": "Farbe",
+            "clusterLevel": 0,
+            "name": "Schwarz",
+            "previewImageURL": null,
+            "recordCount": 0,
+            "searchParams": "/Shopgate6.8/Search.ff?query=roxette&filtermarke=Yamaha&filterbreadcrumbROOT%2FGitarren=Westerngitarren&filterbreadcrumbROOT=Gitarren&channel=de&followSearch=8855&format=JSON",
+            "selected": true
+          }
+        ],
+        "showPreviewImages": false,
+        "type": "attribute",
+        "unit": ""
+      },
+      {
+        "detailedLinks": 5,
+        "elements": [
+          {
+            "associatedFieldName": "Cutaway",
+            "clusterLevel": 0,
+            "name": "nein",
+            "previewImageURL": null,
+            "recordCount": 2,
+            "searchParams": "/Shopgate6.8/Search.ff?query=roxette&filterCutaway=nein&filterFarbe=Schwarz&filterbreadcrumbROOT=Gitarren&filtermarke=Yamaha&filterbreadcrumbROOT%2FGitarren=Westerngitarren&channel=de&followSearch=8855&format=JSON",
+            "selected": false
+          },
+          {
+            "associatedFieldName": "Cutaway",
+            "clusterLevel": 0,
+            "name": "ja",
+            "previewImageURL": null,
+            "recordCount": 1,
+            "searchParams": "/Shopgate6.8/Search.ff?query=roxette&filterCutaway=ja&filterFarbe=Schwarz&filterbreadcrumbROOT=Gitarren&filtermarke=Yamaha&filterbreadcrumbROOT%2FGitarren=Westerngitarren&channel=de&followSearch=8855&format=JSON",
+            "selected": false
+          }
+        ],
+        "filterStyle": "DEFAULT",
+        "groupOrder": 3,
+        "name": "Cutaway",
+        "selectedElements": [
+
+        ],
+        "showPreviewImages": false,
+        "type": "attribute",
+        "unit": ""
+      }
+    ],
+    "paging": {
+      "currentPage": 1,
+      "firstLink": null,
+      "lastLink": null,
+      "nextLink": null,
+      "pageCount": 1,
+      "pageLinks": [
+
+      ],
+      "previousLink": null,
+      "resultsPerPage": 12
+    },
+    "records": [
+      {
+        "foundWords": [
+
+        ],
+        "id": "169754",
+        "keywords": [
+
+        ],
+        "position": 1,
+        "record": {
+          "__ORIG_POSITION__": "41",
+          "FFAutomaticSearchOptimization": "",
+          "preis_cy": "0",
+          "preis_cz": "312",
+          "preis_pl": "385.88",
+          "FFCheckoutCount": "",
+          "preis_li": "262",
+          "preis_tr": "0",
+          "preis_de": "312",
+          "marke": "..Yamaha..",
+          "preis_pt": "312",
+          "preis_dk": "312",
+          "preis_lt": "312",
+          "id": "169754",
+          "preis_lu": "306",
+          "preis_lv": "312",
+          "rang": "55",
+          "preis_hu": "312",
+          "preis_se": "312",
+          "preis_si": "312",
+          "price_final": "312",
+          "preis_sk": "312",
+          "warengruppe": "Gitarre/Bass",
+          "preis_gb": "331.03",
+          "zubehoer": "False",
+          "artikelgruppe": "Westerngitarren",
+          "objekt": "Westerngitarre",
+          "preis_ch": "282.37",
+          "preis_gr": "312",
+          "preis_es": "312",
+          "preis_at": "312",
+          "DQAttributes": "",
+          "beschreibung": "",
+          "eigenschaften": "..Korpusform:Folk, Decke: Fichte (Spruce), Boden/Zargen: Mahagoni, Hals: Nato (Nyatoh/Mora), Griffbrett: Palisander (Rosewood), Finish: Hochglanz (Korpus), Matt (Hals), Konstruktion: teilmassiv (Decke), Sattelbreite: 43,0 mm, Sattel/Stegeinlage: Urea, Steg: Palisander (Rosewood), Mechaniken: Die-cast Chrome(TM29T), Rosette: Black + White, Binding: Cream, Farbe: Black, Saitenanzahl: 6-saitig, Cutaway: nein..",
+          "preis_ro": "312",
+          "preis_nl": "312",
+          "bild": "https://www.shopgate.com/pic-010085749m/yamaha-fs820-bl.jpg",
+          "FFAfterSearchReorder": "",
+          "preis_no": "262",
+          "preis_be": "312",
+          "preis_fi": "312",
+          "preis_ru": "0",
+          "artbez": "Yamaha FS820 BL \u00B7 Westerngitarre",
+          "preis_bg": "312",
+          "preis_fr": "312",
+          "deeplink": "/yamaha-fs820-bl.html",
+          "artnr": "10085749",
+          "preis_ie": "312",
+          "filter": "|Korpusform=Folk|Konstruktion=teilmassiv (Decke)|Decke=Fichte|Boden/Zargen=Mahagoni|Saitenanzahl=6-saitig|Cutaway=nein|Tonabnehmer=nein|Sattelbreite=schmal (< 43 mm)|Farbe=Schwarz|",
+          "preis_ee": "312",
+          "FFCliplisterQuality": "",
+          "breadcrumb": "|breadcrumbROOT=Gitarren|breadcrumbROOT/Gitarren/Westerngitarren=Folk-Gitarren|breadcrumbROOT/Gitarren=Westerngitarren|",
+          "bestand": "0",
+          "serie": "FG/FS Series",
+          "preis_mt": "0",
+          "preis_it": "312",
+          "marke_objekt": "Yamaha Westerngitarre"
+        },
+        "searchSimilarity": 80.62,
+        "seoPath": "",
+        "simiMalusAdd": 0
+      },
+      {
+        "foundWords": [
+
+        ],
+        "id": "169747",
+        "keywords": [
+
+        ],
+        "position": 2,
+        "record": {
+          "__ORIG_POSITION__": "44",
+          "FFAutomaticSearchOptimization": "",
+          "preis_cy": "0",
+          "preis_cz": "303",
+          "preis_pl": "303.06",
+          "FFCheckoutCount": "",
+          "preis_li": "254",
+          "preis_tr": "0",
+          "preis_de": "303",
+          "marke": "..Yamaha..",
+          "preis_pt": "303",
+          "preis_dk": "303",
+          "preis_lt": "303",
+          "id": "169747",
+          "preis_lu": "297",
+          "preis_lv": "303",
+          "rang": "55",
+          "preis_hu": "303",
+          "preis_se": "303",
+          "preis_si": "303",
+          "price_final": "303",
+          "preis_sk": "303",
+          "warengruppe": "Gitarre/Bass",
+          "preis_gb": "305.75",
+          "zubehoer": "False",
+          "artikelgruppe": "Westerngitarren",
+          "objekt": "Westerngitarre",
+          "preis_ch": "274.23",
+          "preis_gr": "303",
+          "preis_es": "303",
+          "preis_at": "303",
+          "DQAttributes": "",
+          "beschreibung": "",
+          "eigenschaften": "..Korpusform:Dreadnought, Decke: Fichte (Spruce), Boden/Zargen: Mahagoni, Hals: Nato (Nyatoh/Mora), Griffbrett: Palisander (Rosewood), Finish: Hochglanz (Korpus), Matt (Hals), Konstruktion: teilmassiv (Decke), Sattelbreite: 43,0 mm, Sattel/Stegeinlage: Urea, Steg: Palisander (Rosewood), Mechaniken: Die-cast Chrome(TM29T), Rosette: Black + White, Binding: Cream, Farbe: Black, Saitenanzahl: 6-saitig, Cutaway: nein..",
+          "preis_ro": "303",
+          "preis_nl": "303",
+          "bild": "https://www.shopgate.com/pic-010085742m/yamaha-fg820-bl.jpg",
+          "FFAfterSearchReorder": "",
+          "preis_no": "254",
+          "preis_be": "345",
+          "preis_fi": "303",
+          "preis_ru": "0",
+          "artbez": "Yamaha FG820 BL \u00B7 Westerngitarre",
+          "preis_bg": "303",
+          "preis_fr": "345",
+          "deeplink": "/yamaha-fg820-bl.html",
+          "artnr": "10085742",
+          "preis_ie": "303",
+          "filter": "|Korpusform=Dreadnought|Konstruktion=teilmassiv (Decke)|Decke=Fichte|Boden/Zargen=Mahagoni|Saitenanzahl=6-saitig|Cutaway=nein|Tonabnehmer=nein|Sattelbreite=schmal (< 43 mm)|Farbe=Schwarz|",
+          "preis_ee": "303",
+          "FFCliplisterQuality": "",
+          "breadcrumb": "|breadcrumbROOT=Gitarren|breadcrumbROOT/Gitarren=Westerngitarren|breadcrumbROOT/Gitarren/Westerngitarren=Dreadnought|",
+          "bestand": "0",
+          "serie": "FG/FS Series",
+          "preis_mt": "0",
+          "preis_it": "285",
+          "marke_objekt": "Yamaha Westerngitarre"
+        },
+        "searchSimilarity": 80.62,
+        "seoPath": "",
+        "simiMalusAdd": 0
+      },
+      {
+        "foundWords": [
+
+        ],
+        "id": "169763",
+        "keywords": [
+
+        ],
+        "position": 3,
+        "record": {
+          "__ORIG_POSITION__": "71",
+          "FFAutomaticSearchOptimization": "",
+          "preis_cy": "0",
+          "preis_cz": "446",
+          "preis_pl": "495.29",
+          "FFCheckoutCount": "",
+          "preis_li": "374",
+          "preis_tr": "0",
+          "preis_de": "446",
+          "marke": "..Yamaha..",
+          "preis_pt": "446",
+          "preis_dk": "446",
+          "preis_lt": "446",
+          "id": "169763",
+          "preis_lu": "438",
+          "preis_lv": "446",
+          "rang": "5",
+          "preis_hu": "446",
+          "preis_se": "446",
+          "preis_si": "446",
+          "price_final": "446",
+          "preis_sk": "446",
+          "warengruppe": "Gitarre/Bass",
+          "preis_gb": "450.57",
+          "zubehoer": "False",
+          "artikelgruppe": "Westerngitarren",
+          "objekt": "Westerngitarre",
+          "preis_ch": "403.65",
+          "preis_gr": "446",
+          "preis_es": "429",
+          "preis_at": "446",
+          "DQAttributes": "",
+          "beschreibung": "",
+          "eigenschaften": "..Korpusform:Dreadnought, Decke: Fichte (Spruce), Boden/Zargen: Mahagoni, Hals: Nato (Nyatoh/Mora), Griffbrett: Palisander (Rosewood), Finish: Hochglanz (Korpus), Matt (Hals), Konstruktion: teilmassiv (Decke), Sattelbreite: 43,0 mm, Sattel/Stegeinlage: Urea, Steg: Palisander (Rosewood), Mechaniken: Die-cast Chrome(TM29T), Rosette: Black + White, Binding: Cream, Preampsystem: SYSTEM66 + SRT Pickup, Tonabnehmer: Yamaha SRT, Regler: Vol/3-band EQ/Tuner/Mid FQ, Farbe: Black, Saitenanzahl: 6-saitig, Cutaway: ja..",
+          "preis_ro": "446",
+          "preis_nl": "512",
+          "bild": "https://www.shopgate.com/pic-010085758m/yamaha-fgx820c-bl.jpg",
+          "FFAfterSearchReorder": "",
+          "preis_no": "374",
+          "preis_be": "446",
+          "preis_fi": "446",
+          "preis_ru": "0",
+          "artbez": "Yamaha FGX820C BL \u00B7 Westerngitarre",
+          "preis_bg": "446",
+          "preis_fr": "439",
+          "deeplink": "/yamaha-fgx820c-bl.html",
+          "artnr": "10085758",
+          "preis_ie": "446",
+          "filter": "|Korpusform=Dreadnought|Konstruktion=teilmassiv (Decke)|Decke=Fichte|Boden/Zargen=Mahagoni|Saitenanzahl=6-saitig|Cutaway=ja|Tonabnehmer=ja|Sattelbreite=schmal (< 43 mm)|Farbe=Schwarz|",
+          "preis_ee": "446",
+          "FFCliplisterQuality": "",
+          "breadcrumb": "|breadcrumbROOT=Gitarren|breadcrumbROOT/Gitarren=Westerngitarren|breadcrumbROOT/Gitarren/Westerngitarren=Dreadnought|",
+          "bestand": "0",
+          "serie": "FGX/FSX Series",
+          "preis_mt": "0",
+          "preis_it": "446",
+          "marke_objekt": "Yamaha Westerngitarre"
+        },
+        "searchSimilarity": 79.15,
+        "seoPath": "",
+        "simiMalusAdd": 0
+      }
+    ],
+    "resultArticleNumberStatus": "noArticleNumberSearch",
+    "resultCount": 3,
+    "resultStatus": "resultsFound",
+    "resultsPerPageList": [
+      {
+        "default": true,
+        "searchParams": "/Shopgate6.8/Search.ff?query=roxette&filterFarbe=Schwarz&filterbreadcrumbROOT=Gitarren&filtermarke=Yamaha&filterbreadcrumbROOT%2FGitarren=Westerngitarren&channel=de&followSearch=8855&format=JSON",
+        "selected": true,
+        "value": 12
+      },
+      {
+        "default": false,
+        "searchParams": "/Shopgate6.8/Search.ff?query=roxette&filterFarbe=Schwarz&filterbreadcrumbROOT=Gitarren&filtermarke=Yamaha&filterbreadcrumbROOT%2FGitarren=Westerngitarren&channel=de&productsPerPage=24&followSearch=8855&format=JSON",
+        "selected": false,
+        "value": 24
+      },
+      {
+        "default": false,
+        "searchParams": "/Shopgate6.8/Search.ff?query=roxette&filterFarbe=Schwarz&filterbreadcrumbROOT=Gitarren&filtermarke=Yamaha&filterbreadcrumbROOT%2FGitarren=Westerngitarren&channel=de&productsPerPage=36&followSearch=8855&format=JSON",
+        "selected": false,
+        "value": 36
+      }
+    ],
+    "searchControlParams": {
+      "disableCache": false,
+      "generateAdvisorTree": false,
+      "idsOnly": false,
+      "useAsn": true,
+      "useCampaigns": true,
+      "useFoundWords": false,
+      "useKeywords": true
+    },
+    "searchParams": "/Shopgate6.8/Search.ff?query=roxette&filterFarbe=Schwarz&filterbreadcrumbROOT=Gitarren&filtermarke=Yamaha&filterbreadcrumbROOT%2FGitarren=Westerngitarren&channel=de&followSearch=8855&format=JSON",
+    "searchTime": 29,
+    "simiFirstRecord": 8062,
+    "simiLastRecord": 7915,
+    "singleWordResults": null,
+    "sortsList": [
+      {
+        "description": "sort.relevanceDescription",
+        "name": null,
+        "order": "desc",
+        "searchParams": "/Shopgate6.8/Search.ff?query=roxette&filterFarbe=Schwarz&filterbreadcrumbROOT=Gitarren&filtermarke=Yamaha&filterbreadcrumbROOT%2FGitarren=Westerngitarren&channel=de&followSearch=8855&format=JSON",
+        "selected": true
+      },
+      {
+        "description": "Name A-Z",
+        "name": "artbez",
+        "order": "asc",
+        "searchParams": "/Shopgate6.8/Search.ff?query=roxette&filterFarbe=Schwarz&filterbreadcrumbROOT=Gitarren&filtermarke=Yamaha&filterbreadcrumbROOT%2FGitarren=Westerngitarren&sortartbez=asc&channel=de&followSearch=8855&format=JSON",
+        "selected": false
+      },
+      {
+        "description": "Name Z-A",
+        "name": "artbez",
+        "order": "desc",
+        "searchParams": "/Shopgate6.8/Search.ff?query=roxette&filterFarbe=Schwarz&filterbreadcrumbROOT=Gitarren&filtermarke=Yamaha&filterbreadcrumbROOT%2FGitarren=Westerngitarren&sortartbez=desc&channel=de&followSearch=8855&format=JSON",
+        "selected": false
+      },
+      {
+        "description": "id asc",
+        "name": "id",
+        "order": "asc",
+        "searchParams": "/Shopgate6.8/Search.ff?query=roxette&filterFarbe=Schwarz&filterbreadcrumbROOT=Gitarren&filtermarke=Yamaha&filterbreadcrumbROOT%2FGitarren=Westerngitarren&sortid=asc&channel=de&followSearch=8855&format=JSON",
+        "selected": false
+      },
+      {
+        "description": "id desc",
+        "name": "id",
+        "order": "desc",
+        "searchParams": "/Shopgate6.8/Search.ff?query=roxette&filterFarbe=Schwarz&filterbreadcrumbROOT=Gitarren&filtermarke=Yamaha&filterbreadcrumbROOT%2FGitarren=Westerngitarren&sortid=desc&channel=de&followSearch=8855&format=JSON",
+        "selected": false
+      },
+      {
+        "description": "Preis aufsteigend",
+        "name": "preis_de",
+        "order": "asc",
+        "searchParams": "/Shopgate6.8/Search.ff?query=roxette&filterFarbe=Schwarz&filterbreadcrumbROOT=Gitarren&filtermarke=Yamaha&filterbreadcrumbROOT%2FGitarren=Westerngitarren&sortpreis_de=asc&channel=de&followSearch=8855&format=JSON",
+        "selected": false
+      },
+      {
+        "description": "Preis absteigend",
+        "name": "preis_de",
+        "order": "desc",
+        "searchParams": "/Shopgate6.8/Search.ff?query=roxette&filterFarbe=Schwarz&filterbreadcrumbROOT=Gitarren&filtermarke=Yamaha&filterbreadcrumbROOT%2FGitarren=Westerngitarren&sortpreis_de=desc&channel=de&followSearch=8855&format=JSON",
+        "selected": false
+      }
+    ],
+    "timedOut": false
+  }
+}

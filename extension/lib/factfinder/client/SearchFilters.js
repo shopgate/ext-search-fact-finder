@@ -1,7 +1,7 @@
 'use strict'
 const urlencode = require('urlencode')
 const needle = require('needle')
-const {DEFAULT_ENCODING} = require('./Encoding')
+const { DEFAULT_ENCODING } = require('./Encoding')
 const FactFinderClientError = require('./errors/FactFinderClientError')
 const FactFinderServerError = require('./errors/FactFinderServerError')
 const FactFinderInvalidResponseError = require('./errors/FactFinderInvalidResponseError')
@@ -9,20 +9,45 @@ const FactFinderInvalidResponseError = require('./errors/FactFinderInvalidRespon
 const ENDPOINT = '/Search.ff'
 const URL = require('url').URL
 
-const filterTypeMap = {
-  DEFAULT: 'single_select',
-  MULTISELECT: 'multiselect'
+/** @type FactFinderClientSearchFilterType */
+const filterType = {
+  NUMBER: 'number',
+  TEXT: 'text',
+  CATEGORY_PATH: 'categoryPath',
+  ATTRIBUTE: 'attribute'
+}
+
+/** @type FactFinderClientSearchFilterSelectionType */
+const filterSelectionType = {
+  MULTISELECT_OR: 'multiSelectOr',
+  MULTISELECT_AND: 'multiSelectAnd',
+  SINGLE_SHOW_UNSELECTED: 'singleShowUnselected',
+  SINGLE_HIDE_UNSELECTED: 'singleHideUnselected'
+}
+
+/** @type FactFinderClientSearchFilterStyle */
+const filterStyle = {
+  DEFAULT: {
+    type: [ filterType.ATTRIBUTE, filterType.TEXT ]
+  },
+  MULTISELECT: {
+    type: [ filterType.TEXT, filterType.NUMBER ]
+  },
+  TREE: {
+    type: [ filterType.CATEGORY_PATH ]
+  },
+  SLIDER: {
+    type: []
+  }
 }
 
 class FactFinderClientSearchFilters {
   /**
    * @param {string} baseUri
    * @param {string} encoding
-   * @param {string} [uidSelector=$.id]
    */
-  constructor (baseUri, encoding, uidSelector = '$.id') {
+  constructor (baseUri, encoding) {
     this._baseUri = baseUri
-    this._uidSelector = uidSelector
     this._encoding = encoding
   }
 
@@ -35,7 +60,7 @@ class FactFinderClientSearchFilters {
 
   /**
    * @param {FactFinderClientSearchRequest} inputSearchRequest
-   * @returns {Promise<FactFinderClientSearchFiltersResponse>}
+   * @returns {Promise<FactFinderClientSearchFilter[]>}
    */
   async execute (inputSearchRequest) {
     let searchRequest = Object.assign({}, inputSearchRequest)
@@ -71,12 +96,11 @@ class FactFinderClientSearchFilters {
     }
 
     if (!response.body.searchResult.groups) {
-      return {
-        filters: []
-      }
+      return []
     }
 
     const filters = []
+
     response.body.searchResult.groups.forEach(group => {
       const firstElementWithFieldName = group.elements.find(element => element.associatedFieldName !== undefined)
       if (!firstElementWithFieldName) {
@@ -84,24 +108,20 @@ class FactFinderClientSearchFilters {
       }
 
       filters.push({
-        id: firstElementWithFieldName.associatedFieldName,
-        label: group.name,
-        source: 'fact-finder',
-        type: filterTypeMap[group.filterStyle],
-        values: group.elements.map(element => {
-          return {
-            id: element.name,
-            label: element.name,
-            hits: element.recordCount
-          }
-        })
+        associatedFieldName: firstElementWithFieldName.associatedFieldName,
+        name: group.name,
+        filterStyle: group.filterStyle,
+        elements: group.elements
       })
     })
 
-    return {
-      filters
-    }
+    return filters
   }
 }
 
-module.exports = FactFinderClientSearchFilters
+module.exports = {
+  FactFinderClientSearchFilters,
+  filterStyle,
+  filterType,
+  filterSelectionType
+}
