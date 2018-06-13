@@ -11,13 +11,16 @@ describe('FactFinderClientSearch', function () {
   /** @type FactFinderClientSearch */
   let subjectUnderTest
   let sandbox
-  let needleStub
+  let requestStub
+  let promisifyStub
 
   beforeEach(() => {
     sandbox = sinon.createSandbox()
-    needleStub = sandbox.stub()
+    requestStub = sandbox.stub()
+    promisifyStub = sandbox.stub()
     Search = proxyquire('../../../../lib/factfinder/client/Search', {
-      'needle': needleStub
+      '../../common/requestResolver': { tracedRequest: requestStub },
+      'util': { promisify: promisifyStub }
     })
     subjectUnderTest = new Search('http://shopgate.fact-finder.com')
   })
@@ -27,7 +30,7 @@ describe('FactFinderClientSearch', function () {
   })
 
   it('should return uids with a simple selector', async function () {
-    needleStub.returns({body: require('./mockedApiResponses/Search-uids')})
+    promisifyStub.returns(() => ({ body: require('./mockedApiResponses/Search-uids') }))
     assert.deepStrictEqual(await subjectUnderTest.execute({query: 'test', channel: 'test'}),
       {
         'totalProductCount': 3309,
@@ -44,7 +47,7 @@ describe('FactFinderClientSearch', function () {
 
   it('should return uids with a more complex selector', async function () {
     subjectUnderTest = new Search('http://shopgate.fact-finder.com', 'utf8', '$.record.ARTNR')
-    needleStub.returns({body: require('./mockedApiResponses/Search-uids')})
+    promisifyStub.returns(() => ({ body: require('./mockedApiResponses/Search-uids') }))
     assert.deepStrictEqual(await subjectUnderTest.execute({query: 'test', channel: 'test'}),
       {
         'totalProductCount': 3309,
@@ -60,28 +63,28 @@ describe('FactFinderClientSearch', function () {
   })
 
   it('should handle 4xx errors from FACT-Finder', async () => {
-    needleStub
-      .resolves({
+    promisifyStub
+      .returns(() => ({
         statusCode: 400
-      })
+      }))
 
     await subjectUnderTest.execute({ query: 'raspberry' }).should.eventually.be.rejectedWith(FactFinderClientError)
   })
 
   it('should handle 5xx errors from FACT-Finder', async () => {
-    needleStub
-      .resolves({
+    promisifyStub
+      .returns(() => ({
         statusCode: 500
-      })
+      }))
     await subjectUnderTest.execute({ query: 'raspberry' }).should.eventually.be.rejectedWith(FactFinderServerError)
   })
 
   it('should handle invalid responses from FACT-Finder', async () => {
-    needleStub
-      .resolves({
+    promisifyStub
+      .returns(() => ({
         statusCode: 200,
         body: {}
-      })
+      }))
     await subjectUnderTest.execute({ query: 'raspberry' }).should.eventually.be.rejectedWith(FactFinderInvalidResponseError)
   })
 })

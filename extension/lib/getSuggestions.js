@@ -1,12 +1,14 @@
 'use strict'
 const factFinderClientMapper = require('./shopgate/factFinderClientFactoryMapper')
-
+const { useTracedRequestImplementation } = require('./common/requestResolver')
 /**
  * @param {PipelineContext} context
  * @param {getSearchSuggestionsInput} input
  * @returns {Promise<getSearchSuggestionsOutput>}
  */
 module.exports = async (context, input) => {
+  useTracedRequestImplementation(context.tracedRequest)
+
   try {
     /** @type {FactFinderClient} */
     const factFinderClient = factFinderClientMapper(context.config)

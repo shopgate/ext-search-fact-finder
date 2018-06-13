@@ -1,5 +1,7 @@
 'use strict'
-const needle = require('needle')
+const { tracedRequest } = require('../../common/requestResolver')
+const { promisify } = require('util')
+
 const urlencode = require('urlencode')
 const { DEFAULT_ENCODING } = require('./Encoding')
 
@@ -43,10 +45,10 @@ class FactFinderClientSuggest {
     url.searchParams.append('query', searchRequest.query)
     url.searchParams.append('channel', searchRequest.channel)
 
-    const response = await needle('get', url.toString(), {
-      open_timeout: 5000,
-      response_timeout: 5000,
-      read_timeout: 10000
+    const response = await promisify(tracedRequest('Fact-Finder:suggest'))({
+      url: url.toString(),
+      timeout: 10000,
+      json: true
     })
 
     if (response.statusCode >= 500) {
