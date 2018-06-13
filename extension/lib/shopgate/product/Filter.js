@@ -1,3 +1,4 @@
+'use strict'
 
 const SHOPGATE_FILTER_TYPE_SINGLE = 'single_select'
 const SHOPGATE_FILTER_TYPE_MULTI = 'multiselect'

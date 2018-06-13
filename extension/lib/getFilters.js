@@ -8,6 +8,9 @@ const filterTypeMap = {
   MULTISELECT: 'multiselect'
 }
 
+/**
+ * @type {FactFinderClient}
+ */
 let factFinderClient
 
 /**
@@ -21,9 +24,6 @@ module.exports = async function (context, input) {
   }
 
   if (!factFinderClient) {
-    /**
-     * @type {FactFinderClient}
-     */
     factFinderClient = factFinderClientFactoryMapper(context.config)
   }
 
@@ -41,27 +41,22 @@ module.exports = async function (context, input) {
     }
     const factFinderFilters = await factFinderClient.searchFilters(searchRequest.build())
 
-    const filters = []
-    factFinderFilters.forEach(group => {
-      // skip unsupported filters
-      if (undefined === filterTypeMap[group.filterStyle]) {
-        return
-      }
-
-      filters.push({
-        id: group.associatedFieldName,
-        label: group.name,
-        source: 'fact-finder',
-        type: filterTypeMap[group.filterStyle],
-        values: group.elements.map(element => {
-          return {
-            id: element.name,
-            label: element.name,
-            hits: element.recordCount
-          }
-        })
-      })
-    })
+    const filters = factFinderFilters.filter(group => undefined !== filterTypeMap[group.filterStyle])
+      .map(group => (
+        {
+          id: group.associatedFieldName,
+          label: group.name,
+          source: 'fact-finder',
+          type: filterTypeMap[group.filterStyle],
+          values: group.elements.map(element => {
+            return {
+              id: element.name,
+              label: element.name,
+              hits: element.recordCount
+            }
+          })
+        }
+      ))
 
     return { filters }
   } catch (e) {
