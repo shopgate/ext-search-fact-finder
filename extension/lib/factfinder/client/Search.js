@@ -14,9 +14,9 @@ class FactFinderClientSearch {
   /**
    * @param {string} baseUri
    * @param {string} encoding
-   * @param {string} [uidSelector=$.id]
+   * @param {string} uidSelector
    */
-  constructor (baseUri, encoding, uidSelector = '$.id') {
+  constructor (baseUri, encoding, uidSelector) {
     this._baseUri = baseUri
     this._uidSelector = uidSelector
     this._encoding = encoding
@@ -70,7 +70,15 @@ class FactFinderClientSearch {
 
     return {
       uids: factFinderSearchResult.records.map((product) => {
+        if (!this._uidSelector.includes('{')) {
+          // uidSelector can either be a JSON path...
+          // e.g. "$.id"
         return jsonPath.query(product, this._uidSelector)
+        }
+
+        // ... or a "template" which contains multiple JSON paths, each wrapped in curly braces
+        // e.g. "{$.record.shopid}-{$.id}"
+        return this._uidSelector.replace(/(?:\{([^\}]*)\})/g, (match, path) => jsonPath.query(product, path))
       }),
       totalProductCount: factFinderSearchResult.resultCount
     }

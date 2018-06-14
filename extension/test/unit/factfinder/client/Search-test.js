@@ -19,7 +19,7 @@ describe('FactFinderClientSearch', function () {
     Search = proxyquire('../../../../lib/factfinder/client/Search', {
       'needle': needleStub
     })
-    subjectUnderTest = new Search('http://shopgate.fact-finder.com')
+    subjectUnderTest = new Search('http://shopgate.fact-finder.com', 'utf8', '$.id')
   })
 
   afterEach(() => {
