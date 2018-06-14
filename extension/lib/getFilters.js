@@ -2,6 +2,7 @@
 
 const FactFinderClient = require('./factfinder/Client')
 const factFinderClientFactoryMapper = require('./shopgate/factFinderClientFactoryMapper')
+const { useTracedRequestImplementation } = require('./common/requestResolver')
 
 const filterTypeMap = {
   // DEFAULT: 'single_select',
@@ -19,6 +20,7 @@ let factFinderClient
  * @returns {Promise<getFiltersResponse>}
  */
 module.exports = async function (context, input) {
+  useTracedRequestImplementation(context.tracedRequest)
   if (!input.searchPhrase) {
     return { filters: [] }
   }

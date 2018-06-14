@@ -1,6 +1,7 @@
 'use strict'
 const urlencode = require('urlencode')
-const needle = require('needle')
+const { promisify } = require('util')
+const { tracedRequest } = require('../../common/requestResolver')
 const { DEFAULT_ENCODING } = require('./Encoding')
 const FactFinderClientError = require('./errors/FactFinderClientError')
 const FactFinderServerError = require('./errors/FactFinderServerError')
@@ -81,10 +82,10 @@ class FactFinderClientSearchFilters {
       url.searchParams.append(`filter${filter.name}`, this._getFilterValue(filter.values))
     }
 
-    const response = await needle('get', url.toString(), {
-      open_timeout: 5000,
-      response_timeout: 5000,
-      read_timeout: 10000
+    const response = await promisify(tracedRequest('Fact-Finder:filter'))({
+      url: url.toString(),
+      timeout: 10000,
+      json: true
     })
 
     if (response.statusCode >= 500) {

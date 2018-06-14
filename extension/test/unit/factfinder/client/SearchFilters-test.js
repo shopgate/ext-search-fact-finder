@@ -11,14 +11,17 @@ const FactFinderClientError = require('../../../../lib/factfinder/client/errors/
 let { FactFinderClientSearchFilters } = require('../../../../lib/factfinder/client/SearchFilters')
 
 describe('FactFinderClientSearchFilters', function () {
-  let needleStub, searchFilters
+  let requestStub, searchFilters, promisifyStub
 
   const sandbox = sinon.createSandbox()
 
   beforeEach(() => {
-    needleStub = sandbox.stub()
+    requestStub = sandbox.stub()
+    promisifyStub = sandbox.stub()
+
     FactFinderClientSearchFilters = proxyquire('../../../../lib/factfinder/client/SearchFilters', {
-      'needle': needleStub
+      '../../common/requestResolver': { tracedRequest: requestStub },
+      'util': { promisify: promisifyStub }
     }).FactFinderClientSearchFilters
 
     searchFilters = new FactFinderClientSearchFilters('https://www.shopgate.com', 'utf8')
@@ -29,11 +32,18 @@ describe('FactFinderClientSearchFilters', function () {
   })
 
   it('should return a list of filters', async () => {
-    needleStub.withArgs('get', 'https://www.shopgate.com/Search.ff?format=json&version=7.3&query=raspberry&channel=de')
-      .resolves({
+    promisifyStub.returns((options) => {
+      chai.assert.deepEqual(options, {
+        url: 'https://www.shopgate.com/Search.ff?format=json&version=7.3&query=raspberry&channel=de',
+        json: true,
+        timeout: 10000
+      })
+
+      return {
         statusCode: 200,
         body: require('./mockedApiResponses/getFilteredSearch.full.success')
-      })
+      }
+    })
 
     const expected = [
       {
@@ -167,18 +177,19 @@ describe('FactFinderClientSearchFilters', function () {
   })
 
   it('should handle 5xx errors from FACT-Finder', async () => {
-    needleStub
-      .resolves({
+    promisifyStub
+      .returns(() => ({
         statusCode: 500
-      })
+      }))
+
     await searchFilters.execute({ query: 'raspberry', channel: 'de', filters: [] }).should.eventually.be.rejectedWith(FactFinderServerError)
   })
 
   it('should handle 4xx errors from FACT-Finder', async () => {
-    needleStub
-      .resolves({
+    promisifyStub
+      .returns(() => ({
         statusCode: 400
-      })
+      }))
 
     await searchFilters.execute({ query: 'raspberry', filters: [] }).should.eventually.be.rejectedWith(FactFinderClientError)
   })
