@@ -23,12 +23,13 @@ class FactFinderClientSearchBuilder {
   /**
    * @param {string} name
    * @param {string} type
-   * @param {string|number|string[]|number[]}values
+   * @param {string|number|string[]|number[]} values
    */
   filter (name, type, values) {
     this._filters.push({
       name, values
     })
+    return this
   }
 
   /**
