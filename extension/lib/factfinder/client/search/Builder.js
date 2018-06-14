@@ -1,6 +1,7 @@
 class FactFinderClientSearchBuilder {
   constructor () {
     this._sort = []
+    this._filters = []
   }
   /**
    * @param query
@@ -17,6 +18,18 @@ class FactFinderClientSearchBuilder {
    */
   channel (channel) {
     this._channel = channel
+    return this
+  }
+
+  /**
+   * @param {string} name
+   * @param {string} type
+   * @param {string|number|string[]|number[]} values
+   */
+  addFilter (name, type, values) {
+    this._filters.push({
+      name, values
+    })
     return this
   }
 
@@ -95,6 +108,8 @@ class FactFinderClientSearchBuilder {
     if (this._channel) {
       parameters.channel = this._channel
     }
+
+    parameters.filters = this._filters
 
     if ([] !== this._sort) {
       this._sort.forEach(sort => {

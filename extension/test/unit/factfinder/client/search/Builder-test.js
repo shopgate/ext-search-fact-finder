@@ -9,7 +9,8 @@ describe('FactFinderClientSearchBuilder', function () {
     assert.deepStrictEqual(request,
       {
         query: 'my%20search%20text',
-        channel: 'de'
+        channel: 'de',
+        filters: []
       })
   })
 })
