@@ -45,7 +45,7 @@ describe('getSuggestions', async () => {
     chai.assert.deepEqual(await getSuggestions(context, { searchPhrase: 'raspberry' }), { suggestions: returnedSuggestions })
   })
 
-  it('should log arrors', async function () {
+  it('should log errors', async function () {
     clientStub.suggest
       .rejects(new Error())
 
