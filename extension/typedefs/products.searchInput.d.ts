@@ -1,5 +1,6 @@
 interface productsSearchInput {
-  searchPhrase: string
-  limit: number
-  offset: number
+  searchPhrase?: string
+  limit?: number
+  offset?: number
+  sort?: string
 }

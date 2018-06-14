@@ -70,7 +70,7 @@ class FactFinderClientSearch {
 
     return {
       uids: factFinderSearchResult.records.map((product) => {
-        return jsonPath.query(product, this._uidSelector)
+        return `${product.record.shopid}-${product.id}` // jsonPath.query(product, this._uidSelector)
       }),
       totalProductCount: factFinderSearchResult.resultCount
     }
