@@ -36,7 +36,7 @@ module.exports = async function (context, input) {
       Object.keys(input.filters).forEach(filter => {
         const shopgatefilter = input.filters[filter]
         // atm we support only multi select
-        searchRequest.filter(shopgatefilter.label, FactFinderClient.groups.filterType.MULTISELECT, shopgatefilter.values)
+        searchRequest.addFilter(shopgatefilter.label, FactFinderClient.groups.filterType.MULTISELECT, shopgatefilter.values)
       })
     }
     const factFinderFilters = await factFinderClient.searchFilters(searchRequest.build())

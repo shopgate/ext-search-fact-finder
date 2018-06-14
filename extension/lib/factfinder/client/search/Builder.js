@@ -25,7 +25,7 @@ class FactFinderClientSearchBuilder {
    * @param {string} type
    * @param {string|number|string[]|number[]} values
    */
-  filter (name, type, values) {
+  addFilter (name, type, values) {
     this._filters.push({
       name, values
     })
