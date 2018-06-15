@@ -19,7 +19,7 @@ describe('FactFinderClientSearch', function () {
     Search = proxyquire('../../../../lib/factfinder/client/Search', {
       'needle': needleStub
     })
-    subjectUnderTest = new Search('http://shopgate.fact-finder.com')
+    subjectUnderTest = new Search('http://shopgate.fact-finder.com', 'utf8', '$.id')
   })
 
   afterEach(() => {
@@ -27,34 +27,27 @@ describe('FactFinderClientSearch', function () {
   })
 
   it('should return uids with a simple selector', async function () {
+    subjectUnderTest = new Search('http://shopgate.fact-finder.com', 'utf8', '{$.record.ARTNR}')
     needleStub.returns({body: require('./mockedApiResponses/Search-uids')})
     assert.deepStrictEqual(await subjectUnderTest.execute({query: 'test', channel: 'test'}),
       {
         'totalProductCount': 3309,
         'uids': [
-          [
-            '123456'
-          ],
-          [
-            '987654'
-          ]
+          '654321',
+          '456789'
         ]
       })
   })
 
   it('should return uids with a more complex selector', async function () {
-    subjectUnderTest = new Search('http://shopgate.fact-finder.com', 'utf8', '$.record.ARTNR')
+    subjectUnderTest = new Search('http://shopgate.fact-finder.com', 'utf8', '{$.record.shopid}-{$.record.ean}')
     needleStub.returns({body: require('./mockedApiResponses/Search-uids')})
     assert.deepStrictEqual(await subjectUnderTest.execute({query: 'test', channel: 'test'}),
       {
         'totalProductCount': 3309,
         'uids': [
-          [
-            '654321'
-          ],
-          [
-            '456789'
-          ]
+          '43540-04712511128604',
+          '69923-04013833013525'
         ]
       })
   })
