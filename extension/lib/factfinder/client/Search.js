@@ -73,12 +73,12 @@ class FactFinderClientSearch {
         if (!this._uidSelector.includes('{')) {
           // uidSelector can either be a JSON path...
           // e.g. "$.id"
-        return jsonPath.query(product, this._uidSelector)
+          return jsonPath.query(product, this._uidSelector)
         }
 
         // ... or a "template" which contains multiple JSON paths, each wrapped in curly braces
         // e.g. "{$.record.shopid}-{$.id}"
-        return this._uidSelector.replace(/(?:\{([^\}]*)\})/g, (match, path) => jsonPath.query(product, path))
+        return this._uidSelector.replace(/(?:{([^}]*)})/g, (match, path) => jsonPath.query(product, path))
       }),
       totalProductCount: factFinderSearchResult.resultCount
     }
