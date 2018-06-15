@@ -41,7 +41,7 @@ describe('FactFinderClientSearchFilter', function () {
           'PREIS',
           [
             '5.00+-+7.49',
-            '7.50+-+9.99',
+            '7.50+-+9.99'
           ]),
         {
           filterName: 'filterPREIS',

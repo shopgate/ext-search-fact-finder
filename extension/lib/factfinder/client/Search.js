@@ -115,9 +115,9 @@ function getValueFromSearchParams (param, searchParams) {
     return null
   }
 
-  const urlSearchParams = new URLSearchParams(searchParams.replace(/^\//, ''))
+  const urlSearchParams = new URL(searchParams.replace(/^\//, ''), 'http://localhost')
 
-  return urlSearchParams.get(param)
+  return urlSearchParams.searchParams.get(param)
 }
 
 module.exports = FactFinderClientSearch
