@@ -6,6 +6,8 @@ let Search = require('../../../../lib/factfinder/client/Search')
 const FactFinderClientError = require('../../../../lib/factfinder/client/errors/FactFinderClientError')
 const FactFinderServerError = require('../../../../lib/factfinder/client/errors/FactFinderServerError')
 const FactFinderInvalidResponseError = require('../../../../lib/factfinder/client/errors/FactFinderInvalidResponseError')
+// needed for travis builds
+global.URLSearchParams = require('url').URLSearchParams
 
 describe('FactFinderClientSearch', function () {
   /** @type FactFinderClientSearch */
