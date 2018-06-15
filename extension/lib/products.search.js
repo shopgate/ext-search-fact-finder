@@ -28,7 +28,7 @@ module.exports = async function (context, input) {
 
     // sorting
     if (input.sort) {
-      let shopgateSort = getFactFinderSortFieldNameAndDirection(ShopgateProductSearchSort.create(input.sort))
+      let shopgateSort = ShopgateProductSearchSort.create(input.sort)
       if (shopgateSort === null) {
         shopgateSort = ShopgateProductSearchSort.random
       }
@@ -39,6 +39,15 @@ module.exports = async function (context, input) {
       } else {
         searchRequest.sortBy(fieldName, direction)
       }
+    }
+
+    // filters
+    if (input.filters) {
+      Object.keys(input.filters).forEach(filter => {
+        const shopgatefilter = input.filters[filter]
+        // atm we support only multi select
+        searchRequest.addFilter(filter, FactFinderClient.groups.filterType.MULTISELECT, shopgatefilter.values)
+      })
     }
 
     // pagination - limit and offset are optional

@@ -50,7 +50,7 @@ module.exports = async function (context, input) {
           type: filterTypeMap[group.filterStyle],
           values: group.elements.map(element => {
             return {
-              id: element.name,
+              id: element.filterValue,
               label: element.name,
               hits: element.recordCount
             }

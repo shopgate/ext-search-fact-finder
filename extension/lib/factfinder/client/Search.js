@@ -1,14 +1,15 @@
 'use strict'
 const urlencode = require('urlencode')
-const needle = require('needle')
+const needle = require('request')
+const { promisify } = require('util')
 const jsonPath = require('jsonpath')
 const {DEFAULT_ENCODING} = require('./Encoding')
 const FactFinderClientError = require('./errors/FactFinderClientError')
 const FactFinderServerError = require('./errors/FactFinderServerError')
 const FactFinderInvalidResponseError = require('./errors/FactFinderInvalidResponseError')
+const { filterPrepareValueForSearchParams } = require('./search/filter')
 
 const ENDPOINT = '/Search.ff'
-const URL = require('url').URL
 
 class FactFinderClientSearch {
   /**
@@ -36,23 +37,30 @@ class FactFinderClientSearch {
   async execute (inputSearchRequest) {
     let searchRequest = Object.assign({}, inputSearchRequest)
 
-    const url = new URL(this.url)
+    const searchParams = []
     if (this._encoding !== DEFAULT_ENCODING) {
       searchRequest.query = urlencode(searchRequest.query, this._encoding)
     }
 
-    url.searchParams.append('format', 'json')
-    url.searchParams.append('version', '7.3')
+    searchParams.push('format=json')
+    searchParams.push('version=7.3')
 
-    for (const parameter in searchRequest) {
-      url.searchParams.append(parameter, searchRequest[parameter])
+    Object.keys(searchRequest)
+      .filter(parameter => parameter !== 'filters')
+      .forEach(parameter => {
+        searchParams.push(`${parameter}=${searchRequest[parameter]}`)
+      })
+
+    for (const filter of searchRequest.filters) {
+      // const filterValue = {}
+      // filterValue[filter.name] = this._getFilterValue(filter.values)
+      const { filterName, filterValue } = filterPrepareValueForSearchParams(filter.name, filter.values)
+      searchParams.push(`${filterName}=${filterValue}`)
     }
 
-    const response = await needle('get', url.toString(), {
-      open_timeout: 5000,
-      response_timeout: 5000,
-      read_timeout: 10000
-    })
+    const url = this.url + '?' + searchParams.join('&')
+
+    const response = await promisify(needle)({ url, json: true })
 
     if (response.statusCode >= 500) {
       throw new FactFinderServerError(response.statusCode)
@@ -70,6 +78,7 @@ class FactFinderClientSearch {
 
     return {
       uids: factFinderSearchResult.records.map((product) => {
+
         return `${product.record.shopid}-${product.id}` // jsonPath.query(product, this._uidSelector)
       }),
       totalProductCount: factFinderSearchResult.resultCount
