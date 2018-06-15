@@ -1,7 +1,7 @@
 'use strict'
 const urlencode = require('urlencode')
-const needle = require('request')
-const { promisify } = require('util')
+const needle = require('needle')
+// const { promisify } = require('util')
 const jsonPath = require('jsonpath')
 const {DEFAULT_ENCODING} = require('./Encoding')
 const FactFinderClientError = require('./errors/FactFinderClientError')
@@ -11,6 +11,10 @@ const { filterPrepareValueForSearchParams } = require('./search/filter')
 
 const ENDPOINT = '/Search.ff'
 
+let _baseUri
+let _encoding
+let _uidSelector
+
 class FactFinderClientSearch {
   /**
    * @param {string} baseUri
@@ -18,16 +22,16 @@ class FactFinderClientSearch {
    * @param {string} uidSelector
    */
   constructor (baseUri, encoding, uidSelector) {
-    this._baseUri = baseUri
-    this._uidSelector = uidSelector
-    this._encoding = encoding
+    _baseUri = baseUri
+    _uidSelector = uidSelector
+    _encoding = encoding
   }
 
   /**
    * @returns {string}
    */
   get url () {
-    return this._baseUri + ENDPOINT
+    return _baseUri + ENDPOINT
   }
 
   /**
@@ -38,8 +42,8 @@ class FactFinderClientSearch {
     let searchRequest = Object.assign({}, inputSearchRequest)
 
     const searchParams = []
-    if (this._encoding !== DEFAULT_ENCODING) {
-      searchRequest.query = urlencode(searchRequest.query, this._encoding)
+    if (_encoding !== DEFAULT_ENCODING) {
+      searchRequest.query = urlencode(searchRequest.query, _encoding)
     }
 
     searchParams.push('format=json')
@@ -51,16 +55,14 @@ class FactFinderClientSearch {
         searchParams.push(`${parameter}=${searchRequest[parameter]}`)
       })
 
-    for (const filter of searchRequest.filters) {
-      // const filterValue = {}
-      // filterValue[filter.name] = this._getFilterValue(filter.values)
+    for (const filter of getFilters(searchRequest)) {
       const { filterName, filterValue } = filterPrepareValueForSearchParams(filter.name, filter.values)
       searchParams.push(`${filterName}=${filterValue}`)
     }
 
     const url = this.url + '?' + searchParams.join('&')
 
-    const response = await promisify(needle)({ url, json: true })
+    const response = await needle('get', url)
 
     if (response.statusCode >= 500) {
       throw new FactFinderServerError(response.statusCode)
@@ -78,19 +80,44 @@ class FactFinderClientSearch {
 
     return {
       uids: factFinderSearchResult.records.map((product) => {
-        if (!this._uidSelector.includes('{')) {
+        if (!_uidSelector.includes('{')) {
           // uidSelector can either be a JSON path...
           // e.g. "$.id"
-          return jsonPath.query(product, this._uidSelector)
+          return jsonPath.query(product, _uidSelector)
         }
 
         // ... or a "template" which contains multiple JSON paths, each wrapped in curly braces
         // e.g. "{$.record.shopid}-{$.id}"
-        return this._uidSelector.replace(/(?:{([^}]*)})/g, (match, path) => jsonPath.query(product, path))
+        return _uidSelector.replace(/(?:{([^}]*)})/g, (match, path) => jsonPath.query(product, path))
       }),
-      totalProductCount: factFinderSearchResult.resultCount
+      totalProductCount: factFinderSearchResult.resultCount,
+      followSearch: getValueFromSearchParams('followSearch', factFinderSearchResult.searchParams)
     }
   }
+}
+
+/**
+ * @param {FactFinderClientSearchRequest} searchRequest
+ * @return {FactFinderClientSearchRequestFilter[]}
+ */
+function getFilters (searchRequest) {
+  return searchRequest.filters || []
+}
+
+/**
+ *
+ * @param {string} param
+ * @param {string} searchParams
+ * @return {string | null}
+ */
+function getValueFromSearchParams (param, searchParams) {
+  if (!searchParams) {
+    return null
+  }
+
+  const urlSearchParams = new URLSearchParams(searchParams.replace(/^\//, ''))
+
+  return urlSearchParams.get(param)
 }
 
 module.exports = FactFinderClientSearch

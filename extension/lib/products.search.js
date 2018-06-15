@@ -1,7 +1,9 @@
 const FactFinderClient = require('./factfinder/Client')
 const factFinderClientFactoryMapper = require('./shopgate/factFinderClientFactoryMapper')
-const { decorateError } = require('./shopgate/logDecorator')
+const { decorateError, decorateErrorWithParams, decorateDebug } = require('./shopgate/logDecorator')
 const ShopgateProductSearchSort = require('./shopgate/product/search/sort')
+
+const FOLLOW_SEARCH_KEY = 'followSearch'
 
 /**
  * @param {PipelineContext} context
@@ -25,6 +27,7 @@ module.exports = async function (context, input) {
     const searchRequest = FactFinderClient.searchRequestBuilder()
       .channel(context.config.channel)
       .query(input.searchPhrase)
+      .surpressCampaigns()
 
     // sorting
     if (input.sort) {
@@ -56,7 +59,24 @@ module.exports = async function (context, input) {
       searchRequest.page(1 + Math.floor(input.offset / input.limit))
     }
 
-    const searchResults = await factFinderClient.search(searchRequest.build())
+    const followSearch = await context.storage.device.get(FOLLOW_SEARCH_KEY)
+    if (followSearch) {
+      context.log.debug(decorateDebug(getCollectables(context, input, { followSearch })), 'Following search')
+      searchRequest.followSearch(followSearch)
+    }
+
+    context.log.debug(searchRequest)
+
+    const searchResults = await factFinderClient.search(searchRequest.build(), context.config.uidTemplate)
+
+    // store the followSearch parameter
+    context.storage.device.set(FOLLOW_SEARCH_KEY, searchResults.followSearch)
+      .then(() => {
+        context.log.debug(getCollectables(context, input, { followSearch: searchResults.followSearch }), 'debug message')
+      })
+      .catch(err => {
+        context.log.error(decorateErrorWithParams(err, getCollectables(context, input, { followSearch: searchResults.followSearch })), 'Unable to store followSearch parameter')
+      })
 
     return {
       searchProductCount: searchResults.totalProductCount,
@@ -66,6 +86,16 @@ module.exports = async function (context, input) {
     context.log.error(decorateError(err), 'Search failed')
     throw err
   }
+}
+
+function getCollectables (context, input, additional = {}) {
+  const collectables = {
+    searchPhrase: input.searchPhrase,
+    channel: context.config.channel,
+    sortDirection: input.sort
+  }
+
+  return Object.assign(collectables, additional)
 }
 
 /**

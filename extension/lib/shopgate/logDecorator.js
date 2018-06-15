@@ -15,6 +15,16 @@ module.exports = {
   },
 
   /**
+   * @param {Error} err
+   * @param {Object} params
+   * @param {string} importance
+   */
+  decorateErrorWithParams (err, params, importance = 'high') {
+    const decoratedError = this.decorateError(err, importance)
+    return Object.assign(decoratedError, params)
+  },
+
+  /**
    * @param {Object} properties
    * @returns {Object}
    */

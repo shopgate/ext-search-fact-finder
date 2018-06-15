@@ -4,7 +4,7 @@
  * @return {string}
  */
 function filterDecodeValueFromSearchParams (filterName, searchParams) {
-  const filter = `filter${filterName}=(.+?)(?:$|&)`
+  const filter = `filter${encodeURIComponent(filterName)}=(.+?)(?:$|&)`
   const matches = searchParams.match(new RegExp(filter))
   if (!matches) {
     return null
@@ -20,7 +20,7 @@ function filterDecodeValueFromSearchParams (filterName, searchParams) {
  */
 function filterPrepareValueForSearchParams (filterName, values) {
   return {
-    filterName: `filter${filterName}`,
+    filterName: `filter${encodeURIComponent(filterName)}`,
     filterValue: getFilterValue(values)
   }
 }
