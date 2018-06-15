@@ -22,10 +22,11 @@ class FactFinderClient {
    * add other options here, like page, filters
    *
    * @param {FactFinderClientSearchRequest} searchRequest
+   * @param {string} [uidSelector=$.id]
    * @returns {Promise<*>}
    */
-  search (searchRequest) {
-    const searchAdapter = new SearchAdapter(this._baseUri, this._encoding)
+  search (searchRequest, uidSelector = '$.id') {
+    const searchAdapter = new SearchAdapter(this._baseUri, this._encoding, uidSelector)
 
     return searchAdapter.execute(
       this._factFinderAuthentication.addAuthentication(searchRequest)
