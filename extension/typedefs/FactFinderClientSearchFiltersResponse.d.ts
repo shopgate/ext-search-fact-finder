@@ -28,6 +28,13 @@ interface FactFinderClientSearchFilterSelectionType {
 }
 
 interface FactFinderClientSearchFilterStyle {
+  DEFAULT: string
+  MULTISELECT: string
+  TREE: string
+  SLIDER: string
+}
+
+interface FactFinderClientSearchFilterStyleDefinition {
   DEFAULT: FactFinderClientSearchFilterStyleObject
   MULTISELECT: FactFinderClientSearchFilterStyleObject
   TREE: FactFinderClientSearchFilterStyleObject

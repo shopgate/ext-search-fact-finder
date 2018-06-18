@@ -18,16 +18,15 @@ const filterType = {
   ATTRIBUTE: 'attribute'
 }
 
-/** @type FactFinderClientSearchFilterSelectionType */
-const filterSelectionType = {
-  MULTISELECT_OR: 'multiSelectOr',
-  MULTISELECT_AND: 'multiSelectAnd',
-  SINGLE_SHOW_UNSELECTED: 'singleShowUnselected',
-  SINGLE_HIDE_UNSELECTED: 'singleHideUnselected'
-}
+// /** @type FactFinderClientSearchFilterSelectionType */
+// const filterSelectionType = {
+//   MULTISELECT_OR: 'multiSelectOr',
+//   MULTISELECT_AND: 'multiSelectAnd',
+//   SINGLE_SHOW_UNSELECTED: 'singleShowUnselected',
+//   SINGLE_HIDE_UNSELECTED: 'singleHideUnselected'
+// }
 
-/** @type FactFinderClientSearchFilterStyle */
-const filterStyle = {
+const filterStyleDefinition = {
   DEFAULT: {
     type: [ filterType.ATTRIBUTE, filterType.TEXT ]
   },
@@ -41,6 +40,11 @@ const filterStyle = {
     type: []
   }
 }
+
+const filterStyle = /** @type FactFinderClientSearchFilterStyle */{}
+Object.keys(filterStyleDefinition).forEach(filter => {
+  filterStyle[filter] = filter
+})
 
 class FactFinderClientSearchFilters {
   /**
@@ -131,6 +135,5 @@ class FactFinderClientSearchFilters {
 module.exports = {
   FactFinderClientSearchFilters,
   filterStyle,
-  filterType,
-  filterSelectionType
+  filterType
 }

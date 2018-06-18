@@ -49,7 +49,7 @@ module.exports = async function (context, input) {
       Object.keys(input.filters).forEach(filter => {
         const shopgatefilter = input.filters[filter]
         // atm we support only multi select
-        searchRequest.addFilter(filter, FactFinderClient.groups.filterType.MULTISELECT, shopgatefilter.values)
+        searchRequest.addFilter(filter, FactFinderClient.groups.filterStyle.MULTISELECT, shopgatefilter.values)
       })
     }
 
@@ -64,8 +64,6 @@ module.exports = async function (context, input) {
       context.log.debug(decorateDebug(getCollectables(context, input, { followSearch })), 'Following search')
       searchRequest.followSearch(followSearch)
     }
-
-    context.log.debug(searchRequest)
 
     const searchResults = await factFinderClient.search(searchRequest.build(), context.config.uidTemplate)
 
@@ -103,8 +101,9 @@ function getCollectables (context, input, additional = {}) {
  * @return {{fieldName: string, direction: string|null}}
  */
 function getFactFinderSortFieldNameAndDirection (sort) {
+  // TODO there might be mapping here necessary eg price => PREIS
   return {
-    fieldName: sort.fieldName,
-    direction: sort.direction
+    fieldName: 'PREIS',
+    direction: sort.direction ? sort.direction.toLowerCase() : null
   }
 }
