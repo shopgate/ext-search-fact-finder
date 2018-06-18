@@ -8,6 +8,7 @@ const FactFinderClientError = require('./errors/FactFinderClientError')
 const FactFinderServerError = require('./errors/FactFinderServerError')
 const FactFinderInvalidResponseError = require('./errors/FactFinderInvalidResponseError')
 const { filterPrepareValueForSearchParams } = require('./search/filter')
+const { URLSearchParams } = require('url')
 
 const ENDPOINT = '/Search.ff'
 
