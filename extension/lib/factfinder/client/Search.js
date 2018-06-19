@@ -1,7 +1,6 @@
 'use strict'
 const urlencode = require('urlencode')
 const needle = require('needle')
-// const { promisify } = require('util')
 const jsonPath = require('jsonpath')
 const {DEFAULT_ENCODING} = require('./Encoding')
 const FactFinderClientError = require('./errors/FactFinderClientError')
@@ -12,10 +11,6 @@ const { URLSearchParams } = require('url')
 
 const ENDPOINT = '/Search.ff'
 
-let _baseUri
-let _encoding
-let _uidSelector
-
 class FactFinderClientSearch {
   /**
    * @param {string} baseUri
@@ -23,16 +18,16 @@ class FactFinderClientSearch {
    * @param {string} uidSelector
    */
   constructor (baseUri, encoding, uidSelector) {
-    _baseUri = baseUri
-    _uidSelector = uidSelector
-    _encoding = encoding
+    this._baseUri = baseUri
+    this._uidSelector = uidSelector
+    this._encoding = encoding
   }
 
   /**
    * @returns {string}
    */
   get url () {
-    return _baseUri + ENDPOINT
+    return this._baseUri + ENDPOINT
   }
 
   /**
@@ -43,8 +38,8 @@ class FactFinderClientSearch {
     let searchRequest = Object.assign({}, inputSearchRequest)
 
     const searchParams = []
-    if (_encoding !== DEFAULT_ENCODING) {
-      searchRequest.query = urlencode(searchRequest.query, _encoding)
+    if (this._encoding !== DEFAULT_ENCODING) {
+      searchRequest.query = urlencode(searchRequest.query, this._encoding)
     }
 
     searchParams.push('format=json')
@@ -63,7 +58,11 @@ class FactFinderClientSearch {
 
     const url = this.url + '?' + searchParams.join('&')
 
-    const response = await needle('get', url)
+    const response = await needle('get', url, {
+      open_timeout: 5000,
+      response_timeout: 5000,
+      read_timeout: 10000
+    })
 
     if (response.statusCode >= 500) {
       throw new FactFinderServerError(response.statusCode)
@@ -81,15 +80,15 @@ class FactFinderClientSearch {
 
     return {
       uids: factFinderSearchResult.records.map((product) => {
-        if (!_uidSelector.includes('{')) {
+        if (!this._uidSelector.includes('{')) {
           // uidSelector can either be a JSON path...
           // e.g. "$.id"
-          return jsonPath.query(product, _uidSelector)
+          return jsonPath.query(product, this._uidSelector)
         }
 
         // ... or a "template" which contains multiple JSON paths, each wrapped in curly braces
         // e.g. "{$.record.shopid}-{$.id}"
-        return _uidSelector.replace(/(?:{([^}]*)})/g, (match, path) => jsonPath.query(product, path))
+        return this._uidSelector.replace(/(?:{([^}]*)})/g, (match, path) => jsonPath.query(product, path))
       }),
       totalProductCount: factFinderSearchResult.resultCount,
       followSearch: getValueFromSearchParams('followSearch', factFinderSearchResult.searchParams)
