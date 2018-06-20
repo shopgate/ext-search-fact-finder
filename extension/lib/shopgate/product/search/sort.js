@@ -20,6 +20,9 @@ class ShopgateProductSearchSort {
     this._checkDirectionAndFieldName()
   }
 
+  /**
+   * @private
+   */
   _checkDirectionAndFieldName () {
     this._direction = null
     const matches = this._sort.match(/(asc|desc)$/i)
@@ -60,10 +63,16 @@ class ShopgateProductSearchSort {
     return supportedSorts.indexOf(sort) !== -1
   }
 
+  /**
+   * @return {string|null}
+   */
   get direction () {
     return this._direction
   }
 
+  /**
+   * @return {string}
+   */
   get fieldName () {
     return this._fieldName
   }

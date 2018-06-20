@@ -31,7 +31,7 @@
       {
         "type": "extension",
         "id": "@shopgate/search-fact-finder",
-        "path": "@shopgate/search-fact-finder/lib/products.determineUseCase.js",
+        "path": "@shopgate/search-fact-finder/lib/getProducts.determineUseCase.js",
         "input": [
           {"key": "categoryId", "id": "1001", "optional": true},
           {"key": "searchPhrase", "id": "1002", "optional": true},
@@ -95,7 +95,7 @@
           "then": {
               "type": "extension",
               "id": "@shopgate/search-fact-finder",
-              "path": "@shopgate/search-fact-finder/lib/products.search.js",
+              "path": "@shopgate/search-fact-finder/lib/getProducts.search.js",
               "input": [
                 {"key": "searchPhrase", "id": "1002", "optional": true},
                 {"key": "offset", "id": "1004", "optional": true},
@@ -116,7 +116,7 @@
             "then": {
               "type": "extension",
               "id": "@shopgate/search-fact-finder",
-              "path": "@shopgate/search-fact-finder/lib/products.filterSearch.js",
+              "path": "@shopgate/search-fact-finder/lib/getProducts.filterSearch.js",
               "input": [
                 {"key": "searchPhrase", "id": "1002", "optional": true},
                 {"key": "filters", "id": "1003", "optional": true},
@@ -154,22 +154,18 @@
         }
       },
       {
-        "type": "extension",
-        "id": "@shopgate/search-fact-finder",
-        "path": "@shopgate/search-fact-finder/lib/test.js",
-        "input": [
-          {"key": "searchProductCount", "id": "2020"},
-          {"key": "productIds", "id": "2021"}
-        ],
-        "output": []
-      },
-      {
         "type": "conditional",
         "input": [
-          {"key": "searchProductCount", "id": "2020"}
+          {"key": "searchProductCount", "id": "2020", "optional": true},
+          {"key": "isSearchFilter", "id": "2002"},
+          {"key": "isSearch", "id": "2001"}
         ],
         "expression": {
-          "ok": [{"type": "input", "name": "searchProductCount"}]
+          "any": [
+            { "ok": [{"type": "input", "name": "isSearchFilter"}] },
+            { "ok": [{"type": "input", "name": "isSearch"}] }
+          ],
+          "notnull": [{"name": "searchProductCount"}]
         },
         "then": {
           "type": "pipeline",
@@ -186,10 +182,16 @@
       {
         "type": "conditional",
         "input": [
-          {"key": "searchProductCount", "id": "2020"}
+          {"key": "searchProductCount", "id": "2020", "optional": true},
+          {"key": "isSearchFilter", "id": "2002"},
+          {"key": "isSearch", "id": "2001"}
         ],
         "expression": {
-          "ok": [{"type": "input", "name": "searchProductCount"}]
+          "any": [
+            { "ok": [{"type": "input", "name": "isSearchFilter"}] },
+            { "ok": [{"type": "input", "name": "isSearch"}] }
+          ],
+          "notnull": [{"type": "input", "name": "searchProductCount"}]
         },
         "then": {
           "type": "staticValue",

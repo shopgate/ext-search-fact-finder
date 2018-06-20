@@ -2,6 +2,7 @@ const FactFinderClient = require('./factfinder/Client')
 const factFinderClientFactoryMapper = require('./shopgate/factFinderClientFactoryMapper')
 const { decorateError, decorateErrorWithParams, decorateDebug } = require('./shopgate/logDecorator')
 const ShopgateProductSearchSort = require('./shopgate/product/search/sort')
+const { createHash } = require('crypto')
 
 const FOLLOW_SEARCH_KEY = 'followSearch'
 
@@ -24,6 +25,8 @@ module.exports = async function (context, input) {
   const factFinderClient = factFinderClientFactoryMapper(context.config)
 
   try {
+    const searchHash = createHash('md5').update(input.searchPhrase).digest('hex')
+
     const searchRequest = FactFinderClient.searchRequestBuilder()
       .channel(context.config.channel)
       .query(input.searchPhrase)
@@ -49,7 +52,7 @@ module.exports = async function (context, input) {
       Object.keys(input.filters).forEach(filter => {
         const shopgatefilter = input.filters[filter]
         // atm we support only multi select
-        searchRequest.addFilter(filter, FactFinderClient.groups.filterType.MULTISELECT, shopgatefilter.values)
+        searchRequest.addFilter(filter, FactFinderClient.groups.filterStyle.MULTISELECT, shopgatefilter.values)
       })
     }
 
@@ -59,21 +62,16 @@ module.exports = async function (context, input) {
       searchRequest.page(1 + Math.floor(input.offset / input.limit))
     }
 
-    const followSearch = await context.storage.device.get(FOLLOW_SEARCH_KEY)
+    const followSearch = await context.storage.device.get(getFollowSearchKey(searchHash))
     if (followSearch) {
       context.log.debug(decorateDebug(getCollectables(context, input, { followSearch })), 'Following search')
       searchRequest.followSearch(followSearch)
     }
 
-    context.log.debug(searchRequest)
-
     const searchResults = await factFinderClient.search(searchRequest.build(), context.config.uidTemplate)
 
     // store the followSearch parameter
-    context.storage.device.set(FOLLOW_SEARCH_KEY, searchResults.followSearch)
-      .then(() => {
-        context.log.debug(getCollectables(context, input, { followSearch: searchResults.followSearch }), 'debug message')
-      })
+    context.storage.device.set(getFollowSearchKey(searchHash), searchResults.followSearch)
       .catch(err => {
         context.log.error(decorateErrorWithParams(err, getCollectables(context, input, { followSearch: searchResults.followSearch })), 'Unable to store followSearch parameter')
       })
@@ -88,6 +86,20 @@ module.exports = async function (context, input) {
   }
 }
 
+/**
+ * @param {string} searchHash
+ * @return {string}
+ */
+function getFollowSearchKey (searchHash) {
+  return `${FOLLOW_SEARCH_KEY}_${searchHash}`
+}
+
+/**
+ * @param {PipelineContext} context
+ * @param {productsSearchInput} input
+ * @param {Object} additional
+ * @return {*}
+ */
 function getCollectables (context, input, additional = {}) {
   const collectables = {
     searchPhrase: input.searchPhrase,
@@ -103,8 +115,9 @@ function getCollectables (context, input, additional = {}) {
  * @return {{fieldName: string, direction: string|null}}
  */
 function getFactFinderSortFieldNameAndDirection (sort) {
+  // TODO there might be mapping here necessary eg price => PREIS
   return {
-    fieldName: sort.fieldName,
-    direction: sort.direction
+    fieldName: 'PREIS',
+    direction: sort.direction ? sort.direction.toLowerCase() : null
   }
 }
