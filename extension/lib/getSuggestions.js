@@ -1,5 +1,6 @@
 'use strict'
 const factFinderClientMapper = require('./shopgate/factFinderClientFactoryMapper')
+const { decorateError } = require('./shopgate/logDecorator')
 
 /**
  * @param {PipelineContext} context
@@ -14,7 +15,7 @@ module.exports = async (context, input) => {
 
     return { suggestions }
   } catch (e) {
-    context.log.error(e.message)
+    context.log.error(decorateError(e), 'Failed getting the suggestions')
     throw e
   }
 }

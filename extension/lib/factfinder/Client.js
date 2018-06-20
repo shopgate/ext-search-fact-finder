@@ -1,6 +1,6 @@
 'use strict'
 const SearchAdapter = require('./client/Search')
-const { FactFinderClientSearchFilters, filterType, filterStyle, filterSelectionType } = require('./client/SearchFilters')
+const { FactFinderClientSearchFilters, filterType, filterStyle } = require('./client/SearchFilters')
 const SuggestAdapter = require('./client/Suggest')
 const SearchBuilder = require('./client/search/Builder')
 const { DEFAULT_ENCODING } = require('./client/Encoding')
@@ -22,10 +22,10 @@ class FactFinderClient {
    * add other options here, like page, filters
    *
    * @param {FactFinderClientSearchRequest} searchRequest
-   * @param {string} [uidSelector=$.id]
-   * @returns {Promise<*>}
+   * @param {string} uidSelector
+   * @returns {Promise<FactFinderClientSearchResponse>}
    */
-  search (searchRequest, uidSelector = '$.id') {
+  search (searchRequest, uidSelector) {
     const searchAdapter = new SearchAdapter(this._baseUri, this._encoding, uidSelector)
 
     return searchAdapter.execute(
@@ -48,12 +48,11 @@ class FactFinderClient {
   }
 
   /**
-   * @returns {{filterType: FactFinderClientSearchFilterType, filterSelectionType: FactFinderClientSearchFilterSelectionType, filterStyle: FactFinderClientSearchFilterStyle}}
+   * @returns {{filterType: FactFinderClientSearchFilterType, filterStyle: FactFinderClientSearchFilterStyle}}
    */
   static get groups () {
     return {
       filterType,
-      filterSelectionType,
       filterStyle
     }
   }

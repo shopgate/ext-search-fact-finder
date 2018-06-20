@@ -6,9 +6,10 @@ const {DEFAULT_ENCODING} = require('./Encoding')
 const FactFinderClientError = require('./errors/FactFinderClientError')
 const FactFinderServerError = require('./errors/FactFinderServerError')
 const FactFinderInvalidResponseError = require('./errors/FactFinderInvalidResponseError')
+const { filterPrepareValueForSearchParams } = require('./search/filter')
+const { URLSearchParams } = require('url')
 
 const ENDPOINT = '/Search.ff'
-const URL = require('url').URL
 
 class FactFinderClientSearch {
   /**
@@ -36,19 +37,28 @@ class FactFinderClientSearch {
   async execute (inputSearchRequest) {
     let searchRequest = Object.assign({}, inputSearchRequest)
 
-    const url = new URL(this.url)
+    const searchParams = []
     if (this._encoding !== DEFAULT_ENCODING) {
       searchRequest.query = urlencode(searchRequest.query, this._encoding)
     }
 
-    url.searchParams.append('format', 'json')
-    url.searchParams.append('version', '7.3')
+    searchParams.push('format=json')
+    searchParams.push('version=7.3')
 
-    for (const parameter in searchRequest) {
-      url.searchParams.append(parameter, searchRequest[parameter])
+    Object.keys(searchRequest)
+      .filter(parameter => parameter !== 'filters')
+      .forEach(parameter => {
+        searchParams.push(`${parameter}=${searchRequest[parameter]}`)
+      })
+
+    for (const filter of getFilters(searchRequest)) {
+      const { filterName, filterValue } = filterPrepareValueForSearchParams(filter.name, filter.values)
+      searchParams.push(`${filterName}=${filterValue}`)
     }
 
-    const response = await needle('get', url.toString(), {
+    const url = this.url + '?' + searchParams.join('&')
+
+    const response = await needle('get', url, {
       open_timeout: 5000,
       response_timeout: 5000,
       read_timeout: 10000
@@ -80,9 +90,34 @@ class FactFinderClientSearch {
         // e.g. "{$.record.shopid}-{$.id}"
         return this._uidSelector.replace(/(?:{([^}]*)})/g, (match, path) => jsonPath.query(product, path))
       }),
-      totalProductCount: factFinderSearchResult.resultCount
+      totalProductCount: factFinderSearchResult.resultCount,
+      followSearch: getValueFromSearchParams('followSearch', factFinderSearchResult.searchParams)
     }
   }
+}
+
+/**
+ * @param {FactFinderClientSearchRequest} searchRequest
+ * @return {FactFinderClientSearchRequestFilter[]}
+ */
+function getFilters (searchRequest) {
+  return searchRequest.filters || []
+}
+
+/**
+ *
+ * @param {string} param
+ * @param {string} searchParams
+ * @return {string | null}
+ */
+function getValueFromSearchParams (param, searchParams) {
+  if (!searchParams) {
+    return null
+  }
+
+  const urlSearchParams = new URLSearchParams(searchParams.replace(/^\//, ''))
+
+  return urlSearchParams.get(param)
 }
 
 module.exports = FactFinderClientSearch

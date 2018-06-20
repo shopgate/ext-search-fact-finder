@@ -1,4 +1,5 @@
 interface FactFinderClientSearchResponse {
-    totalProductCount: number
-    uids: string[]
+  totalProductCount: number
+  uids: string[]
+  followSearch: number
 }

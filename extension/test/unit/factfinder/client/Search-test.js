@@ -29,26 +29,28 @@ describe('FactFinderClientSearch', function () {
   it('should return uids with a simple selector', async function () {
     subjectUnderTest = new Search('http://shopgate.fact-finder.com', 'utf8', '{$.record.ARTNR}')
     needleStub.returns({body: require('./mockedApiResponses/Search-uids')})
-    assert.deepStrictEqual(await subjectUnderTest.execute({query: 'test', channel: 'test'}),
+    assert.deepStrictEqual(await subjectUnderTest.execute({query: 'test', channel: 'test', filters: []}),
       {
-        'totalProductCount': 3309,
-        'uids': [
+        totalProductCount: 3309,
+        uids: [
           '654321',
           '456789'
-        ]
+        ],
+        followSearch: '9995'
       })
   })
 
   it('should return uids with a more complex selector', async function () {
     subjectUnderTest = new Search('http://shopgate.fact-finder.com', 'utf8', '{$.record.shopid}-{$.record.ean}')
     needleStub.returns({body: require('./mockedApiResponses/Search-uids')})
-    assert.deepStrictEqual(await subjectUnderTest.execute({query: 'test', channel: 'test'}),
+    assert.deepStrictEqual(await subjectUnderTest.execute({query: 'test', channel: 'test', filters: []}),
       {
-        'totalProductCount': 3309,
-        'uids': [
+        totalProductCount: 3309,
+        uids: [
           '43540-04712511128604',
           '69923-04013833013525'
-        ]
+        ],
+        followSearch: '9995'
       })
   })
 
@@ -58,7 +60,7 @@ describe('FactFinderClientSearch', function () {
         statusCode: 400
       })
 
-    await subjectUnderTest.execute({ query: 'raspberry' }).should.eventually.be.rejectedWith(FactFinderClientError)
+    await subjectUnderTest.execute({ query: 'raspberry', filters: [] }).should.eventually.be.rejectedWith(FactFinderClientError)
   })
 
   it('should handle 5xx errors from FACT-Finder', async () => {
@@ -66,7 +68,7 @@ describe('FactFinderClientSearch', function () {
       .resolves({
         statusCode: 500
       })
-    await subjectUnderTest.execute({ query: 'raspberry' }).should.eventually.be.rejectedWith(FactFinderServerError)
+    await subjectUnderTest.execute({ query: 'raspberry', filters: [] }).should.eventually.be.rejectedWith(FactFinderServerError)
   })
 
   it('should handle invalid responses from FACT-Finder', async () => {

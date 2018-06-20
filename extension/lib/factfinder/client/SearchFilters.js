@@ -5,6 +5,7 @@ const { DEFAULT_ENCODING } = require('./Encoding')
 const FactFinderClientError = require('./errors/FactFinderClientError')
 const FactFinderServerError = require('./errors/FactFinderServerError')
 const FactFinderInvalidResponseError = require('./errors/FactFinderInvalidResponseError')
+const { filterPrepareValueForSearchParams, filterDecodeValueFromSearchParams } = require('./search/filter')
 
 const ENDPOINT = '/Search.ff'
 const URL = require('url').URL
@@ -17,16 +18,15 @@ const filterType = {
   ATTRIBUTE: 'attribute'
 }
 
-/** @type FactFinderClientSearchFilterSelectionType */
-const filterSelectionType = {
-  MULTISELECT_OR: 'multiSelectOr',
-  MULTISELECT_AND: 'multiSelectAnd',
-  SINGLE_SHOW_UNSELECTED: 'singleShowUnselected',
-  SINGLE_HIDE_UNSELECTED: 'singleHideUnselected'
-}
+// /** @type FactFinderClientSearchFilterSelectionType */
+// const filterSelectionType = {
+//   MULTISELECT_OR: 'multiSelectOr',
+//   MULTISELECT_AND: 'multiSelectAnd',
+//   SINGLE_SHOW_UNSELECTED: 'singleShowUnselected',
+//   SINGLE_HIDE_UNSELECTED: 'singleHideUnselected'
+// }
 
-/** @type FactFinderClientSearchFilterStyle */
-const filterStyle = {
+const filterStyleDefinition = {
   DEFAULT: {
     type: [ filterType.ATTRIBUTE, filterType.TEXT ]
   },
@@ -40,6 +40,11 @@ const filterStyle = {
     type: []
   }
 }
+
+const filterStyle = /** @type FactFinderClientSearchFilterStyle */{}
+Object.keys(filterStyleDefinition).forEach(filter => {
+  filterStyle[filter] = filter
+})
 
 class FactFinderClientSearchFilters {
   /**
@@ -78,7 +83,8 @@ class FactFinderClientSearchFilters {
       .forEach(parameter => url.searchParams.append(parameter, searchRequest[parameter]))
 
     for (const filter of searchRequest.filters) {
-      url.searchParams.append(`filter${filter.name}`, this._getFilterValue(filter.values))
+      const { filterName, filterValue } = filterPrepareValueForSearchParams(filter.name, filter.values)
+      url.searchParams.append(filterName, filterValue)
     }
 
     const response = await needle('get', url.toString(), {
@@ -115,30 +121,19 @@ class FactFinderClientSearchFilters {
         associatedFieldName: firstElementWithFieldName.associatedFieldName,
         name: group.name,
         filterStyle: group.filterStyle,
-        elements: group.elements
+        elements: group.elements.map(element => {
+          element.filterValue = filterDecodeValueFromSearchParams(element.associatedFieldName, element.searchParams)
+          return element
+        })
       })
     })
 
     return filters
-  }
-
-  /**
-   * @param {any} value
-   * @returns {string}
-   * @private
-   */
-  _getFilterValue (value) {
-    if (Array.isArray(value)) {
-      return value.join('~~~')
-    }
-
-    return value
   }
 }
 
 module.exports = {
   FactFinderClientSearchFilters,
   filterStyle,
-  filterType,
-  filterSelectionType
+  filterType
 }
