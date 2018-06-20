@@ -2,6 +2,7 @@
 
 const FactFinderClient = require('./factfinder/Client')
 const factFinderClientFactoryMapper = require('./shopgate/factFinderClientFactoryMapper')
+const { decorateError } = require('./shopgate/logDecorator')
 
 const filterTypeMap = {
   // DEFAULT: 'single_select',
@@ -60,7 +61,7 @@ module.exports = async function (context, input) {
 
     return { filters }
   } catch (e) {
-    context.log.error(e)
+    context.log.error(decorateError(e), 'Failed getting the filters')
     throw e
   }
 }
