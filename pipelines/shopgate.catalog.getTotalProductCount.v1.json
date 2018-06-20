@@ -11,7 +11,7 @@
       {
         "type": "extension",
         "id": "@shopgate/search-fact-finder",
-        "path": "@shopgate/search-fact-finder/lib/products.determineUseCase.js",
+        "path": "@shopgate/search-fact-finder/lib/getProducts.determineUseCase.js",
         "input": [
           {"key": "categoryId", "id": "1", "optional": true},
           {"key": "searchPhrase", "id": "2", "optional": true},
@@ -57,7 +57,7 @@
           "then": {
             "type": "extension",
             "id": "@shopgate/search-fact-finder",
-            "path": "@shopgate/search-fact-finder/lib/products.search.js",
+            "path": "@shopgate/search-fact-finder/lib/getProducts.search.js",
             "input": [
               {"key": "searchPhrase", "id": "2", "optional": true}
             ],
@@ -74,7 +74,7 @@
             "then": {
               "type": "extension",
               "id": "@shopgate/search-fact-finder",
-              "path": "@shopgate/search-fact-finder/lib/products.filterSearch.js",
+              "path": "@shopgate/search-fact-finder/lib/getProducts.filterSearch.js",
               "input": [
                 {"key": "searchPhrase", "id": "2", "optional": true},
                 {"key": "filters", "id": "3", "optional": true}
