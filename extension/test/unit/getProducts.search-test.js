@@ -21,6 +21,7 @@ describe('getProducts.search', async () => {
     }
   }
 
+  /** @var {FactFinderClient} */
   let clientStub
   let storageGetStub, storageSetStub
 

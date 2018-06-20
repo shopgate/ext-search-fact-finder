@@ -3,13 +3,11 @@ const EXTENSION = '@shopgate-search-fact-finder'
 module.exports = {
   /**
    * @param {Error} err
-   * @param {string} [importance='high']
    * @returns {Object}
    */
-  decorateError (err, importance = 'high') {
+  decorateError (err) {
     return {
       err: err,
-      importance,
       extension: EXTENSION
     }
   },
@@ -17,10 +15,9 @@ module.exports = {
   /**
    * @param {Error} err
    * @param {Object} params
-   * @param {string} importance
    */
-  decorateErrorWithParams (err, params, importance = 'high') {
-    const decoratedError = this.decorateError(err, importance)
+  decorateErrorWithParams (err, params) {
+    const decoratedError = this.decorateError(err)
     return Object.assign(decoratedError, params)
   },
 
@@ -30,7 +27,6 @@ module.exports = {
    */
   decorateDebug (properties) {
     const result = {
-      importance: 'debug',
       extension: EXTENSION
     }
 

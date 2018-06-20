@@ -74,7 +74,7 @@ module.exports = async function (context, input) {
     // store the followSearch parameter
     context.storage.device.set(followSearchCacheKey, searchResults.followSearch)
       .catch(err => {
-        context.log.error(decorateErrorWithParams(err, getCollectables(context, input, { followSearch: searchResults.followSearch })), 'Unable to store followSearch parameter')
+        context.log.warn(decorateErrorWithParams(err, getCollectables(context, input, { followSearch: searchResults.followSearch })), 'Unable to store followSearch parameter')
       })
 
     return {
