@@ -115,9 +115,13 @@ function getCollectables (context, input, additional = {}) {
  * @return {{fieldName: string, direction: string|null}}
  */
 function getFactFinderSortFieldNameAndDirection (sort) {
-  // TODO there might be mapping here necessary eg price => PREIS
+  // TODO check if we need more mappings
+  const mapping = {
+    price: 'PREIS'
+  }
+
   return {
-    fieldName: 'PREIS',
+    fieldName: mapping[sort.fieldName] ? mapping[sort.fieldName] : null,
     direction: sort.direction ? sort.direction.toLowerCase() : null
   }
 }
