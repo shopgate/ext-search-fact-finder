@@ -26,6 +26,7 @@ module.exports = async function (context, input) {
 
   try {
     const searchHash = createHash('md5').update(input.searchPhrase).digest('hex')
+    const followSearchCacheKey = `${FOLLOW_SEARCH_KEY}_${searchHash}`
 
     const searchRequest = FactFinderClient.searchRequestBuilder()
       .channel(context.config.channel)
@@ -62,7 +63,7 @@ module.exports = async function (context, input) {
       searchRequest.page(1 + Math.floor(input.offset / input.limit))
     }
 
-    const followSearch = await context.storage.device.get(getFollowSearchKey(searchHash))
+    const followSearch = await context.storage.device.get(followSearchCacheKey)
     if (followSearch) {
       context.log.debug(decorateDebug(getCollectables(context, input, { followSearch })), 'Following search')
       searchRequest.followSearch(followSearch)
@@ -71,7 +72,7 @@ module.exports = async function (context, input) {
     const searchResults = await factFinderClient.search(searchRequest.build(), context.config.uidTemplate)
 
     // store the followSearch parameter
-    context.storage.device.set(getFollowSearchKey(searchHash), searchResults.followSearch)
+    context.storage.device.set(followSearchCacheKey, searchResults.followSearch)
       .catch(err => {
         context.log.error(decorateErrorWithParams(err, getCollectables(context, input, { followSearch: searchResults.followSearch })), 'Unable to store followSearch parameter')
       })
@@ -84,14 +85,6 @@ module.exports = async function (context, input) {
     context.log.error(decorateError(err), 'Search failed')
     throw err
   }
-}
-
-/**
- * @param {string} searchHash
- * @return {string}
- */
-function getFollowSearchKey (searchHash) {
-  return `${FOLLOW_SEARCH_KEY}_${searchHash}`
 }
 
 /**
