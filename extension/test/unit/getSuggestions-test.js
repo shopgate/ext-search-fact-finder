@@ -14,6 +14,12 @@ describe('getSuggestions', async () => {
     config: {
       baseUri: 'https://www.shopgate.com/FactFinder',
       channel: 'de'
+    },
+    storage: {
+      extension: {
+        get: sandbox.stub(),
+        set: sandbox.stub()
+      }
     }
   }
 

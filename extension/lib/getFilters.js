@@ -40,9 +40,9 @@ module.exports = async function (context, input) {
         searchRequest.addFilter(shopgatefilter.label, FactFinderClient.groups.filterStyle.MULTISELECT, shopgatefilter.values)
       })
     }
-    const factFinderFilters = await factFinderClient.searchFilters(searchRequest.build())
+    const factFinderResponse = await factFinderClient.search(searchRequest.build(), context.config.uidTemplate)
 
-    const filters = factFinderFilters.filter(group => undefined !== filterTypeMap[group.filterStyle])
+    const filters = factFinderResponse.filters.filter(group => undefined !== filterTypeMap[group.filterStyle])
       .map(group => (
         {
           id: group.associatedFieldName,
