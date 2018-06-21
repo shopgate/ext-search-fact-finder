@@ -1,0 +1,109 @@
+{
+  "version": "1",
+  "pipeline": {
+    "id": "shopgate.catalog.getTotalProductCount.v1",
+    "input": [
+      {"id": "1", "key": "categoryId", "optional": true},
+      {"id": "2", "key": "searchPhrase", "optional": true},
+      {"id": "3", "key": "filters", "optional": true}
+    ],
+    "steps": [
+      {
+        "type": "extension",
+        "id": "@shopgate/search-fact-finder",
+        "path": "@shopgate/search-fact-finder/lib/getProducts.determineUseCase.js",
+        "input": [
+          {"key": "categoryId", "id": "1", "optional": true},
+          {"key": "searchPhrase", "id": "2", "optional": true},
+          {"key": "filters", "id": "3", "optional": true}
+        ],
+        "output": [
+          {"key": "isSearch", "id": "2001"},
+          {"key": "isSearchFilter", "id": "2002"},
+          {"key": "isCategoryBrowsing", "id": "2003"},
+          {"key": "isProductsById", "id": "2004"}
+        ]
+      },
+      {
+        "type": "conditional",
+        "input": [
+          {"key": "isCategoryBrowsing", "id": "2003"},
+          {"key": "isProductsById", "id": "2004"}
+        ],
+        "expression": {
+          "any": [
+            {"ok": [{"type": "input", "name": "isCategoryBrowsing"}]},
+            {"ok": [{"type": "input", "name": "isProductsById"}]}
+          ]
+        },
+        "then": {
+          "type": "pipeline",
+          "id": "__shopgate.catalog.getTotalProductCount.default.v1",
+          "input": [
+            {"key": "categoryId", "id": "1", "optional": true},
+            {"key": "searchPhrase", "id": "2", "optional": true},
+            {"key": "filters", "id": "3", "optional": true}
+          ],
+          "output": [
+            {"key": "totalProductCount", "id": "1000"}
+          ]
+        },
+        "else": {
+          "type": "conditional",
+          "input": [
+            {"key": "isSearch", "id": "2001"}
+          ],
+          "expression": { "ok": [{ "type": "input", "name": "isSearch" }] },
+          "then": {
+            "type": "extension",
+            "id": "@shopgate/search-fact-finder",
+            "path": "@shopgate/search-fact-finder/lib/getProducts.search.js",
+            "input": [
+              {"key": "searchPhrase", "id": "2", "optional": true}
+            ],
+            "output": [
+              {"key": "searchProductCount", "id": "1000"}
+            ]
+          },
+          "else": {
+            "type": "conditional",
+            "input": [
+              {"key": "isSearchFilter", "id": "2002"}
+            ],
+            "expression": { "ok": [{ "type": "input", "name": "isSearchFilter" }] },
+            "then": {
+              "type": "extension",
+              "id": "@shopgate/search-fact-finder",
+              "path": "@shopgate/search-fact-finder/lib/getProducts.filterSearch.js",
+              "input": [
+                {"key": "searchPhrase", "id": "2", "optional": true},
+                {"key": "filters", "id": "3", "optional": true}
+              ],
+              "output": [
+                {"key": "searchProductCount", "id": "1000"}
+              ]
+            },
+            "else": {
+              "type": "extension",
+              "id": "@shopgate/search-fact-finder",
+              "path": "@shopgate/search-fact-finder/lib/actionNotDeliverable.js",
+              "input": [
+                {"key": "categoryId", "id": "1", "optional": true},
+                {"key": "searchPhrase", "id": "2", "optional": true},
+                {"key": "filters", "id": "3", "optional": true}
+              ],
+              "output": []
+            }
+          }
+        }
+      }
+    ],
+    "output": [
+      {
+        "id": "1000",
+        "key": "totalProductCount"
+      }
+    ],
+    "public": true
+  }
+}
