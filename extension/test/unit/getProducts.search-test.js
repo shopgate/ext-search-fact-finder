@@ -14,7 +14,8 @@ describe('getProducts.search', async () => {
     config: {
       baseUri: 'https://www.shopgate.com/FactFinder',
       channel: 'de',
-      uidTemplate: '{$.id}'
+      uidTemplate: '{$.id}',
+      sortPriceName: 'PREIS'
     },
     storage: {
       device: {}

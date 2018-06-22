@@ -6,10 +6,46 @@ const {DEFAULT_ENCODING} = require('./Encoding')
 const FactFinderClientError = require('./errors/FactFinderClientError')
 const FactFinderServerError = require('./errors/FactFinderServerError')
 const FactFinderInvalidResponseError = require('./errors/FactFinderInvalidResponseError')
-const { filterPrepareValueForSearchParams } = require('./search/filter')
+const { filterPrepareValueForSearchParams, filterDecodeValueFromSearchParams } = require('./search/filter')
 const { URLSearchParams } = require('url')
 
 const ENDPOINT = '/Search.ff'
+
+/** @type FactFinderClientSearchFilterType */
+const filterType = {
+  NUMBER: 'number',
+  TEXT: 'text',
+  CATEGORY_PATH: 'categoryPath',
+  ATTRIBUTE: 'attribute'
+}
+
+// /** @type FactFinderClientSearchFilterSelectionType */
+// const filterSelectionType = {
+//   MULTISELECT_OR: 'multiSelectOr',
+//   MULTISELECT_AND: 'multiSelectAnd',
+//   SINGLE_SHOW_UNSELECTED: 'singleShowUnselected',
+//   SINGLE_HIDE_UNSELECTED: 'singleHideUnselected'
+// }
+
+const filterStyleDefinition = {
+  DEFAULT: {
+    type: [ filterType.ATTRIBUTE, filterType.TEXT ]
+  },
+  MULTISELECT: {
+    type: [ filterType.TEXT, filterType.NUMBER ]
+  },
+  TREE: {
+    type: [ filterType.CATEGORY_PATH ]
+  },
+  SLIDER: {
+    type: []
+  }
+}
+
+const filterStyle = /** @type FactFinderClientSearchFilterStyle */{}
+Object.keys(filterStyleDefinition).forEach(filter => {
+  filterStyle[filter] = filter
+})
 
 class FactFinderClientSearch {
   /**
@@ -78,6 +114,11 @@ class FactFinderClientSearch {
 
     const factFinderSearchResult = response.body.searchResult
 
+    let filters = []
+    if (response.body.searchResult.groups) {
+      filters = prepareFiltersFromResponse(response)
+    }
+
     return {
       uids: factFinderSearchResult.records.map((product) => {
         if (!this._uidSelector.includes('{')) {
@@ -91,9 +132,37 @@ class FactFinderClientSearch {
         return this._uidSelector.replace(/(?:{([^}]*)})/g, (match, path) => jsonPath.query(product, path))
       }),
       totalProductCount: factFinderSearchResult.resultCount,
-      followSearch: getValueFromSearchParams('followSearch', factFinderSearchResult.searchParams)
+      followSearch: getValueFromSearchParams('followSearch', factFinderSearchResult.searchParams),
+      filters
     }
   }
+}
+
+/**
+ * @param {Object} response
+ * @return {FactFinderClientSearchFilter[]}
+ */
+function prepareFiltersFromResponse (response) {
+  const filters = []
+
+  response.body.searchResult.groups.forEach(group => {
+    const firstElementWithFieldName = group.elements.find(element => element.associatedFieldName !== undefined)
+    if (!firstElementWithFieldName) {
+      return
+    }
+
+    filters.push({
+      associatedFieldName: firstElementWithFieldName.associatedFieldName,
+      name: group.name,
+      filterStyle: group.filterStyle,
+      elements: group.elements.map(element => {
+        element.filterValue = filterDecodeValueFromSearchParams(element.associatedFieldName, element.searchParams)
+        return element
+      })
+    })
+  })
+
+  return filters
 }
 
 /**
@@ -120,4 +189,8 @@ function getValueFromSearchParams (param, searchParams) {
   return urlSearchParams.get(param)
 }
 
-module.exports = FactFinderClientSearch
+module.exports = {
+  FactFinderClientSearch,
+  filterStyle,
+  filterType
+}

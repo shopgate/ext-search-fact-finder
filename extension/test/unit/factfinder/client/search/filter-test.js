@@ -13,12 +13,12 @@ describe('FactFinderClientSearchFilter', function () {
         '/fact-finder/Search.ff?query=raspberry&filterPREIS=%3E%3D+75.00&channel=de&followSearch=9998&format=JSON'
       ]
       const expectedFilterValue = [
-        '<+5.00',
+        '%3C+5.00',
         '5.00+-+7.49',
         '7.50+-+9.99',
         '10.00+-+49.99',
         '50.00+-+74.99',
-        '>=+75.00'
+        '%3E%3D+75.00'
       ]
 
       assert.deepStrictEqual(expectedFilterValue.length, searchParams.length, 'The test is not correctly prepared, expectedFilterValue values and search param values must be of equal size')

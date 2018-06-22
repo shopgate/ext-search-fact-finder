@@ -30,4 +30,5 @@ interface PipelineConfiguration {
   channel: string
   encoding: string,
   uidTemplate: string
+  sortPriceName: string
 }

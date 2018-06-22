@@ -3,11 +3,7 @@
 const FactFinderClient = require('./factfinder/Client')
 const factFinderClientFactoryMapper = require('./shopgate/factFinderClientFactoryMapper')
 const { decorateError } = require('./shopgate/logDecorator')
-
-const filterTypeMap = {
-  // DEFAULT: 'single_select',
-  MULTISELECT: 'multiselect'
-}
+const { filterTypeMap, getFactFinderAppliedFilterFromShopgate } = require('./shopgate/product/search/filter')
 
 /**
  * @type {FactFinderClient}
@@ -35,14 +31,13 @@ module.exports = async function (context, input) {
 
     if (input.filters) {
       Object.keys(input.filters).forEach(filter => {
-        const shopgatefilter = input.filters[filter]
-        // atm we support only multi select
-        searchRequest.addFilter(shopgatefilter.label, FactFinderClient.groups.filterStyle.MULTISELECT, shopgatefilter.values)
+        const { filterStyle, filterValue } = getFactFinderAppliedFilterFromShopgate(input.filters[filter])
+        searchRequest.addFilter(filter, filterStyle, filterValue)
       })
     }
-    const factFinderFilters = await factFinderClient.searchFilters(searchRequest.build())
+    const factFinderResponse = await factFinderClient.search(searchRequest.build(), context.config.uidTemplate)
 
-    const filters = factFinderFilters.filter(group => undefined !== filterTypeMap[group.filterStyle])
+    const filters = factFinderResponse.filters.filter(group => undefined !== filterTypeMap[group.filterStyle])
       .map(group => (
         {
           id: group.associatedFieldName,

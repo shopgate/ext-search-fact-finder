@@ -8,7 +8,7 @@ chai.use(require('chai-as-promised')).should()
 const FactFinderServerError = require('../../../../lib/factfinder/client/errors/FactFinderServerError')
 const FactFinderClientError = require('../../../../lib/factfinder/client/errors/FactFinderClientError')
 
-let { FactFinderClientSearchFilters } = require('../../../../lib/factfinder/client/SearchFilters')
+let { FactFinderClientSearchFilters } = require('../../../../lib/factfinder/client/Search')
 
 describe('FactFinderClientSearchFilters', function () {
   let needleStub, searchFilters
@@ -17,11 +17,11 @@ describe('FactFinderClientSearchFilters', function () {
 
   beforeEach(() => {
     needleStub = sandbox.stub()
-    FactFinderClientSearchFilters = proxyquire('../../../../lib/factfinder/client/SearchFilters', {
+    FactFinderClientSearchFilters = proxyquire('../../../../lib/factfinder/client/Search', {
       'needle': needleStub
-    }).FactFinderClientSearchFilters
+    }).FactFinderClientSearch
 
-    searchFilters = new FactFinderClientSearchFilters('https://www.shopgate.com', 'utf8')
+    searchFilters = new FactFinderClientSearchFilters('https://www.shopgate.com', 'utf8', '$.id')
   })
 
   afterEach(() => {
@@ -29,7 +29,7 @@ describe('FactFinderClientSearchFilters', function () {
   })
 
   it('should return a list of filters', async () => {
-    needleStub.withArgs('get', 'https://www.shopgate.com/Search.ff?format=json&version=7.3&query=raspberry&channel=de')
+    needleStub
       .resolves({
         statusCode: 200,
         body: require('./mockedApiResponses/getFilteredSearch.full.success')
@@ -70,7 +70,7 @@ describe('FactFinderClientSearchFilters', function () {
         elements: [
           {
             associatedFieldName: 'serie',
-            filterValue: 'FG/FS+Series',
+            filterValue: 'FG%2FFS+Series',
             clusterLevel: 0,
             name: 'FG/FS Series',
             previewImageURL: null,
@@ -80,7 +80,7 @@ describe('FactFinderClientSearchFilters', function () {
           },
           {
             associatedFieldName: 'serie',
-            filterValue: 'FGX/FSX+Series',
+            filterValue: 'FGX%2FFSX+Series',
             clusterLevel: 0,
             name: 'FGX/FSX Series',
             previewImageURL: null,
@@ -173,7 +173,11 @@ describe('FactFinderClientSearchFilters', function () {
       }
     ]
     const actual = await searchFilters.execute({ query: 'raspberry', channel: 'de', filters: [] })
-    chai.assert.deepEqual(actual, expected)
+    chai.assert.deepEqual(actual.filters, expected)
+    sinon.assert.calledWith(needleStub, sinon.match(
+      'get',
+      'https://www.shopgate.com/Search.ff?format=json&version=7.3&query=raspberry&channel=de'
+    ))
   })
 
   it('should handle 5xx errors from FACT-Finder', async () => {

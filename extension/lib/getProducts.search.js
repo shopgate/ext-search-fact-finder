@@ -1,8 +1,9 @@
+const { createHash } = require('crypto')
 const FactFinderClient = require('./factfinder/Client')
 const factFinderClientFactoryMapper = require('./shopgate/factFinderClientFactoryMapper')
 const { decorateError, decorateErrorWithParams, decorateDebug } = require('./shopgate/logDecorator')
 const ShopgateProductSearchSort = require('./shopgate/product/search/sort')
-const { createHash } = require('crypto')
+const { getFactFinderAppliedFilterFromShopgate } = require('./shopgate/product/search/filter')
 
 const FOLLOW_SEARCH_KEY = 'followSearch'
 
@@ -40,20 +41,19 @@ module.exports = async function (context, input) {
         shopgateSort = ShopgateProductSearchSort.random
       }
 
-      const { fieldName, direction } = getFactFinderSortFieldNameAndDirection(shopgateSort)
+      const direction = getSortDirection(shopgateSort)
       if (direction === null) {
         searchRequest.sortByRelevance()
       } else {
-        searchRequest.sortBy(fieldName, direction)
+        searchRequest.sortBy(context.config.sortPriceName, direction)
       }
     }
 
     // filters
     if (input.filters) {
       Object.keys(input.filters).forEach(filter => {
-        const shopgatefilter = input.filters[filter]
-        // atm we support only multi select
-        searchRequest.addFilter(filter, FactFinderClient.groups.filterStyle.MULTISELECT, shopgatefilter.values)
+        const { filterStyle, filterValue } = getFactFinderAppliedFilterFromShopgate(input.filters[filter])
+        searchRequest.addFilter(filter, filterStyle, filterValue)
       })
     }
 
@@ -105,16 +105,8 @@ function getCollectables (context, input, additional = {}) {
 
 /**
  * @param {ShopgateProductSearchSort} sort
- * @return {{fieldName: string, direction: string|null}}
+ * @return {string|null}
  */
-function getFactFinderSortFieldNameAndDirection (sort) {
-  // TODO check if we need more mappings
-  const mapping = {
-    price: 'PREIS'
-  }
-
-  return {
-    fieldName: mapping[sort.fieldName] ? mapping[sort.fieldName] : null,
-    direction: sort.direction ? sort.direction.toLowerCase() : null
-  }
+function getSortDirection (sort) {
+  return sort.direction ? sort.direction.toLowerCase() : null
 }
