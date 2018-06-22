@@ -10,7 +10,7 @@ function filterDecodeValueFromSearchParams (filterName, searchParams) {
     return null
   }
 
-  return decodeURIComponent(`${matches[1]}`)
+  return matches[1]
 }
 
 /**

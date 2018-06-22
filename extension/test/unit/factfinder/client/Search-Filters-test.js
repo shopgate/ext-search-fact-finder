@@ -70,7 +70,7 @@ describe('FactFinderClientSearchFilters', function () {
         elements: [
           {
             associatedFieldName: 'serie',
-            filterValue: 'FG/FS+Series',
+            filterValue: 'FG%2FFS+Series',
             clusterLevel: 0,
             name: 'FG/FS Series',
             previewImageURL: null,
@@ -80,7 +80,7 @@ describe('FactFinderClientSearchFilters', function () {
           },
           {
             associatedFieldName: 'serie',
-            filterValue: 'FGX/FSX+Series',
+            filterValue: 'FGX%2FFSX+Series',
             clusterLevel: 0,
             name: 'FGX/FSX Series',
             previewImageURL: null,
