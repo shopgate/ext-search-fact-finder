@@ -25,11 +25,10 @@ module.exports = async (context, input) => {
       /** @type {FactFinderClient} */
       const factFinderClient = factFinderClientMapper(context.config)
       suggestions = await factFinderClient.suggest({query: input.searchPhrase, channel: context.config.channel})
-      try {
-        await expirationStorage.set(cacheKey, suggestions, 3600 * 12)
-      } catch (err) {
+
+      expirationStorage.set(cacheKey, suggestions, 3600 * 12).catch((err) => {
         context.log.error(decorateError(err), 'Unable to cache suggestions')
-      }
+      })
     }
 
     return { suggestions }

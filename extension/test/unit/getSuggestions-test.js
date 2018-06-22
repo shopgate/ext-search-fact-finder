@@ -58,4 +58,18 @@ describe('getSuggestions', async () => {
     await getSuggestions(context, { searchPhrase: 'raspberry' }).should.be.rejected
     sinon.assert.called(context.log.error)
   })
+
+  it('should log if reading from cache fails', async () => {
+    context.storage.extension.get.rejects(new Error())
+
+    await getSuggestions(context, { searchPhrase: 'raspberry' })
+    sinon.assert.called(context.log.error)
+  })
+
+  it('should log if wrtiting to cache fails', async () => {
+    context.storage.extension.set.rejects(new Error())
+
+    await getSuggestions(context, { searchPhrase: 'raspberry' })
+    sinon.assert.called(context.log.error)
+  })
 })
