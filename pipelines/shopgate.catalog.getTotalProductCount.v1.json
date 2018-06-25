@@ -20,22 +20,15 @@
         "output": [
           {"key": "isSearch", "id": "2001"},
           {"key": "isSearchFilter", "id": "2002"},
-          {"key": "isCategoryBrowsing", "id": "2003"},
-          {"key": "isProductsById", "id": "2004"}
+          {"key": "isCategoryBrowsing", "id": "2003"}
         ]
       },
       {
         "type": "conditional",
         "input": [
-          {"key": "isCategoryBrowsing", "id": "2003"},
-          {"key": "isProductsById", "id": "2004"}
+          {"key": "isCategoryBrowsing", "id": "2003"}
         ],
-        "expression": {
-          "any": [
-            {"ok": [{"type": "input", "name": "isCategoryBrowsing"}]},
-            {"ok": [{"type": "input", "name": "isProductsById"}]}
-          ]
-        },
+        "expression": {"ok": [{"type": "input", "name": "isCategoryBrowsing"}]},
         "then": {
           "type": "pipeline",
           "id": "__shopgate.catalog.getTotalProductCount.default.v1",
