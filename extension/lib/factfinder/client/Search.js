@@ -1,11 +1,12 @@
 'use strict'
 const urlencode = require('urlencode')
-const needle = require('needle')
+const { tracedRequest } = require('../../common/requestResolver')
 const jsonPath = require('jsonpath')
 const {DEFAULT_ENCODING} = require('./Encoding')
 const FactFinderClientError = require('./errors/FactFinderClientError')
 const FactFinderServerError = require('./errors/FactFinderServerError')
 const FactFinderInvalidResponseError = require('./errors/FactFinderInvalidResponseError')
+const { promisify } = require('util')
 const { filterPrepareValueForSearchParams, filterDecodeValueFromSearchParams } = require('./search/filter')
 const { URLSearchParams } = require('url')
 
@@ -93,11 +94,10 @@ class FactFinderClientSearch {
     }
 
     const url = this.url + '?' + searchParams.join('&')
-
-    const response = await needle('get', url, {
-      open_timeout: 5000,
-      response_timeout: 5000,
-      read_timeout: 10000
+    const response = await promisify(tracedRequest('Fact-Finder:search'))({
+      url: url.toString(),
+      timeout: 10000,
+      json: true
     })
 
     if (response.statusCode >= 500) {
@@ -114,6 +114,7 @@ class FactFinderClientSearch {
 
     const factFinderSearchResult = response.body.searchResult
 
+    // `${product.record.shopid}-${product.id}`
     let filters = []
     if (response.body.searchResult.groups) {
       filters = prepareFiltersFromResponse(response)

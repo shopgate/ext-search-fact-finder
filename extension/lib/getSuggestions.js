@@ -3,12 +3,16 @@ const factFinderClientMapper = require('./shopgate/factFinderClientFactoryMapper
 const ExpirationStorage = require('./shopgate/storage/ExpirationStorage')
 const { createHash } = require('crypto')
 const { decorateError } = require('./shopgate/logDecorator')
+const { useTracedRequestImplementation } = require('./common/requestResolver')
+
 /**
  * @param {PipelineContext} context
  * @param {getSearchSuggestionsInput} input
  * @returns {Promise<getSearchSuggestionsOutput>}
  */
 module.exports = async (context, input) => {
+  useTracedRequestImplementation(context.tracedRequest)
+
   try {
     const expirationStorage = ExpirationStorage.create(context.storage.extension)
     const suggestHash = createHash('md5').update(input.searchPhrase).digest('hex')

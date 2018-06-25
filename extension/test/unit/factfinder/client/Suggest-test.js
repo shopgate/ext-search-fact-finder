@@ -12,14 +12,16 @@ const FactFinderInvalidResponseError = require('../../../../lib/factfinder/clien
 let FactFinderClientSuggest = require('../../../../lib/factfinder/client/Suggest')
 
 describe('FactFinderClientSuggest', function () {
-  let needleStub, suggest
+  let requestStub, suggest, promisifyStub
 
   const sandbox = sinon.createSandbox()
 
   beforeEach(() => {
-    needleStub = sandbox.stub()
+    requestStub = sandbox.stub()
+    promisifyStub = sandbox.stub()
     FactFinderClientSuggest = proxyquire('../../../../lib/factfinder/client/Suggest', {
-      'needle': needleStub
+      '../../common/requestResolver': { tracedRequest: requestStub },
+      'util': { promisify: promisifyStub }
     })
     suggest = new FactFinderClientSuggest('https://www.shopgate.com', 'utf8')
   })
@@ -29,11 +31,18 @@ describe('FactFinderClientSuggest', function () {
   })
 
   it('should return a list of suggestions', async () => {
-    needleStub.withArgs('get', 'https://www.shopgate.com/Suggest.ff?format=json&query=raspberry&channel=de')
-      .resolves({
+    promisifyStub.returns((options) => {
+      chai.assert.deepEqual(options, {
+        url: 'https://www.shopgate.com/Suggest.ff?format=json&query=raspberry&channel=de',
+        json: true,
+        timeout: 10000
+      })
+
+      return {
         statusCode: 200,
         body: require('./mockedApiResponses/getSuggestions.success')
-      })
+      }
+    })
 
     const expected = [
       'RASPBERRY',
@@ -47,28 +56,30 @@ describe('FactFinderClientSuggest', function () {
   })
 
   it('should handle 4xx errors from FACT-Finder', async () => {
-    needleStub
-      .resolves({
+    promisifyStub
+      .returns(() => ({
         statusCode: 400
-      })
+      }))
 
     await suggest.execute({ query: 'raspberry' }).should.eventually.be.rejectedWith(FactFinderClientError)
   })
 
   it('should handle 5xx errors from FACT-Finder', async () => {
-    needleStub
-      .resolves({
+    promisifyStub
+      .returns(() => ({
         statusCode: 500
-      })
+      }))
+
     await suggest.execute({ query: 'raspberry' }).should.eventually.be.rejectedWith(FactFinderServerError)
   })
 
   it('should handle invalid responses from FACT-Finder', async () => {
-    needleStub
-      .resolves({
+    promisifyStub
+      .returns(() => ({
         statusCode: 200,
         body: {}
-      })
+      }))
+
     await suggest.execute({ query: 'raspberry' }).should.eventually.be.rejectedWith(FactFinderInvalidResponseError)
   })
 })
