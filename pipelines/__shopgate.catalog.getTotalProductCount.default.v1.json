@@ -1,0 +1,126 @@
+{
+  "version": "1",
+  "pipeline": {
+    "id": "__shopgate.catalog.getTotalProductCount.default.v1",
+    "input": [
+      {
+        "id": "1",
+        "key": "categoryId",
+        "optional": true
+      },
+      {
+        "id": "2",
+        "key": "searchPhrase",
+        "optional": true
+      },
+      {
+        "id": "3",
+        "key": "filters",
+        "optional": true
+      }
+    ],
+    "steps": [
+      {
+        "id": "@shopgate/products",
+        "path": "@shopgate/products/products/getTotalProductCount.js",
+        "type": "extension",
+        "input": [
+          {
+            "id": "1",
+            "key": "categoryId",
+            "optional": true
+          },
+          {
+            "id": "2",
+            "key": "searchPhrase",
+            "optional": true
+          },
+          {
+            "id": "3",
+            "key": "filters",
+            "optional": true
+          }
+        ],
+        "output": [
+          {
+            "id": "10",
+            "key": "service"
+          },
+          {
+            "id": "11",
+            "key": "version"
+          },
+          {
+            "id": "12",
+            "key": "path"
+          },
+          {
+            "id": "13",
+            "key": "method"
+          },
+          {
+            "id": "14",
+            "key": "query"
+          }
+        ]
+      },
+      {
+        "id": "@shopgate/bigapi",
+        "path": "@shopgate/bigapi/big-api/getBigApiResult.js",
+        "type": "extension",
+        "input": [
+          {
+            "id": "10",
+            "key": "service"
+          },
+          {
+            "id": "11",
+            "key": "version"
+          },
+          {
+            "id": "12",
+            "key": "path"
+          },
+          {
+            "id": "13",
+            "key": "method"
+          },
+          {
+            "id": "14",
+            "key": "query"
+          }
+        ],
+        "output": [
+          {
+            "id": "101",
+            "key": "meta"
+          }
+        ]
+      },
+      {
+        "id": "@shopgate/products",
+        "path": "@shopgate/products/products/convertProducts.js",
+        "type": "extension",
+        "input": [
+          {
+            "id": "101",
+            "key": "meta"
+          }
+        ],
+        "output": [
+          {
+            "id": "1000",
+            "key": "totalProductCount"
+          }
+        ]
+      }
+    ],
+    "output": [
+      {
+        "id": "1000",
+        "key": "totalProductCount"
+      }
+    ],
+    "public": true
+  }
+}
