@@ -15,13 +15,6 @@ const tracedRequestOptions = {
 
 /**
  * @param {function} useRequestImplementation
- */
-function useRequestImplementation (useRequestImplementation) {
-  requestImplementation = useRequestImplementation
-}
-
-/**
- * @param {function} useRequestImplementation
  * @param {boolean} shouldLog
  * @param {string} logLevel
  */
@@ -54,7 +47,6 @@ function tracedAndLoggedRequest (name, logLevel = LOG_DEBUG) {
 }
 
 module.exports = {
-  useRequestImplementation,
   useTracedRequestImplementation,
   tracedRequest,
   tracedAndLoggedRequest,
