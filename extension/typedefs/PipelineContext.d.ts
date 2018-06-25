@@ -7,11 +7,11 @@ interface PipelineContext {
 }
 
 interface PipelineStorage {
-  get (key: string)
+  get (key: string) : Promise<string | number | Object>
 
-  set (key: string, value: string | number | Object)
+  set (key: string, value: string | number | Object) : Promise
 
-  del (key: string)
+  del (key: string) : Promise
 }
 
 interface PipelineStorageContainer {
@@ -28,5 +28,7 @@ interface PipelineConfiguration {
   authenticationPrefix?: string
   authenticationPostfix?: string
   channel: string
-  encoding: string
+  encoding: string,
+  uidTemplate: string
+  sortPriceName: string
 }

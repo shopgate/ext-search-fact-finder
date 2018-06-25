@@ -8,7 +8,7 @@ chai.use(require('chai-as-promised')).should()
 const FactFinderServerError = require('../../../../lib/factfinder/client/errors/FactFinderServerError')
 const FactFinderClientError = require('../../../../lib/factfinder/client/errors/FactFinderClientError')
 
-let { FactFinderClientSearchFilters } = require('../../../../lib/factfinder/client/SearchFilters')
+let { FactFinderClientSearchFilters } = require('../../../../lib/factfinder/client/Search')
 
 describe('FactFinderClientSearchFilters', function () {
   let requestStub, searchFilters, promisifyStub
@@ -19,12 +19,12 @@ describe('FactFinderClientSearchFilters', function () {
     requestStub = sandbox.stub()
     promisifyStub = sandbox.stub()
 
-    FactFinderClientSearchFilters = proxyquire('../../../../lib/factfinder/client/SearchFilters', {
+    FactFinderClientSearchFilters = proxyquire('../../../../lib/factfinder/client/Search', {
       '../../common/requestResolver': { tracedRequest: requestStub },
       'util': { promisify: promisifyStub }
-    }).FactFinderClientSearchFilters
+    }).FactFinderClientSearch
 
-    searchFilters = new FactFinderClientSearchFilters('https://www.shopgate.com', 'utf8')
+    searchFilters = new FactFinderClientSearchFilters('https://www.shopgate.com', 'utf8', '$.id')
   })
 
   afterEach(() => {
@@ -53,6 +53,7 @@ describe('FactFinderClientSearchFilters', function () {
         elements: [
           {
             associatedFieldName: 'breadcrumbROOT/Gitarren/Westerngitarren',
+            filterValue: 'Dreadnought',
             clusterLevel: 2,
             name: 'Dreadnought',
             previewImageURL: null,
@@ -62,6 +63,7 @@ describe('FactFinderClientSearchFilters', function () {
           },
           {
             associatedFieldName: 'breadcrumbROOT/Gitarren/Westerngitarren',
+            filterValue: 'Folk-Gitarren',
             clusterLevel: 2,
             name: 'Folk-Gitarren',
             previewImageURL: null,
@@ -78,6 +80,7 @@ describe('FactFinderClientSearchFilters', function () {
         elements: [
           {
             associatedFieldName: 'serie',
+            filterValue: 'FG%2FFS+Series',
             clusterLevel: 0,
             name: 'FG/FS Series',
             previewImageURL: null,
@@ -87,6 +90,7 @@ describe('FactFinderClientSearchFilters', function () {
           },
           {
             associatedFieldName: 'serie',
+            filterValue: 'FGX%2FFSX+Series',
             clusterLevel: 0,
             name: 'FGX/FSX Series',
             previewImageURL: null,
@@ -103,6 +107,7 @@ describe('FactFinderClientSearchFilters', function () {
         elements: [
           {
             associatedFieldName: 'Tonabnehmer',
+            filterValue: 'nein',
             clusterLevel: 0,
             name: 'nein',
             previewImageURL: null,
@@ -112,6 +117,7 @@ describe('FactFinderClientSearchFilters', function () {
           },
           {
             associatedFieldName: 'Tonabnehmer',
+            filterValue: 'ja',
             clusterLevel: 0,
             name: 'ja',
             previewImageURL: null,
@@ -128,6 +134,7 @@ describe('FactFinderClientSearchFilters', function () {
         elements: [
           {
             associatedFieldName: 'Korpusform',
+            filterValue: 'Dreadnought',
             clusterLevel: 0,
             name: 'Dreadnought',
             previewImageURL: null,
@@ -137,6 +144,7 @@ describe('FactFinderClientSearchFilters', function () {
           },
           {
             associatedFieldName: 'Korpusform',
+            filterValue: 'Folk',
             clusterLevel: 0,
             name: 'Folk',
             previewImageURL: null,
@@ -153,6 +161,7 @@ describe('FactFinderClientSearchFilters', function () {
         elements: [
           {
             associatedFieldName: 'Cutaway',
+            filterValue: 'nein',
             clusterLevel: 0,
             name: 'nein',
             previewImageURL: null,
@@ -162,6 +171,7 @@ describe('FactFinderClientSearchFilters', function () {
           },
           {
             associatedFieldName: 'Cutaway',
+            filterValue: 'ja',
             clusterLevel: 0,
             name: 'ja',
             previewImageURL: null,

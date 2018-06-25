@@ -38,6 +38,7 @@ describe('getFilters', async () => {
         elements: [
           {
             associatedFieldName: 'breadcrumbROOT/Gitarren/Westerngitarren',
+            filterValue: 'Dreadnought',
             clusterLevel: 2,
             name: 'Dreadnought',
             previewImageURL: null,
@@ -47,6 +48,7 @@ describe('getFilters', async () => {
           },
           {
             associatedFieldName: 'breadcrumbROOT/Gitarren/Westerngitarren',
+            filterValue: 'Folk-Gitarren',
             clusterLevel: 2,
             name: 'Folk-Gitarren',
             previewImageURL: null,
@@ -63,6 +65,7 @@ describe('getFilters', async () => {
         elements: [
           {
             associatedFieldName: 'Tonabnehmer',
+            filterValue: 'nein',
             clusterLevel: 0,
             name: 'nein',
             previewImageURL: null,
@@ -72,6 +75,7 @@ describe('getFilters', async () => {
           },
           {
             associatedFieldName: 'Tonabnehmer',
+            filterValue: 'ja',
             clusterLevel: 0,
             name: 'ja',
             previewImageURL: null,
@@ -83,9 +87,8 @@ describe('getFilters', async () => {
       }
     ]
 
-    clientStub.searchFilters
-      .withArgs({ query: 'raspberry', channel: 'de', filters: [] })
-      .resolves(returnedFilters)
+    clientStub.search
+      .resolves({ filters: returnedFilters })
 
     chai.assert.deepEqual(await getFilters(context, { searchPhrase: 'raspberry' }), {
       filters: [

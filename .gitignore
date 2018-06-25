@@ -62,6 +62,9 @@ typings/
 .vscode/
 
 package-lock.json
+yarn.lock
 frontend/config.json
 extension/config.json
 extension/precommit.hook
+.integration-credentials.js
+

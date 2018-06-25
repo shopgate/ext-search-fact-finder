@@ -1,6 +1,5 @@
 'use strict'
-const SearchAdapter = require('./client/Search')
-const { FactFinderClientSearchFilters, filterType, filterStyle, filterSelectionType } = require('./client/SearchFilters')
+const { FactFinderClientSearch, filterType, filterStyle } = require('./client/Search')
 const SuggestAdapter = require('./client/Suggest')
 const SearchBuilder = require('./client/search/Builder')
 const { DEFAULT_ENCODING } = require('./client/Encoding')
@@ -22,10 +21,11 @@ class FactFinderClient {
    * add other options here, like page, filters
    *
    * @param {FactFinderClientSearchRequest} searchRequest
-   * @returns {Promise<*>}
+   * @param {string} uidSelector
+   * @returns {Promise<FactFinderClientSearchResponse>}
    */
-  search (searchRequest) {
-    const searchAdapter = new SearchAdapter(this._baseUri, this._encoding)
+  search (searchRequest, uidSelector) {
+    const searchAdapter = new FactFinderClientSearch(this._baseUri, this._encoding, uidSelector)
 
     return searchAdapter.execute(
       this._factFinderAuthentication.addAuthentication(searchRequest)
@@ -33,26 +33,11 @@ class FactFinderClient {
   }
 
   /**
-   * add other options here, like page, filters
-   *
-   * @param {FactFinderClientSearchRequest} searchRequest
-   * @returns {Promise<FactFinderClientSearchFilter[]>}
-   */
-  searchFilters (searchRequest) {
-    const searchFilters = new FactFinderClientSearchFilters(this._baseUri, this._encoding)
-
-    return searchFilters.execute(
-      this._factFinderAuthentication.addAuthentication(searchRequest)
-    )
-  }
-
-  /**
-   * @returns {{filterType: FactFinderClientSearchFilterType, filterSelectionType: FactFinderClientSearchFilterSelectionType, filterStyle: FactFinderClientSearchFilterStyle}}
+   * @returns {{filterType: FactFinderClientSearchFilterType, filterStyle: FactFinderClientSearchFilterStyle}}
    */
   static get groups () {
     return {
       filterType,
-      filterSelectionType,
       filterStyle
     }
   }
