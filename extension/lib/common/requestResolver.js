@@ -1,6 +1,7 @@
 let requestImplementation = require('request')
 
-const LOG_ERROR = 'warn'
+const LOG_FATAL = 'fatal'
+const LOG_ERROR = 'error'
 const LOG_WARNING = 'warn'
 const LOG_INFO = 'info'
 const LOG_DEBUG = 'debug'
@@ -57,6 +58,7 @@ module.exports = {
   useTracedRequestImplementation,
   tracedRequest,
   tracedAndLoggedRequest,
+  LOG_FATAL,
   LOG_ERROR,
   LOG_DEBUG,
   LOG_INFO,
