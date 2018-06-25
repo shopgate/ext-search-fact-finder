@@ -45,7 +45,7 @@ describe('FactFinderClientSearch', function () {
   })
 
   it('should return uids with a more complex selector', async function () {
-    subjectUnderTest = new FactFinderClientSearch('http://shopgate.fact-finder.com', 'utf8', '{$.record.shopid}-{$.record.ean})
+    subjectUnderTest = new FactFinderClientSearch('http://shopgate.fact-finder.com', 'utf8', '{$.record.shopid}-{$.record.ean}')
     promisifyStub.returns(() => ({ body: require('./mockedApiResponses/Search-uids') }))
     assert.deepStrictEqual(await subjectUnderTest.execute({query: 'test', channel: 'test', filters: []}),
       {

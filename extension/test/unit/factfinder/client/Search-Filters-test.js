@@ -183,7 +183,7 @@ describe('FactFinderClientSearchFilters', function () {
       }
     ]
     const actual = await searchFilters.execute({ query: 'raspberry', channel: 'de', filters: [] })
-    chai.assert.deepEqual(actual, expected)
+    chai.assert.deepEqual(actual.filters, expected)
   })
 
   it('should handle 5xx errors from FACT-Finder', async () => {
