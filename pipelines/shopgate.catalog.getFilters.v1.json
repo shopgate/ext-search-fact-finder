@@ -1,0 +1,44 @@
+{
+  "version": "1",
+  "pipeline": {
+    "id": "shopgate.catalog.getFilters.v1",
+    "public": true,
+    "input": [
+      {"key": "categoryId", "id": "1", "optional": true},
+      {"key": "searchPhrase", "id": "2", "optional": true},
+      {"key": "filters", "id": "3", "optional": true}
+    ],
+    "output": [{"key": "filters", "id": "1000"}],
+    "steps": [
+      {
+        "type": "conditional",
+        "input": [
+          {"key": "categoryId", "id": "1", "optional": true}
+        ],
+        "expression": {"ok": [{"name": "categoryId"}]},
+        "then": {
+          "type": "pipeline",
+          "id": "__shopgate.catalog.getFilters.default.v1",
+          "input": [
+            {"key": "categoryId", "id": "1", "optional": true}
+          ],
+          "output": [
+            {"id": "1000", "key": "filters"}
+          ]
+        },
+        "else": {
+          "type": "extension",
+          "id": "@shopgate/search-fact-finder",
+          "path": "@shopgate/search-fact-finder/lib/getFilters.js",
+          "input": [
+            {"key": "searchPhrase", "id": "2", "optional": true},
+            {"key": "filters", "id": "3", "optional": true}
+          ],
+          "output": [
+            {"key": "filters","id": "1000"}
+          ]
+        }
+      }
+    ]
+  }
+}

@@ -1,7 +1,117 @@
 {
-  "version": "0.1.0",
+  "version": "0.1.0-beta.3",
   "id": "@shopgate/search-fact-finder",
   "components": [],
   "configuration": {
+    "baseUri": {
+      "type": "bigApi",
+      "destination": "backend",
+      "default": null,
+      "params": {
+        "method": "GET",
+        "service": "config",
+        "path": "/v1/shop/%(shopId)s/sgc_ext_fact_finder_settings?parsed=true",
+        "key": "value.merchantUrlWithoutAction"
+      }
+    },
+    "username": {
+      "type": "bigApi",
+      "destination": "backend",
+      "default": null,
+      "params": {
+        "method": "GET",
+        "service": "config",
+        "path": "/v1/shop/%(shopId)s/sgc_ext_fact_finder_settings?parsed=true",
+        "key": "value.username"
+      }
+    },
+    "password": {
+      "type": "bigApi",
+      "destination": "backend",
+      "default": null,
+      "params": {
+        "method": "GET",
+        "service": "config",
+        "path": "/v1/shop/%(shopId)s/sgc_ext_fact_finder_settings?parsed=true",
+        "key": "value.password"
+      }
+    },
+    "authenticationType": {
+      "type": "bigApi",
+      "destination": "backend",
+      "default": null,
+      "params": {
+        "method": "GET",
+        "service": "config",
+        "path": "/v1/shop/%(shopId)s/sgc_ext_fact_finder_settings?parsed=true",
+        "key": "value.authenticationType"
+      }
+    },
+    "authenticationPrefix": {
+      "type": "bigApi",
+      "destination": "backend",
+      "default": null,
+      "params": {
+        "method": "GET",
+        "service": "config",
+        "path": "/v1/shop/%(shopId)s/sgc_ext_fact_finder_settings?parsed=true",
+        "key": "value.authenticationPrefix"
+      }
+    },
+    "authenticationPostfix": {
+      "type": "bigApi",
+      "destination": "backend",
+      "default": null,
+      "params": {
+        "method": "GET",
+        "service": "config",
+        "path": "/v1/shop/%(shopId)s/sgc_ext_fact_finder_settings?parsed=true",
+        "key": "value.authenticationPostfix"
+      }
+    },
+    "encoding": {
+      "type": "bigApi",
+      "destination": "backend",
+      "default": "utf8",
+      "params": {
+        "method": "GET",
+        "service": "config",
+        "path": "/v1/shop/%(shopId)s/sgc_ext_fact_finder_settings?parsed=true",
+        "key": "value.encoding"
+      }
+    },
+    "channel": {
+      "type": "bigApi",
+      "destination": "backend",
+      "default": null,
+      "params": {
+        "method": "GET",
+        "service": "config",
+        "path": "/v1/shop/%(shopId)s/sgc_ext_fact_finder_settings?parsed=true",
+        "key": "value.channel"
+      }
+    },
+    "uidTemplate": {
+      "type": "bigApi",
+      "destination": "backend",
+      "default": "{$.id}",
+      "params": {
+        "method": "GET",
+        "service": "config",
+        "path": "/v1/shop/%(shopId)s/sgc_ext_fact_finder_settings?parsed=true",
+        "key": "value.productIdentifierTemplate"
+      }
+    },
+    "sortPriceName": {
+      "type": "bigApi",
+      "destination": "backend",
+      "default": "PREIS",
+      "params": {
+        "method": "GET",
+        "service": "config",
+        "path": "/v1/shop/%(shopId)s/sgc_ext_fact_finder_settings?parsed=true",
+        "key": "value.sortPriceName"
+      }
+    }
   }
 }
