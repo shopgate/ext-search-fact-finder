@@ -59,6 +59,5 @@ module.exports = async function (context, input) {
     return { filters }
   } catch (e) {
     context.log.error(decorateError(e), 'Failed getting the filters')
-    throw e
   }
 }
