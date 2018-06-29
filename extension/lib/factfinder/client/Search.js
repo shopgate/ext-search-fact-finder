@@ -2,7 +2,6 @@
 const urlencode = require('urlencode')
 const { tracedRequest } = require('../../common/requestResolver')
 const jsonPath = require('jsonpath')
-const {DEFAULT_ENCODING} = require('./Encoding')
 const FactFinderClientError = require('./errors/FactFinderClientError')
 const FactFinderServerError = require('./errors/FactFinderServerError')
 const FactFinderInvalidResponseError = require('./errors/FactFinderInvalidResponseError')
@@ -75,9 +74,7 @@ class FactFinderClientSearch {
     let searchRequest = Object.assign({}, inputSearchRequest)
 
     const searchParams = []
-    if (this._encoding !== DEFAULT_ENCODING) {
-      searchRequest.query = urlencode(searchRequest.query, this._encoding)
-    }
+    searchRequest.query = urlencode(searchRequest.query, this._encoding)
 
     searchParams.push('format=json')
     searchParams.push('version=7.3')

@@ -4,6 +4,7 @@ const factFinderClientFactoryMapper = require('./shopgate/factFinderClientFactor
 const { decorateError, decorateErrorWithParams, decorateDebug } = require('./shopgate/logDecorator')
 const ShopgateProductSearchSort = require('./shopgate/product/search/sort')
 const { getFactFinderAppliedFilterFromShopgate } = require('./shopgate/product/search/filter')
+const ShopgateErrorBadRequest = require('./shopgate/error/BadRequest')
 
 const FOLLOW_SEARCH_KEY = 'followSearch'
 
@@ -83,6 +84,10 @@ module.exports = async function (context, input) {
     }
   } catch (err) {
     context.log.error(decorateError(err), 'Search failed')
+    if (err.code === 400) {
+      throw new ShopgateErrorBadRequest('We were unable to deliver results for a given search. Please check your input and try again.')
+    }
+
     throw err
   }
 }

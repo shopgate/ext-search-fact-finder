@@ -3,7 +3,6 @@ const { tracedRequest } = require('../../common/requestResolver')
 const { promisify } = require('util')
 
 const urlencode = require('urlencode')
-const { DEFAULT_ENCODING } = require('./Encoding')
 
 const ENDPOINT = '/Suggest.ff'
 const URL = require('url').URL
@@ -37,9 +36,7 @@ class FactFinderClientSuggest {
     let searchRequest = Object.assign({}, inputSearchRequest)
 
     const url = new URL(this.url)
-    if (this._encoding !== DEFAULT_ENCODING) {
-      searchRequest.query = urlencode(searchRequest.query, this._encoding)
-    }
+    searchRequest.query = urlencode(searchRequest.query, this._encoding)
 
     url.searchParams.append('format', 'json')
     url.searchParams.append('query', searchRequest.query)

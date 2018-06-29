@@ -113,12 +113,4 @@ describe('getFilters', async () => {
       ]
     })
   })
-
-  it('should log errors', async function () {
-    clientStub.suggest
-      .rejects(new Error())
-
-    await getFilters(context, { searchPhrase: 'raspberry' }).should.be.rejected
-    sinon.assert.called(context.log.error)
-  })
 })
