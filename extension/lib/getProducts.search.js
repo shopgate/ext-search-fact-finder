@@ -13,11 +13,11 @@ const FOLLOW_SEARCH_KEY = 'followSearch'
  * @param {productsSearchInput} input
  * @returns {Promise<Object>}
  */
-module.exports = async function (context, input) {
+module.exports = async (context, input) => {
   if (!input.searchPhrase) {
     return {
-      searchProductCount: 0,
-      searchProductIds: []
+      searchProductCount: null,
+      productIds: input.productIds || undefined
     }
   }
 
@@ -80,7 +80,7 @@ module.exports = async function (context, input) {
 
     return {
       searchProductCount: searchResults.totalProductCount,
-      searchProductIds: searchResults.uids
+      productIds: searchResults.uids
     }
   } catch (err) {
     context.log.error(decorateError(err), 'Search failed')
