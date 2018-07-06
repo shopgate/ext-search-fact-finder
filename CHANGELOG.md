@@ -8,7 +8,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 
 ## [0.1.1-beta.1] - 2018-07-06
 ### Changed
-- search and suggest implementation via Fact-Finder in Shopgate Connect
+- refactoring + improved logging
 
 ## [0.1.0] - 2018-06-29
 ### Added
