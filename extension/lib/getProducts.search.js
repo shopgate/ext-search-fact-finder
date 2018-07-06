@@ -78,6 +78,8 @@ module.exports = async (context, input) => {
         context.log.warn(decorateErrorWithParams(err, getCollectables(context, input, { followSearch: searchResults.followSearch })), 'Unable to store followSearch parameter')
       })
 
+    context.log.debug(`got ${searchResults.totalProductCount} results from fact-finder for '${input.searchPhrase}'`)
+
     return {
       searchProductCount: searchResults.totalProductCount,
       productIds: searchResults.uids
