@@ -50,7 +50,6 @@
           {"key": "categoryId", "id": "1001", "optional": true},
           {"key": "offset", "id": "1004", "optional": true},
           {"key": "limit", "id": "1005", "optional": true},
-          {"key": "sort", "id": "1006", "optional": true},
           {"key": "productIds", "id": "1007", "optional": true},
           {"key": "skipHighlightLoading", "id": "1008", "optional": true},
           {"key": "skipLiveshoppingLoading", "id": "1009", "optional": true},
