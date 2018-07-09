@@ -1,7 +1,6 @@
 const {FactFinderAuthentication, AUTHENTICATION_TYPE_SIMPLE, AUTHENTICATION_TYPE_EXTENDED} = require('../../../lib/factfinder/Authentication')
 const assert = require('assert')
 const sinon = require('sinon')
-const {describe, it, beforeEach, afterEach} = require('mocha')
 
 describe('FactFinderClientSearchBuilder', function () {
   let sandbox

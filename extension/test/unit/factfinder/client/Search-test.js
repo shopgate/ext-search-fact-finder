@@ -1,6 +1,5 @@
 const proxyquire = require('proxyquire')
 const assert = require('assert')
-const {describe, it, beforeEach, afterEach} = require('mocha')
 const sinon = require('sinon')
 let { FactFinderClientSearch } = require('../../../../lib/factfinder/client/Search')
 const FactFinderClientError = require('../../../../lib/factfinder/client/errors/FactFinderClientError')
