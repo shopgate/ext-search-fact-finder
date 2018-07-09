@@ -3,7 +3,6 @@ const { FactFinderAuthentication, AUTHENTICATION_TYPE_EXTENDED, AUTHENTICATION_T
 const { DEFAULT_ENCODING } = require('../factfinder/client/Encoding')
 
 class FactFinderClientFactory {
-
   /**
    * @param {PipelineConfiguration} config
    * @returns {FactFinderClient}
@@ -47,7 +46,7 @@ class FactFinderClientFactory {
    * @param {string|null} [encoding]
    * @returns {FactFinderClient}
    */
-  static createPublicClient(baseUri, httpAuth, encoding) {
+  static createPublicClient (baseUri, httpAuth, encoding) {
     return new FactFinderClient(
       baseUri,
       httpAuth,
@@ -64,7 +63,7 @@ class FactFinderClientFactory {
    * @param {string|null} [encoding]
    * @returns {FactFinderClient}
    */
-  static createClientWithSimpleAuthentication(baseUri, httpAuth, username, password, encoding) {
+  static createClientWithSimpleAuthentication (baseUri, httpAuth, username, password, encoding) {
     return new FactFinderClient(
       baseUri,
       httpAuth,
@@ -83,7 +82,7 @@ class FactFinderClientFactory {
    * @param {string|null} [encoding]
    * @returns {FactFinderClient}
    */
-  static createClientWithExtendedAuthentication({baseUri, httpAuth, username, password, authenticationPrefix, authenticationPostfix, encoding}) {
+  static createClientWithExtendedAuthentication ({baseUri, httpAuth, username, password, authenticationPrefix, authenticationPostfix, encoding}) {
     return new FactFinderClient(
       baseUri,
       httpAuth,

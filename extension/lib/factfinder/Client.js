@@ -3,7 +3,6 @@ const { FactFinderClientSearch, filterType, filterStyle } = require('./client/Se
 const SuggestAdapter = require('./client/Suggest')
 const SearchBuilder = require('./client/search/Builder')
 const { DEFAULT_ENCODING } = require('./client/Encoding')
-const { FactFinderAuthentication, AUTHENTICATION_TYPE_EXTENDED } = require('./Authentication')
 
 class FactFinderClient {
   /**
