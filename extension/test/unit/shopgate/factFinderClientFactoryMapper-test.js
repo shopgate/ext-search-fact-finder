@@ -1,6 +1,5 @@
 const sinon = require('sinon')
 
-const FactFinderClient = require('../../../lib/factfinder/Client')
 const FactFinderClientFactory = require('../../../lib/shopgate/FactFinderClientFactory')
 
 describe('factFinderClientFactoryMapper', async () => {
