@@ -8,11 +8,13 @@ const { FactFinderAuthentication, AUTHENTICATION_TYPE_EXTENDED } = require('./Au
 class FactFinderClient {
   /**
    * @param {string} baseUri
+   * @param {Object} httpAuth
    * @param {FactFinderAuthentication} factFinderAuthentication
    * @param {string} [encoding=DEFAULT_ENCODING]
    */
-  constructor (baseUri, factFinderAuthentication, encoding = DEFAULT_ENCODING) {
+  constructor (baseUri, httpAuth, factFinderAuthentication, encoding = DEFAULT_ENCODING) {
     this._baseUri = baseUri
+    this._httpAuth = httpAuth
     this._factFinderAuthentication = factFinderAuthentication
     this._encoding = encoding.toLowerCase()
   }
@@ -28,7 +30,8 @@ class FactFinderClient {
     const searchAdapter = new FactFinderClientSearch(this._baseUri, this._encoding, uidSelector)
 
     return searchAdapter.execute(
-      this._factFinderAuthentication.addAuthentication(searchRequest)
+      this._factFinderAuthentication.addAuthentication(searchRequest),
+      this._httpAuth
     )
   }
 
@@ -51,7 +54,10 @@ class FactFinderClient {
   suggest (searchRequest) {
     const suggestAdapter = new SuggestAdapter(this._baseUri, this._encoding)
 
-    return suggestAdapter.execute(this._factFinderAuthentication.addAuthentication(searchRequest))
+    return suggestAdapter.execute(
+      this._factFinderAuthentication.addAuthentication(searchRequest),
+      this._httpAuth
+    )
   }
 
   /**
@@ -59,52 +65,6 @@ class FactFinderClient {
    */
   static searchRequestBuilder () {
     return new SearchBuilder()
-  }
-
-  /**
-   * @param {string} baseUri
-   * @param {string|null} [encoding]
-   * @returns {FactFinderClient}
-   */
-  static createPublicClient (baseUri, encoding) {
-    return new FactFinderClient(baseUri, new FactFinderAuthentication(null, null), encoding || DEFAULT_ENCODING)
-  }
-
-  /**
-   * @param {string} baseUri
-   * @param {string} username
-   * @param {string} password
-   * @param {string|null} [encoding]
-   * @returns {FactFinderClient}
-   */
-  static createClientWithSimpleAuthentication (baseUri, username, password, encoding) {
-    return new FactFinderClient(
-      baseUri,
-      new FactFinderAuthentication(username, password),
-      encoding || DEFAULT_ENCODING
-    )
-  }
-
-  /**
-   * @param {string} baseUri
-   * @param {string} username
-   * @param {string} password
-   * @param {string} authenticationPrefix
-   * @param {string} authenticationPostfix
-   * @param {string|null} [encoding]
-   * @returns {FactFinderClient}
-   */
-  static createClientWithExtendedAuthentication ({baseUri, username, password, authenticationPrefix, authenticationPostfix, encoding}) {
-    return new FactFinderClient(
-      baseUri,
-      new FactFinderAuthentication(
-        username,
-        password,
-        AUTHENTICATION_TYPE_EXTENDED,
-        authenticationPrefix,
-        authenticationPostfix),
-      encoding || DEFAULT_ENCODING
-    )
   }
 }
 

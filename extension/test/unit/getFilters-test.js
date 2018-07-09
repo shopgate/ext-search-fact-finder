@@ -6,6 +6,7 @@ const Logger = require('bunyan')
 chai.use(require('chai-as-promised')).should()
 
 const FactFinderClient = require('../../lib/factfinder/Client')
+const FactFinderClientFactory = require('../../lib/shopgate/FactFinderClientFactory')
 const getFilters = require('../../lib/getFilters')
 
 describe('getFilters', async () => {
@@ -22,7 +23,7 @@ describe('getFilters', async () => {
   beforeEach(() => {
     context.log = sandbox.createStubInstance(Logger)
     clientStub = sandbox.createStubInstance(FactFinderClient)
-    sandbox.stub(FactFinderClient, 'createPublicClient').returns(clientStub)
+    sandbox.stub(FactFinderClientFactory, 'createPublicClient').returns(clientStub)
   })
 
   afterEach(() => {

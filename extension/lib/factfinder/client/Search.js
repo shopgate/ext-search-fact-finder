@@ -68,9 +68,10 @@ class FactFinderClientSearch {
 
   /**
    * @param {FactFinderClientSearchRequest} inputSearchRequest
+   * @param {Object} [httpAuth]
    * @returns {Promise<FactFinderClientSearchResponse>}
    */
-  async execute (inputSearchRequest) {
+  async execute (inputSearchRequest, httpAuth = {}) {
     let searchRequest = Object.assign({}, inputSearchRequest)
 
     const searchParams = []
@@ -91,11 +92,15 @@ class FactFinderClientSearch {
     }
 
     const url = this.url + '?' + searchParams.join('&')
-    const response = await promisify(tracedRequest('Fact-Finder:search'))({
+    let options = {
       url: url.toString(),
       timeout: 10000,
       json: true
-    })
+    }
+    if (httpAuth && httpAuth.user && httpAuth.pass) {
+      options.auth = httpAuth
+    }
+    const response = await promisify(tracedRequest('Fact-Finder:search'))(options)
 
     if (response.statusCode >= 500) {
       throw new FactFinderServerError(response.statusCode)

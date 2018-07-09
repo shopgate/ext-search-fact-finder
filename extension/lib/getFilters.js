@@ -1,7 +1,7 @@
 'use strict'
 
 const FactFinderClient = require('./factfinder/Client')
-const factFinderClientFactoryMapper = require('./shopgate/factFinderClientFactoryMapper')
+const FactFinderClientFactory = require('./shopgate/FactFinderClientFactory')
 const { decorateError } = require('./shopgate/logDecorator')
 const { filterTypeMap, getFactFinderAppliedFilterFromShopgate } = require('./shopgate/product/search/filter')
 const { useTracedRequestImplementation } = require('./common/requestResolver')
@@ -23,7 +23,7 @@ module.exports = async function (context, input) {
   }
 
   if (!factFinderClient) {
-    factFinderClient = factFinderClientFactoryMapper(context.config)
+    factFinderClient = FactFinderClientFactory.create(context.config)
   }
 
   try {

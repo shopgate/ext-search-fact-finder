@@ -1,16 +1,16 @@
 const sinon = require('sinon')
 
 const FactFinderClient = require('../../../lib/factfinder/Client')
-const factFinderClientFactoryMapper = require('../../../lib/shopgate/factFinderClientFactoryMapper')
+const FactFinderClientFactory = require('../../../lib/shopgate/FactFinderClientFactory')
 
 describe('factFinderClientFactoryMapper', async () => {
   const sandbox = sinon.createSandbox()
   let publicClientStub, clientWithSimpleAuthStub, clientWithExtendedAuthStub
 
   beforeEach(() => {
-    publicClientStub = sandbox.stub(FactFinderClient, 'createPublicClient')
-    clientWithSimpleAuthStub = sandbox.stub(FactFinderClient, 'createClientWithSimpleAuthentication')
-    clientWithExtendedAuthStub = sandbox.stub(FactFinderClient, 'createClientWithExtendedAuthentication')
+    publicClientStub = sandbox.stub(FactFinderClientFactory, 'createPublicClient')
+    clientWithSimpleAuthStub = sandbox.stub(FactFinderClientFactory, 'createClientWithSimpleAuthentication')
+    clientWithExtendedAuthStub = sandbox.stub(FactFinderClientFactory, 'createClientWithExtendedAuthentication')
   })
 
   afterEach(() => {
@@ -19,29 +19,29 @@ describe('factFinderClientFactoryMapper', async () => {
 
   describe('public fact-finder client', async () => {
     it('should create public client when there are no auth parameters', async () => {
-      factFinderClientFactoryMapper({})
+      FactFinderClientFactory.create({})
       sinon.assert.calledOnce(publicClientStub)
     })
 
     it('should create public client when auth parameters are not supported', async () => {
-      factFinderClientFactoryMapper({ authenticationType: 'invalid' })
+      FactFinderClientFactory.create({ authenticationType: 'invalid' })
       sinon.assert.calledOnce(publicClientStub)
     })
 
     it('should create public client according to config', async () => {
-      factFinderClientFactoryMapper({ baseUri: 'http://www.shopgate.com', encoding: 'utf8' })
-      sinon.assert.calledOnce(publicClientStub.withArgs('http://www.shopgate.com', 'utf8'))
+      FactFinderClientFactory.create({ baseUri: 'http://www.shopgate.com', encoding: 'utf8' })
+      sinon.assert.calledOnce(publicClientStub.withArgs('http://www.shopgate.com', {}, 'utf8'))
     })
   })
 
   describe('simple auth fact-finder client', async () => {
     it('should create client with simple auth', async () => {
-      factFinderClientFactoryMapper({ authenticationType: 'simple' })
+      FactFinderClientFactory.create({ authenticationType: 'simple' })
 
       sinon.assert.calledOnce(clientWithSimpleAuthStub)
     })
     it('should create client with simple auth according to config', async () => {
-      factFinderClientFactoryMapper({
+      FactFinderClientFactory.create({
         baseUri: 'http://www.shopgate.com',
         authenticationType: 'simple',
         username: 'john',
@@ -49,17 +49,17 @@ describe('factFinderClientFactoryMapper', async () => {
         encoding: 'utf8'})
 
       sinon.assert.calledOnce(clientWithSimpleAuthStub)
-      sinon.assert.calledWith(clientWithSimpleAuthStub, 'http://www.shopgate.com', 'john', 'simple', 'utf8')
+      sinon.assert.calledWith(clientWithSimpleAuthStub, 'http://www.shopgate.com', {}, 'john', 'simple', 'utf8')
     })
   })
 
   describe('extended auth fact-finder client', async () => {
     it('should create a client with extended auth', async () => {
-      factFinderClientFactoryMapper({authenticationType: 'extended'})
+      FactFinderClientFactory.create({authenticationType: 'extended'})
       sinon.assert.calledOnce(clientWithExtendedAuthStub)
     })
     it('should create a client with extended auth according to config', async () => {
-      factFinderClientFactoryMapper({
+      FactFinderClientFactory.create({
         baseUri: 'http://www.shopgate.com',
         authenticationType: 'extended',
         username: 'john',
@@ -69,14 +69,16 @@ describe('factFinderClientFactoryMapper', async () => {
         authenticationPostfix: 'factfinder'
       })
       sinon.assert.calledOnce(clientWithExtendedAuthStub)
-      sinon.assert.calledWith(clientWithExtendedAuthStub, {
-        baseUri: 'http://www.shopgate.com',
-        username: 'john',
-        password: 'simple',
-        encoding: 'utf8',
-        authenticationPrefix: 'factfinder',
-        authenticationPostfix: 'factfinder'
-      })
+      sinon.assert.calledWith(
+        clientWithExtendedAuthStub,
+        'http://www.shopgate.com',
+        {},
+        'john',
+        'simple',
+        'factfinder',
+        'factfinder',
+        'utf8'
+      )
     })
   })
 })
