@@ -113,5 +113,44 @@
         "key": "value.sortPriceName"
       }
     }
-  }
+  },
+  "steps": [
+    {
+      "hooks": [
+        "shopgate.catalog.getProducts.v1:before"
+      ],
+      "path": "@shopgate/search-fact-finder/lib/getProducts.search.js",
+      "input": [
+        {"key": "searchPhrase", "optional": true},
+        {"key": "filters", "optional": true},
+        {"key": "offset", "optional": true},
+        {"key": "limit", "optional": true},
+        {"key": "sort", "optional": true},
+        {"key": "productIds", "optional": true},
+        {"key": "skipHighlightLoading", "optional": true},
+        {"key": "skipLiveshoppingLoading", "optional": true},
+        {"key": "showInactive", "optional": true},
+        {"key": "characteristics", "optional": true}
+      ],
+      "output": [
+        {"key": "searchProductCount", "optional": true},
+        {"key": "searchPhrase", "optional": true},
+        {"key": "filters", "optional": true},
+        {"key": "sort", "optional": true},
+        {"key": "productIds", "optional": true}
+      ]
+    },
+    {
+      "hooks": [
+        "shopgate.catalog.getProducts.v1:after"
+      ],
+      "path": "@shopgate/search-fact-finder/lib/getProducts.replaceTotalCount.js",
+      "input": [
+        {"key": "searchProductCount", "optional": true}
+      ],
+      "output": [
+        {"key": "totalProductCount", "optional": true}
+      ]
+    }
+  ]
 }
