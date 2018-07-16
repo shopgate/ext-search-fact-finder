@@ -30,7 +30,7 @@ describe('getProducts.search', async () => {
   beforeEach(() => {
     context.log = sandbox.createStubInstance(Logger)
     clientStub = sandbox.createStubInstance(FactFinderClient)
-    sandbox.stub(FactFinderClientFactory, 'createPublicClient').returns(clientStub)
+    sandbox.stub(FactFinderClientFactory, 'create').returns(clientStub)
     storageGetStub = sandbox.stub()
     storageSetStub = sandbox.stub()
     context.storage.device.get = storageGetStub

@@ -14,10 +14,14 @@ class FactFinderAuthentication {
    * @param {string} [authenticationPrefix=DEFAULT_AUTHENTICATION_PREFIX]
    * @param {string} [authenticationPostfix=DEFAULT_AUTHENTICATION_POSTFIX]
    */
-  constructor (user, password, authenticationType = AUTHENTICATION_TYPE_SIMPLE, authenticationPrefix = DEFAULT_AUTHENTICATION_PREFIX, authenticationPostfix = DEFAULT_AUTHENTICATION_POSTFIX) {
+  constructor ({user = null, password = null, authenticationType = AUTHENTICATION_TYPE_SIMPLE, authenticationPrefix = DEFAULT_AUTHENTICATION_PREFIX, authenticationPostfix = DEFAULT_AUTHENTICATION_POSTFIX}) {
     this._user = user
     this._password = password
-    this._authenticationType = authenticationType
+    if ([AUTHENTICATION_TYPE_SIMPLE, AUTHENTICATION_TYPE_EXTENDED].includes(authenticationType)) {
+      this._authenticationType = authenticationType
+    } else {
+      this._authenticationType = AUTHENTICATION_TYPE_SIMPLE
+    }
     this._authenticationPrefix = authenticationPrefix
     this._authenticationPostfix = authenticationPostfix
   }

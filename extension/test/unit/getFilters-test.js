@@ -23,7 +23,7 @@ describe('getFilters', async () => {
   beforeEach(() => {
     context.log = sandbox.createStubInstance(Logger)
     clientStub = sandbox.createStubInstance(FactFinderClient)
-    sandbox.stub(FactFinderClientFactory, 'createPublicClient').returns(clientStub)
+    sandbox.stub(FactFinderClientFactory, 'create').returns(clientStub)
   })
 
   afterEach(() => {

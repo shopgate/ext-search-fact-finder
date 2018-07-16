@@ -1,15 +1,12 @@
 const sinon = require('sinon')
+const chai = require('chai')
 
 const FactFinderClientFactory = require('../../../lib/shopgate/FactFinderClientFactory')
 
-describe('factFinderClientFactoryMapper', async () => {
+describe.only('FactFinderClientFactory', async () => {
   const sandbox = sinon.createSandbox()
-  let publicClientStub, clientWithSimpleAuthStub, clientWithExtendedAuthStub
 
   beforeEach(() => {
-    publicClientStub = sandbox.stub(FactFinderClientFactory, 'createPublicClient')
-    clientWithSimpleAuthStub = sandbox.stub(FactFinderClientFactory, 'createClientWithSimpleAuthentication')
-    clientWithExtendedAuthStub = sandbox.stub(FactFinderClientFactory, 'createClientWithExtendedAuthentication')
   })
 
   afterEach(() => {
@@ -18,66 +15,73 @@ describe('factFinderClientFactoryMapper', async () => {
 
   describe('public fact-finder client', async () => {
     it('should create public client when there are no auth parameters', async () => {
-      FactFinderClientFactory.create({})
-      sinon.assert.calledOnce(publicClientStub)
+      const client = FactFinderClientFactory.create({})
+      chai.assert.equal(client._factFinderAuthentication._authenticationType, 'simple')
     })
 
     it('should create public client when auth parameters are not supported', async () => {
-      FactFinderClientFactory.create({ authenticationType: 'invalid' })
-      sinon.assert.calledOnce(publicClientStub)
+      const client = FactFinderClientFactory.create({ authenticationType: 'invalid' })
+      chai.assert.equal(client._factFinderAuthentication._authenticationType, 'simple')
     })
 
     it('should create public client according to config', async () => {
-      FactFinderClientFactory.create({ baseUri: 'http://www.shopgate.com', encoding: 'utf8' })
-      sinon.assert.calledOnce(publicClientStub.withArgs('http://www.shopgate.com', {}, 'utf8'))
+      const client = FactFinderClientFactory.create({ baseUri: 'http://www.shopgate.com', encoding: 'utf8' })
+      chai.assert.equal(client._baseUri, 'http://www.shopgate.com')
+      chai.assert.equal(client._encoding, 'utf8')
+      chai.assert.equal(client._factFinderAuthentication._authenticationType, 'simple')
     })
   })
 
   describe('simple auth fact-finder client', async () => {
     it('should create client with simple auth', async () => {
-      FactFinderClientFactory.create({ authenticationType: 'simple' })
-
-      sinon.assert.calledOnce(clientWithSimpleAuthStub)
+      const client = FactFinderClientFactory.create({ authenticationType: 'simple' })
+      chai.assert.equal(client._factFinderAuthentication._authenticationType, 'simple')
     })
     it('should create client with simple auth according to config', async () => {
-      FactFinderClientFactory.create({
+      let config = {
         baseUri: 'http://www.shopgate.com',
         authenticationType: 'simple',
-        username: 'john',
-        password: 'simple',
-        encoding: 'utf8'})
+        user: 'john',
+        password: 'secret',
+        encoding: 'utf8',
+        httpUser: 'httpJohn',
+        httpPass: 'httpSecret'
+      }
+      const client = FactFinderClientFactory.create(config)
 
-      sinon.assert.calledOnce(clientWithSimpleAuthStub)
-      sinon.assert.calledWith(clientWithSimpleAuthStub, 'http://www.shopgate.com', {}, 'john', 'simple', 'utf8')
+      chai.assert.equal(client._baseUri, 'http://www.shopgate.com')
+      chai.assert.equal(client._encoding, 'utf8')
+      chai.assert.equal(client._factFinderAuthentication._authenticationType, 'simple')
+      chai.assert.equal(client._factFinderAuthentication._user, 'john')
+      chai.assert.equal(client._factFinderAuthentication._password, 'secret')
+      chai.assert.equal(client._httpAuth.user, 'httpJohn')
+      chai.assert.equal(client._httpAuth.pass, 'httpSecret')
     })
   })
 
   describe('extended auth fact-finder client', async () => {
     it('should create a client with extended auth', async () => {
-      FactFinderClientFactory.create({authenticationType: 'extended'})
-      sinon.assert.calledOnce(clientWithExtendedAuthStub)
+      const client = FactFinderClientFactory.create({authenticationType: 'extended'})
+      chai.assert.equal(client._factFinderAuthentication._authenticationType, 'extended')
     })
     it('should create a client with extended auth according to config', async () => {
-      FactFinderClientFactory.create({
+      let config = {
         baseUri: 'http://www.shopgate.com',
         authenticationType: 'extended',
-        username: 'john',
-        password: 'simple',
+        user: 'john',
+        password: 'secret',
         encoding: 'utf8',
         authenticationPrefix: 'factfinder',
-        authenticationPostfix: 'factfinder'
-      })
-      sinon.assert.calledOnce(clientWithExtendedAuthStub)
-      sinon.assert.calledWith(
-        clientWithExtendedAuthStub,
-        'http://www.shopgate.com',
-        {},
-        'john',
-        'simple',
-        'factfinder',
-        'factfinder',
-        'utf8'
-      )
+        authenticationPostfix: 'factfinder',
+        httpUser: 'httpJohn',
+        httpPass: 'httpSecret'
+      }
+      const client = FactFinderClientFactory.create(config)
+      chai.assert.equal(client._factFinderAuthentication._authenticationType, 'extended')
+      chai.assert.equal(client._factFinderAuthentication._user, 'john')
+      chai.assert.equal(client._factFinderAuthentication._password, 'secret')
+      chai.assert.equal(client._httpAuth.user, 'httpJohn')
+      chai.assert.equal(client._httpAuth.pass, 'httpSecret')
     })
   })
 })

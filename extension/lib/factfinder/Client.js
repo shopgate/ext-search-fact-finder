@@ -11,7 +11,7 @@ class FactFinderClient {
    * @param {FactFinderAuthentication} factFinderAuthentication
    * @param {string} [encoding=DEFAULT_ENCODING]
    */
-  constructor (baseUri, httpAuth, factFinderAuthentication, encoding = DEFAULT_ENCODING) {
+  constructor ({baseUri, httpAuth, factFinderAuthentication, encoding = DEFAULT_ENCODING}) {
     this._baseUri = baseUri
     this._httpAuth = httpAuth
     this._factFinderAuthentication = factFinderAuthentication
