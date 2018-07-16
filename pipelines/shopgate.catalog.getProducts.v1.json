@@ -23,17 +23,10 @@
     ],
     "steps": [
       {
-        "type": "staticValue",
-        "input": [],
-        "values": [{ "key": "callId", "value": "shopgate.catalog.getProducts.v1"}],
-        "output": [{ "key": "callId", "id": "2099" }]
-      },
-      {
         "type": "extension",
         "id": "@shopgate/search-fact-finder",
-        "path": "@shopgate/search-fact-finder/lib/getProducts.determineUseCase.js",
+        "path": "@shopgate/search-fact-finder/lib/getProducts.search.js",
         "input": [
-          {"key": "categoryId", "id": "1001", "optional": true},
           {"key": "searchPhrase", "id": "1002", "optional": true},
           {"key": "filters", "id": "1003", "optional": true},
           {"key": "offset", "id": "1004", "optional": true},
@@ -46,157 +39,41 @@
           {"key": "characteristics", "id": "1011", "optional": true}
         ],
         "output": [
-          {"key": "isSearch", "id": "2001"},
-          {"key": "isSearchFilter", "id": "2002"},
-          {"key": "isCategoryBrowsing", "id": "2003"},
-          {"key": "isProductsById", "id": "2004"}
+          {"key": "productIds", "id": "1007", "optional": true},
+          {"key": "searchProductCount", "id": "2020", "optional": true}
+        ]
+      },
+      {
+        "type": "pipeline",
+        "id": "__shopgate.catalog.getProducts.default.v1",
+        "input": [
+          {"key": "categoryId", "id": "1001", "optional": true},
+          {"key": "offset", "id": "1004", "optional": true},
+          {"key": "limit", "id": "1005", "optional": true},
+          {"key": "productIds", "id": "1007", "optional": true},
+          {"key": "skipHighlightLoading", "id": "1008", "optional": true},
+          {"key": "skipLiveshoppingLoading", "id": "1009", "optional": true},
+          {"key": "showInactive", "id": "1010", "optional": true},
+          {"key": "sgxsMeta", "id": "750"},
+          {"key": "characteristics", "id": "1011", "optional": true}
+        ],
+        "output": [
+          {"key": "totalProductCount", "id": "3000"},
+          {"key": "products", "id": "3001"}
         ]
       },
       {
         "type": "conditional",
         "input": [
-          {"key": "isCategoryBrowsing", "id": "2003"},
-          {"key": "isProductsById", "id": "2004"}
+          {"key": "searchProductCount", "id": "2020", "optional": true}
         ],
         "expression": {
-          "any": [
-            {"ok": [{"type": "input", "name": "isCategoryBrowsing"}]},
-            {"ok": [{"type": "input", "name": "isProductsById"}]}
-          ]
-        },
-        "then": {
-          "type": "pipeline",
-          "id": "__shopgate.catalog.getProducts.default.v1",
-          "input": [
-            {"key": "categoryId", "id": "1001", "optional": true},
-            {"key": "searchPhrase", "id": "1002", "optional": true},
-            {"key": "filters", "id": "1003", "optional": true},
-            {"key": "offset", "id": "1004", "optional": true},
-            {"key": "limit", "id": "1005", "optional": true},
-            {"key": "sort", "id": "1006", "optional": true},
-            {"key": "productIds", "id": "1007", "optional": true},
-            {"key": "skipHighlightLoading", "id": "1008", "optional": true},
-            {"key": "skipLiveshoppingLoading", "id": "1009", "optional": true},
-            {"key": "showInactive", "id": "1010", "optional": true},
-            {"key": "sgxsMeta", "id": "750"},
-            {"key": "characteristics", "id": "1011", "optional": true}
-          ],
-          "output": [
-            {"key": "totalProductCount", "id": "3000"},
-            {"key": "products", "id": "3001"}
-          ]
-        },
-        "else": {
-          "type": "conditional",
-          "input": [
-            {"key": "isSearch", "id": "2001"}
-          ],
-          "expression": { "ok": [{ "type": "input", "name": "isSearch" }] },
-          "then": {
-              "type": "extension",
-              "id": "@shopgate/search-fact-finder",
-              "path": "@shopgate/search-fact-finder/lib/getProducts.search.js",
-              "input": [
-                {"key": "searchPhrase", "id": "1002", "optional": true},
-                {"key": "offset", "id": "1004", "optional": true},
-                {"key": "limit", "id": "1005", "optional": true},
-                {"key": "sort", "id": "1006", "optional": true}
-              ],
-              "output": [
-                {"key": "searchProductCount", "id": "2020"},
-                {"key": "searchProductIds", "id": "2021"}
-              ]
-          },
-          "else": {
-            "type": "conditional",
-            "input": [
-              {"key": "isSearchFilter", "id": "2002"}
-            ],
-            "expression": { "ok": [{ "type": "input", "name": "isSearchFilter" }] },
-            "then": {
-              "type": "extension",
-              "id": "@shopgate/search-fact-finder",
-              "path": "@shopgate/search-fact-finder/lib/getProducts.filterSearch.js",
-              "input": [
-                {"key": "searchPhrase", "id": "1002", "optional": true},
-                {"key": "filters", "id": "1003", "optional": true},
-                {"key": "offset", "id": "1004", "optional": true},
-                {"key": "limit", "id": "1005", "optional": true},
-                {"key": "sort", "id": "1006", "optional": true}
-              ],
-              "output": [
-                {"key": "searchProductCount", "id": "2020"},
-                {"key": "searchProductIds", "id": "2021"}
-              ]
-            },
-            "else": {
-              "type": "extension",
-              "id": "@shopgate/search-fact-finder",
-              "path": "@shopgate/search-fact-finder/lib/actionNotDeliverable.js",
-              "input": [
-                {"key": "categoryId", "id": "1001", "optional": true},
-                {"key": "searchPhrase", "id": "1002", "optional": true},
-                {"key": "filters", "id": "1003", "optional": true},
-                {"key": "offset", "id": "1004", "optional": true},
-                {"key": "limit", "id": "1005", "optional": true},
-                {"key": "sort", "id": "1006", "optional": true},
-                {"key": "productIds", "id": "1007", "optional": true},
-                {"key": "skipHighlightLoading", "id": "1008", "optional": true},
-                {"key": "skipLiveshoppingLoading", "id": "1009", "optional": true},
-                {"key": "showInactive", "id": "1010", "optional": true},
-                {"key": "sgxsMeta", "id": "750"},
-                {"key": "characteristics", "id": "1011", "optional": true},
-                {"key": "callId", "id": "2099"}
-              ],
-              "output": []
-            }
-          }
-        }
-      },
-      {
-        "type": "conditional",
-        "input": [
-          {"key": "searchProductCount", "id": "2020", "optional": true},
-          {"key": "isSearchFilter", "id": "2002"},
-          {"key": "isSearch", "id": "2001"}
-        ],
-        "expression": {
-          "any": [
-            { "ok": [{"type": "input", "name": "isSearchFilter"}] },
-            { "ok": [{"type": "input", "name": "isSearch"}] }
-          ],
-          "notnull": [{"name": "searchProductCount"}]
-        },
-        "then": {
-          "type": "pipeline",
-          "id": "__shopgate.catalog.getProducts.default.v1",
-          "input": [
-            {"key": "productIds", "id": "2021"},
-            {"key": "sgxsMeta", "id": "750"}
-          ],
-          "output": [
-            {"key": "products", "id": "3001"}
-          ]
-        }
-      },
-      {
-        "type": "conditional",
-        "input": [
-          {"key": "searchProductCount", "id": "2020", "optional": true},
-          {"key": "isSearchFilter", "id": "2002"},
-          {"key": "isSearch", "id": "2001"}
-        ],
-        "expression": {
-          "any": [
-            { "ok": [{"type": "input", "name": "isSearchFilter"}] },
-            { "ok": [{"type": "input", "name": "isSearch"}] }
-          ],
           "notnull": [{"type": "input", "name": "searchProductCount"}]
         },
         "then": {
           "type": "staticValue",
           "input": [
-            {"key": "searchProductCount", "id": "2020"}
+            {"key": "searchProductCount", "id": "2020", "optional": true}
           ],
           "values": [
             {"key": "totalProductCount", "passthrough": "searchProductCount"}

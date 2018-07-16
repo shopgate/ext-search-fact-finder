@@ -53,7 +53,7 @@ describe('getProducts.search', async () => {
     storageSetStub.returns(Promise.resolve())
 
     chai.assert.deepEqual(await search(context, { searchPhrase: 'raspberry' }), {
-      searchProductIds: [ '888888-88888', '77758-6985' ],
+      productIds: [ '888888-88888', '77758-6985' ],
       searchProductCount: 2
     })
 
@@ -189,8 +189,8 @@ describe('getProducts.search', async () => {
 
   it('should return no product identifiers when there is no search phrase given', async function () {
     chai.assert.deepEqual(await search(context, { }), {
-      searchProductIds: [],
-      searchProductCount: 0
+      searchProductCount: null,
+      productIds: undefined
     })
   })
 
