@@ -43,7 +43,7 @@ class FactFinderClientSuggest {
     url.searchParams.append('query', searchRequest.query)
     url.searchParams.append('channel', searchRequest.channel)
 
-    let options = {
+    const options = {
       url: url.toString(),
       timeout: 10000,
       json: true

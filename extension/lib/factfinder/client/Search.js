@@ -92,7 +92,7 @@ class FactFinderClientSearch {
     }
 
     const url = this.url + '?' + searchParams.join('&')
-    let options = {
+    const options = {
       url: url.toString(),
       timeout: 10000,
       json: true
