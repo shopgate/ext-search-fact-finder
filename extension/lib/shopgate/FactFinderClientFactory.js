@@ -1,5 +1,5 @@
 const FactFinderClient = require('../factfinder/Client')
-const { FactFinderAuthentication, AUTHENTICATION_TYPE_EXTENDED, AUTHENTICATION_TYPE_SIMPLE } = require('../factfinder/Authentication')
+const { FactFinderAuthentication } = require('../factfinder/Authentication')
 const { DEFAULT_ENCODING } = require('../factfinder/client/Encoding')
 
 class FactFinderClientFactory {
