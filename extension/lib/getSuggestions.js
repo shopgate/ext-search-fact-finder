@@ -1,5 +1,5 @@
 'use strict'
-const factFinderClientMapper = require('./shopgate/factFinderClientFactoryMapper')
+const FactFinderClientFactory = require('./shopgate/FactFinderClientFactory')
 const ExpirationStorage = require('./shopgate/storage/ExpirationStorage')
 const { createHash } = require('crypto')
 const { decorateError } = require('./shopgate/logDecorator')
@@ -27,7 +27,7 @@ module.exports = async (context, input) => {
 
     if (!suggestions) {
       /** @type {FactFinderClient} */
-      const factFinderClient = factFinderClientMapper(context.config)
+      const factFinderClient = FactFinderClientFactory.create(context.config)
       suggestions = await factFinderClient.suggest({query: input.searchPhrase, channel: context.config.channel})
 
       expirationStorage.set(cacheKey, suggestions, 3600 * 12).catch((err) => {

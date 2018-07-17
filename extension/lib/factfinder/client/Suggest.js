@@ -30,9 +30,10 @@ class FactFinderClientSuggest {
 
   /**
    * @param {FactFinderClientSearchRequest} inputSearchRequest
+   * @param {Object} [httpAuth]
    * @returns {Promise<string[]>}
    */
-  async execute (inputSearchRequest) {
+  async execute (inputSearchRequest, httpAuth = {}) {
     let searchRequest = Object.assign({}, inputSearchRequest)
 
     const url = new URL(this.url)
@@ -42,11 +43,15 @@ class FactFinderClientSuggest {
     url.searchParams.append('query', searchRequest.query)
     url.searchParams.append('channel', searchRequest.channel)
 
-    const response = await promisify(tracedRequest('Fact-Finder:suggest'))({
+    const options = {
       url: url.toString(),
       timeout: 10000,
       json: true
-    })
+    }
+    if (httpAuth && httpAuth.user && httpAuth.pass) {
+      options.auth = httpAuth
+    }
+    const response = await promisify(tracedRequest('Fact-Finder:suggest'))(options)
 
     if (response.statusCode >= 500) {
       throw new FactFinderServerError(response.statusCode)
