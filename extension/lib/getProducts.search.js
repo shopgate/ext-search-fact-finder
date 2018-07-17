@@ -1,6 +1,6 @@
 const { createHash } = require('crypto')
 const FactFinderClient = require('./factfinder/Client')
-const factFinderClientFactoryMapper = require('./shopgate/factFinderClientFactoryMapper')
+const FactFinderClientFactory = require('./shopgate/FactFinderClientFactory')
 const { decorateError, decorateErrorWithParams, decorateDebug } = require('./shopgate/logDecorator')
 const ShopgateProductSearchSort = require('./shopgate/product/search/sort')
 const { getFactFinderAppliedFilterFromShopgate } = require('./shopgate/product/search/filter')
@@ -23,7 +23,7 @@ module.exports = async (context, input) => {
   /**
    * @type {FactFinderClient}
    */
-  const factFinderClient = factFinderClientFactoryMapper(context.config)
+  const factFinderClient = FactFinderClientFactory.create(context.config, context.tracedRequest)
 
   try {
     const searchHash = createHash('md5').update(input.searchPhrase).digest('hex')

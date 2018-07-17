@@ -14,7 +14,13 @@ describe('FactFinderClientSearchBuilder', function () {
   })
 
   it('should build a simple authentication', function () {
-    const subjectUnderTest = new FactFinderAuthentication('user', 'userpw', AUTHENTICATION_TYPE_SIMPLE, 'FACT-FINDER', 'FACT-FINDER')
+    const subjectUnderTest = new FactFinderAuthentication({
+      user: 'user',
+      password: 'userpw',
+      authenticationType: AUTHENTICATION_TYPE_SIMPLE,
+      authenticationPrefix: 'FACT-FINDER',
+      authenticationPostfix: 'FACT-FINDER'
+    })
     sandbox.useFakeTimers(1270732953523)
     assert.deepStrictEqual(subjectUnderTest.addAuthentication({}),
       {
@@ -24,7 +30,13 @@ describe('FactFinderClientSearchBuilder', function () {
   })
 
   it('should build an extended authentication', function () {
-    const subjectUnderTest = new FactFinderAuthentication('user', 'userpw', AUTHENTICATION_TYPE_EXTENDED, 'FACT-FINDER', 'FACT-FINDER')
+    const subjectUnderTest = new FactFinderAuthentication({
+      user: 'user',
+      password: 'userpw',
+      authenticationType: AUTHENTICATION_TYPE_EXTENDED,
+      authenticationPrefix: 'FACT-FINDER',
+      authenticationPostfix: 'FACT-FINDER'
+    })
     sandbox.useFakeTimers(1270732953523)
     assert.deepStrictEqual(subjectUnderTest.addAuthentication({}),
       {

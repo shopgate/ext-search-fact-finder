@@ -20,10 +20,11 @@ describe('FactFinderClientSuggest', function () {
     requestStub = sandbox.stub()
     promisifyStub = sandbox.stub()
     FactFinderClientSuggest = proxyquire('../../../../lib/factfinder/client/Suggest', {
-      '../../common/requestResolver': { tracedRequest: requestStub },
-      'util': { promisify: promisifyStub }
+      './Abstract': proxyquire('../../../../lib/factfinder/client/Abstract', {
+        'util': { promisify: promisifyStub }
+      })
     })
-    suggest = new FactFinderClientSuggest('https://www.shopgate.com', 'utf8')
+    suggest = new FactFinderClientSuggest('https://www.shopgate.com', 'utf8', requestStub)
   })
 
   afterEach(() => {

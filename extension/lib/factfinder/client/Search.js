@@ -1,11 +1,10 @@
 'use strict'
 const urlencode = require('urlencode')
-const { tracedRequest } = require('../../common/requestResolver')
 const jsonPath = require('jsonpath')
-const FactFinderClientError = require('./errors/FactFinderClientError')
-const FactFinderServerError = require('./errors/FactFinderServerError')
+
+const AbstractFactFinderClientAction = require('./Abstract')
 const FactFinderInvalidResponseError = require('./errors/FactFinderInvalidResponseError')
-const { promisify } = require('util')
+
 const { filterPrepareValueForSearchParams, filterDecodeValueFromSearchParams } = require('./search/filter')
 const { URLSearchParams } = require('url')
 
@@ -47,13 +46,15 @@ Object.keys(filterStyleDefinition).forEach(filter => {
   filterStyle[filter] = filter
 })
 
-class FactFinderClientSearch {
+class FactFinderClientSearch extends AbstractFactFinderClientAction {
   /**
    * @param {string} baseUri
    * @param {string} encoding
    * @param {string} uidSelector
+   * @param {function} tracedRequest
    */
-  constructor (baseUri, encoding, uidSelector) {
+  constructor (baseUri, encoding, uidSelector, tracedRequest) {
+    super(tracedRequest)
     this._baseUri = baseUri
     this._uidSelector = uidSelector
     this._encoding = encoding
@@ -68,9 +69,10 @@ class FactFinderClientSearch {
 
   /**
    * @param {FactFinderClientSearchRequest} inputSearchRequest
+   * @param {Object} [httpAuth]
    * @returns {Promise<FactFinderClientSearchResponse>}
    */
-  async execute (inputSearchRequest) {
+  async execute (inputSearchRequest, httpAuth = {}) {
     let searchRequest = Object.assign({}, inputSearchRequest)
 
     const searchParams = []
@@ -91,19 +93,7 @@ class FactFinderClientSearch {
     }
 
     const url = this.url + '?' + searchParams.join('&')
-    const response = await promisify(tracedRequest('Fact-Finder:search'))({
-      url: url.toString(),
-      timeout: 10000,
-      json: true
-    })
-
-    if (response.statusCode >= 500) {
-      throw new FactFinderServerError(response.statusCode)
-    }
-
-    if (response.statusCode >= 400) {
-      throw new FactFinderClientError(response.statusCode)
-    }
+    const response = await this.request(url, httpAuth)
 
     if (!response.body || !response.body.searchResult || !response.body.searchResult.records) {
       throw new FactFinderInvalidResponseError()

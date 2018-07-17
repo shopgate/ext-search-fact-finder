@@ -1,22 +1,21 @@
 'use strict'
-const { tracedRequest } = require('../../common/requestResolver')
-const { promisify } = require('util')
 
 const urlencode = require('urlencode')
 
 const ENDPOINT = '/Suggest.ff'
 const URL = require('url').URL
 
-const FactFinderClientError = require('./errors/FactFinderClientError')
-const FactFinderServerError = require('./errors/FactFinderServerError')
+const AbstractFactFinderClientAction = require('./Abstract')
 const FactFinderInvalidResponseError = require('./errors/FactFinderInvalidResponseError')
 
-class FactFinderClientSuggest {
+class FactFinderClientSuggest extends AbstractFactFinderClientAction{
   /**
    * @param {string} baseUri
    * @param {string} encoding
+   * @param {function} tracedRequest
    */
-  constructor (baseUri, encoding) {
+  constructor (baseUri, encoding, tracedRequest) {
+    super(tracedRequest)
     this._baseUri = baseUri
     this._encoding = encoding
   }
@@ -30,9 +29,10 @@ class FactFinderClientSuggest {
 
   /**
    * @param {FactFinderClientSearchRequest} inputSearchRequest
+   * @param {Object} [httpAuth]
    * @returns {Promise<string[]>}
    */
-  async execute (inputSearchRequest) {
+  async execute (inputSearchRequest, httpAuth = {}) {
     let searchRequest = Object.assign({}, inputSearchRequest)
 
     const url = new URL(this.url)
@@ -42,19 +42,7 @@ class FactFinderClientSuggest {
     url.searchParams.append('query', searchRequest.query)
     url.searchParams.append('channel', searchRequest.channel)
 
-    const response = await promisify(tracedRequest('Fact-Finder:suggest'))({
-      url: url.toString(),
-      timeout: 10000,
-      json: true
-    })
-
-    if (response.statusCode >= 500) {
-      throw new FactFinderServerError(response.statusCode)
-    }
-
-    if (response.statusCode >= 400) {
-      throw new FactFinderClientError(response.statusCode)
-    }
+    const response = await this.request(url, httpAuth)
 
     if (!response.body || !response.body.suggestions) {
       throw new FactFinderInvalidResponseError()
