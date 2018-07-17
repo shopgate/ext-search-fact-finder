@@ -8,9 +8,9 @@ chai.use(require('chai-as-promised')).should()
 const FactFinderServerError = require('../../../../lib/factfinder/client/errors/FactFinderServerError')
 const FactFinderClientError = require('../../../../lib/factfinder/client/errors/FactFinderClientError')
 
-let { FactFinderClientSearchFilters } = require('../../../../lib/factfinder/client/Search')
+let { FactFinderClientSearch } = require('../../../../lib/factfinder/client/Search')
 
-describe('FactFinderClientSearchFilters', function () {
+describe('FactFinderClientSearch', function () {
   let requestStub, searchFilters, promisifyStub
 
   const sandbox = sinon.createSandbox()
@@ -19,12 +19,13 @@ describe('FactFinderClientSearchFilters', function () {
     requestStub = sandbox.stub()
     promisifyStub = sandbox.stub()
 
-    FactFinderClientSearchFilters = proxyquire('../../../../lib/factfinder/client/Search', {
-      '../../common/requestResolver': { tracedRequest: requestStub },
-      'util': { promisify: promisifyStub }
+    FactFinderClientSearch = proxyquire('../../../../lib/factfinder/client/Search', {
+      './Abstract': proxyquire('../../../../lib/factfinder/client/Abstract', {
+        'util': { promisify: promisifyStub }
+      })
     }).FactFinderClientSearch
 
-    searchFilters = new FactFinderClientSearchFilters('https://www.shopgate.com', 'utf8', '$.id')
+    searchFilters = new FactFinderClientSearch('https://www.shopgate.com', 'utf8', '$.id', requestStub)
   })
 
   afterEach(() => {
