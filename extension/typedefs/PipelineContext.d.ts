@@ -4,6 +4,7 @@ interface PipelineContext {
   config: PipelineConfiguration
   log: Logger
   storage: PipelineStorageContainer
+  tracedRequest (): Object
 }
 
 interface PipelineStorage {

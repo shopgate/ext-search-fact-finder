@@ -24,7 +24,7 @@ module.exports = async (context, input) => {
   /**
    * @type {FactFinderClient}
    */
-  const factFinderClient = FactFinderClientFactory.create(context.config)
+  const factFinderClient = FactFinderClientFactory.create(context.config, context.tracedRequest)
 
   try {
     const searchHash = createHash('md5').update(input.searchPhrase).digest('hex')
