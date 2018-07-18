@@ -4,7 +4,6 @@ const FactFinderClient = require('./factfinder/Client')
 const FactFinderClientFactory = require('./shopgate/FactFinderClientFactory')
 const { decorateError } = require('./shopgate/logDecorator')
 const { filterTypeMap, getFactFinderAppliedFilterFromShopgate } = require('./shopgate/product/search/filter')
-const { useTracedRequestImplementation } = require('./common/requestResolver')
 
 /**
  * @type {FactFinderClient}
@@ -17,13 +16,12 @@ let factFinderClient
  * @returns {Promise<getFiltersResponse>}
  */
 module.exports = async function (context, input) {
-  useTracedRequestImplementation(context.tracedRequest)
   if (!input.searchPhrase) {
     return { filters: [] }
   }
 
   if (!factFinderClient) {
-    factFinderClient = FactFinderClientFactory.create(context.config)
+    factFinderClient = FactFinderClientFactory.create(context.config, context.tracedRequest)
   }
 
   try {

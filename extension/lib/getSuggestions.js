@@ -3,7 +3,6 @@ const FactFinderClientFactory = require('./shopgate/FactFinderClientFactory')
 const ExpirationStorage = require('./shopgate/storage/ExpirationStorage')
 const { createHash } = require('crypto')
 const { decorateError } = require('./shopgate/logDecorator')
-const { useTracedRequestImplementation } = require('./common/requestResolver')
 
 /**
  * @param {PipelineContext} context
@@ -11,8 +10,6 @@ const { useTracedRequestImplementation } = require('./common/requestResolver')
  * @returns {Promise<getSearchSuggestionsOutput>}
  */
 module.exports = async (context, input) => {
-  useTracedRequestImplementation(context.tracedRequest)
-
   try {
     const expirationStorage = ExpirationStorage.create(context.storage.extension)
     const suggestHash = createHash('md5').update(input.searchPhrase).digest('hex')
@@ -27,7 +24,7 @@ module.exports = async (context, input) => {
 
     if (!suggestions) {
       /** @type {FactFinderClient} */
-      const factFinderClient = FactFinderClientFactory.create(context.config)
+      const factFinderClient = FactFinderClientFactory.create(context.config, context.tracedRequest)
       suggestions = await factFinderClient.suggest({query: input.searchPhrase, channel: context.config.channel})
 
       expirationStorage.set(cacheKey, suggestions, 3600 * 12).catch((err) => {

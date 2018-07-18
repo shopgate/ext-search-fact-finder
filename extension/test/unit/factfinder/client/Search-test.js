@@ -18,10 +18,11 @@ describe('FactFinderClientSearch', function () {
     requestStub = sandbox.stub()
     promisifyStub = sandbox.stub()
     FactFinderClientSearch = proxyquire('../../../../lib/factfinder/client/Search', {
-      '../../common/requestResolver': { tracedRequest: requestStub },
-      'util': { promisify: promisifyStub }
+      './Abstract': proxyquire('../../../../lib/factfinder/client/Abstract', {
+        'util': { promisify: promisifyStub }
+      })
     }).FactFinderClientSearch
-    subjectUnderTest = new FactFinderClientSearch('http://shopgate.fact-finder.com')
+    subjectUnderTest = new FactFinderClientSearch('http://shopgate.fact-finder.com', 'utf8', '$.id', requestStub)
   })
 
   afterEach(() => {
@@ -29,7 +30,7 @@ describe('FactFinderClientSearch', function () {
   })
 
   it('should return uids with a simple selector', async function () {
-    subjectUnderTest = new FactFinderClientSearch('http://shopgate.fact-finder.com', 'utf8', '{$.record.ARTNR}')
+    subjectUnderTest = new FactFinderClientSearch('http://shopgate.fact-finder.com', 'utf8', '{$.record.ARTNR}', requestStub)
     promisifyStub.returns(() => ({ body: require('./mockedApiResponses/Search-uids') }))
     assert.deepStrictEqual(await subjectUnderTest.execute({query: 'test', channel: 'test'}),
       {
@@ -44,7 +45,7 @@ describe('FactFinderClientSearch', function () {
   })
 
   it('should return uids with a more complex selector', async function () {
-    subjectUnderTest = new FactFinderClientSearch('http://shopgate.fact-finder.com', 'utf8', '{$.record.shopid}-{$.record.ean}')
+    subjectUnderTest = new FactFinderClientSearch('http://shopgate.fact-finder.com', 'utf8', '{$.record.shopid}-{$.record.ean}', requestStub)
     promisifyStub.returns(() => ({ body: require('./mockedApiResponses/Search-uids') }))
     assert.deepStrictEqual(await subjectUnderTest.execute({query: 'test', channel: 'test', filters: []}),
       {

@@ -5,9 +5,10 @@ const { DEFAULT_ENCODING } = require('../factfinder/client/Encoding')
 class FactFinderClientFactory {
   /**
    * @param {PipelineConfiguration} config
+   * @param {function} tracedRequest
    * @returns {FactFinderClient}
    */
-  static create (config) {
+  static create (config, tracedRequest) {
     const httpAuth = {}
     if (config.httpUser && config.httpPass) {
       httpAuth.user = config.httpUser
@@ -18,7 +19,8 @@ class FactFinderClientFactory {
       baseUri: config.baseUri,
       httpAuth,
       factFinderAuthentication: new FactFinderAuthentication(config),
-      encoding: config.encoding || DEFAULT_ENCODING
+      encoding: config.encoding || DEFAULT_ENCODING,
+      tracedRequest
     })
   }
 }

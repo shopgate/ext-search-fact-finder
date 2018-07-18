@@ -3,7 +3,7 @@ const chai = require('chai')
 
 const FactFinderClientFactory = require('../../../lib/shopgate/FactFinderClientFactory')
 
-describe.only('FactFinderClientFactory', async () => {
+describe('FactFinderClientFactory', async () => {
   const sandbox = sinon.createSandbox()
 
   beforeEach(() => {

@@ -1,22 +1,21 @@
 'use strict'
-const { tracedRequest } = require('../../common/requestResolver')
-const { promisify } = require('util')
 
 const urlencode = require('urlencode')
 
 const ENDPOINT = '/Suggest.ff'
 const URL = require('url').URL
 
-const FactFinderClientError = require('./errors/FactFinderClientError')
-const FactFinderServerError = require('./errors/FactFinderServerError')
+const AbstractFactFinderClientAction = require('./Abstract')
 const FactFinderInvalidResponseError = require('./errors/FactFinderInvalidResponseError')
 
-class FactFinderClientSuggest {
+class FactFinderClientSuggest extends AbstractFactFinderClientAction {
   /**
    * @param {string} baseUri
    * @param {string} encoding
+   * @param {function} tracedRequest
    */
-  constructor (baseUri, encoding) {
+  constructor (baseUri, encoding, tracedRequest) {
+    super(tracedRequest)
     this._baseUri = baseUri
     this._encoding = encoding
   }
@@ -43,23 +42,7 @@ class FactFinderClientSuggest {
     url.searchParams.append('query', searchRequest.query)
     url.searchParams.append('channel', searchRequest.channel)
 
-    const options = {
-      url: url.toString(),
-      timeout: 10000,
-      json: true
-    }
-    if (httpAuth && httpAuth.user && httpAuth.pass) {
-      options.auth = httpAuth
-    }
-    const response = await promisify(tracedRequest('Fact-Finder:suggest'))(options)
-
-    if (response.statusCode >= 500) {
-      throw new FactFinderServerError(response.statusCode)
-    }
-
-    if (response.statusCode >= 400) {
-      throw new FactFinderClientError(response.statusCode)
-    }
+    const response = await this.request(url, httpAuth)
 
     if (!response.body || !response.body.suggestions) {
       throw new FactFinderInvalidResponseError()
