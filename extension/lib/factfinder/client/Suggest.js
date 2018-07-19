@@ -8,7 +8,7 @@ const URL = require('url').URL
 const AbstractFactFinderClientAction = require('./Abstract')
 const FactFinderInvalidResponseError = require('./errors/FactFinderInvalidResponseError')
 
-class FactFinderClientSuggest extends AbstractFactFinderClientAction{
+class FactFinderClientSuggest extends AbstractFactFinderClientAction {
   /**
    * @param {string} baseUri
    * @param {string} encoding

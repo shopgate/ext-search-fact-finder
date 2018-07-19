@@ -6,7 +6,15 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 
 ## [Unreleased]
 
-## [0.1.1-beta.2] - 2018-07-09
+## [0.1.1-beta.5] - 2018-07-18
+### Changed
+- updated dependencies + removed deprecated nsp dependency
+
+## [0.1.1-beta.4] - 2018-07-18
+### Changed
+- refactoring
+
+## [0.1.1-beta.3] - 2018-07-09
 ### Changed
 - added HTTP Basic Auth support for FACT-Finder requests
 - bugfixes
