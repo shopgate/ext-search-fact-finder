@@ -1,4 +1,5 @@
 {
+
   "version": "1",
   "pipeline": {
     "id": "shopgate.catalog.getFilters.v1",
@@ -13,17 +14,101 @@
       {
         "type": "conditional",
         "input": [
+          {
+            "key": "categoryId",
+            "id": "1",
+            "optional": true
+          }
+        ],
+        "expression": {
+          "ok": [
+            {
+              "name": "categoryId"
+            }
+          ]
+        },
+        "then": {
+          "id": "@shopgate/products",
+          "path": "@shopgate/products/products/getFilters.js",
+          "type": "extension",
+          "input": [
+            {
+              "id": "1",
+              "key": "categoryId",
+              "optional": true
+            },
+            {
+              "id": "2",
+              "key": "searchPhrase",
+              "optional": true
+            },
+            {
+              "id": "3",
+              "key": "filters",
+              "optional": true
+            }
+          ],
+          "output": [
+            {
+              "id": "10",
+              "key": "service"
+            },
+            {
+              "id": "11",
+              "key": "version"
+            },
+            {
+              "id": "12",
+              "key": "path"
+            },
+            {
+              "id": "13",
+              "key": "method"
+            },
+            {
+              "id": "14",
+              "key": "query"
+            }
+          ]
+        }
+      },
+      {
+        "type": "conditional",
+        "input": [
           {"key": "categoryId", "id": "1", "optional": true}
         ],
         "expression": {"ok": [{"name": "categoryId"}]},
         "then": {
-          "type": "pipeline",
-          "id": "__shopgate.catalog.getFilters.default.v1",
+          "id": "@shopgate/bigapi",
+          "path": "@shopgate/bigapi/big-api/getBigApiResult.js",
+          "type": "extension",
           "input": [
-            {"key": "categoryId", "id": "1", "optional": true}
+            {
+              "id": "10",
+              "key": "service"
+            },
+            {
+              "id": "11",
+              "key": "version"
+            },
+            {
+              "id": "12",
+              "key": "path"
+            },
+            {
+              "id": "13",
+              "key": "method"
+            },
+            {
+              "id": "14",
+              "key": "query"
+            }
           ],
           "output": [
-            {"id": "1000", "key": "filters"}
+            {
+              "id": "1000",
+              "key": "filters"
+            }
           ]
         },
         "else": {
