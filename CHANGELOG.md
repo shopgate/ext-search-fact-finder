@@ -6,7 +6,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 
 ## [Unreleased]
 
-## [0.1.1] - 2018-08-07
+## [0.1.1] - 2018-08-08
+### Added
+- npm audit security check
+
 ### Changed
 - merged two remaining underscore pipelines to be contained within original one
 
