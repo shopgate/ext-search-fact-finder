@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 
 ## [Unreleased]
 
+## [0.1.1] - 2018-08-07
+### Changed
+- merged two remaining underscore pipelines to be contained within original one
+
 ## [0.1.1-beta.5] - 2018-07-18
 ### Changed
 - updated dependencies + removed deprecated nsp dependency
@@ -28,4 +32,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 - search and suggest implementation via Fact-Finder in Shopgate Connect
 
 [0.1.1]: https://github.com/shopgate/ext-search-fact-finder/compare/v0.1.0...v0.1.1
+[0.1.1-beta.5]: https://github.com/shopgate/ext-search-fact-finder/compare/v0.1.1-beta.4...v0.1.1-beta.5
+[0.1.1-beta.4]: https://github.com/shopgate/ext-search-fact-finder/compare/v0.1.1-beta.3...v0.1.1-beta.4
+[0.1.1-beta.3]: https://github.com/shopgate/ext-search-fact-finder/compare/v0.1.1-beta.2...v0.1.1-beta.3
+[0.1.1-beta.2]: https://github.com/shopgate/ext-search-fact-finder/compare/v0.1.1-beta.1...v0.1.1-beta.2
+[0.1.1-beta.1]: https://github.com/shopgate/ext-search-fact-finder/compare/v0.1.0...v0.1.1-beta.1
 [0.1.0]: https://github.com/shopgate/ext-search-fact-finder/tree/v0.1.0

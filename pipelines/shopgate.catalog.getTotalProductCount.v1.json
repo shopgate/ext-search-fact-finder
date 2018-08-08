@@ -13,38 +13,159 @@
     ],
     "steps": [
       {
-        "type": "extension",
-        "id": "@shopgate/search-fact-finder",
-        "path": "@shopgate/search-fact-finder/lib/getProducts.search.js",
+        "type": "conditional",
         "input": [
-          {"key": "searchPhrase", "id": "2", "optional": true},
-          {"key": "filters", "id": "3", "optional": true}
+          {
+            "key": "categoryId",
+            "id": "1",
+            "optional": true
+          }
         ],
-        "output": [
-          {"key": "searchProductCount", "id": "1000", "optional": true}
-        ]
+        "expression": {
+          "ok": [
+            {
+              "name": "categoryId"
+            }
+          ]
+        },
+        "then": {
+          "id": "@shopgate/products",
+          "path": "@shopgate/products/products/getTotalProductCount.js",
+          "type": "extension",
+          "input": [
+            {
+              "id": "1",
+              "key": "categoryId",
+              "optional": true
+            },
+            {
+              "id": "2",
+              "key": "searchPhrase",
+              "optional": true
+            },
+            {
+              "id": "3",
+              "key": "filters",
+              "optional": true
+            }
+          ],
+          "output": [
+            {
+              "id": "10",
+              "key": "service"
+            },
+            {
+              "id": "11",
+              "key": "version"
+            },
+            {
+              "id": "12",
+              "key": "path"
+            },
+            {
+              "id": "13",
+              "key": "method"
+            },
+            {
+              "id": "14",
+              "key": "query"
+            }
+          ]
+        }
       },
       {
         "type": "conditional",
         "input": [
-          {"key": "totalProductCount", "id": "1000", "optional": true}
-        ],
-        "output": [
-          {"key": "totalProductCount", "id": "1000"}
+          {
+            "key": "categoryId",
+            "id": "1",
+            "optional": true
+          }
         ],
         "expression": {
-          "null": [{"type": "input", "name": "totalProductCount"}]
+          "ok": [
+            {
+              "name": "categoryId"
+            }
+          ]
         },
         "then": {
-          "type": "pipeline",
-          "id": "__shopgate.catalog.getTotalProductCount.default.v1",
+          "id": "@shopgate/bigapi",
+          "path": "@shopgate/bigapi/big-api/getBigApiResult.js",
+          "type": "extension",
           "input": [
-            {"key": "categoryId", "id": "1", "optional": true},
+            {
+              "id": "10",
+              "key": "service"
+            },
+            {
+              "id": "11",
+              "key": "version"
+            },
+            {
+              "id": "12",
+              "key": "path"
+            },
+            {
+              "id": "13",
+              "key": "method"
+            },
+            {
+              "id": "14",
+              "key": "query"
+            }
+          ],
+          "output": [
+            {
+              "id": "101",
+              "key": "meta"
+            }
+          ]
+        }
+      },
+      {
+        "type": "conditional",
+        "input": [
+          {
+            "key": "categoryId",
+            "id": "1",
+            "optional": true
+          }
+        ],
+        "expression": {
+          "ok": [
+            {
+              "name": "categoryId"
+            }
+          ]
+        },
+        "then": {
+          "id": "@shopgate/products",
+          "path": "@shopgate/products/products/convertProducts.js",
+          "type": "extension",
+          "input": [
+            {
+              "id": "101",
+              "key": "meta"
+            }
+          ],
+          "output": [
+            {
+              "id": "1000",
+              "key": "totalProductCount"
+            }
+          ]
+        },
+        "else": {
+          "type": "extension",
+          "id": "@shopgate/search-fact-finder",
+          "path": "@shopgate/search-fact-finder/lib/getProducts.search.js",
+          "input": [
             {"key": "searchPhrase", "id": "2", "optional": true},
             {"key": "filters", "id": "3", "optional": true}
           ],
           "output": [
-            {"key": "totalProductCount", "id": "1000"}
+            {"key": "searchProductCount", "id": "1000", "optional": true}
           ]
         }
       }
