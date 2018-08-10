@@ -3,7 +3,7 @@ class ShopgateErrorBadRequest {
    * @param displayMessage
    */
   constructor (displayMessage) {
-    this.code = 'EUNKNOWN'
+    this.code = 'EBADREQUEST'
     this.message = 'Bad request'
     this.displayMessage = displayMessage
   }
