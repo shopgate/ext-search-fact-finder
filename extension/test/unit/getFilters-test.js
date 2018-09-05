@@ -122,7 +122,7 @@ describe('getFilters', async () => {
 
     const filterResult = await getFilters(context, { searchPhrase: 'unexpected search param that brakes the response' })
     chai.assert.deepEqual(filterResult.filters, [])
-    chai.assert.isTrue(filterResult.hasOwnProperty('contentError'))
+    chai.assert.property(filterResult, 'contentError')
     sinon.assert.called(context.log.error)
   })
 })

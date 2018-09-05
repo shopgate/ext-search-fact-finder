@@ -84,7 +84,7 @@ describe('getSuggestions', async () => {
 
     const suggestionsResult = await getSuggestions(context, { searchPhrase: 'unexpected search param that brakes the response' })
     chai.assert.deepEqual(suggestionsResult.suggestions, [])
-    chai.assert.isTrue(suggestionsResult.hasOwnProperty('contentError'))
+    chai.assert.property(suggestionsResult, 'contentError')
     sinon.assert.called(context.log.error)
   })
 })

@@ -211,7 +211,7 @@ describe('getProducts.search', async () => {
     const searchResult = await search(context, { searchPhrase: 'unexpected search param that brakes the response' })
     chai.assert.deepEqual(searchResult.productIds, [])
     chai.assert.strictEqual(searchResult.searchProductCount, 0)
-    chai.assert.isTrue(searchResult.hasOwnProperty('contentError'))
+    chai.assert.property(searchResult, 'contentError')
     sinon.assert.called(context.log.error)
   })
 })
