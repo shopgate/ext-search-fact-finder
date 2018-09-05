@@ -5,6 +5,7 @@ const { decorateError, decorateErrorWithParams, decorateDebug } = require('./sho
 const ShopgateProductSearchSort = require('./shopgate/product/search/sort')
 const { getFactFinderAppliedFilterFromShopgate } = require('./shopgate/product/search/filter')
 const ShopgateErrorBadRequest = require('./shopgate/error/BadRequest')
+const FactFinderInvalidResponseError = require('./factfinder/client/errors/FactFinderInvalidResponseError')
 
 const FOLLOW_SEARCH_KEY = 'followSearch'
 
@@ -86,6 +87,16 @@ module.exports = async (context, input) => {
     }
   } catch (err) {
     context.log.error(decorateError(err), 'Search failed')
+    if (err instanceof FactFinderInvalidResponseError) {
+      return {
+        searchProductCount: 0,
+        productIds: [],
+        contentError: {
+          content: err.response
+        }
+      }
+    }
+
     if (err.code === 400) {
       throw new ShopgateErrorBadRequest('We were unable to deliver results for a given search. Please check your input and try again.')
     }

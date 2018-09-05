@@ -6,6 +6,7 @@ const Logger = require('bunyan')
 chai.use(require('chai-as-promised')).should()
 
 const FactFinderClient = require('../../lib/factfinder/Client')
+const FactFinderInvalidResponseError = require('../../lib/factfinder/client/errors/FactFinderInvalidResponseError')
 const FactFinderClientFactory = require('../../lib/shopgate/FactFinderClientFactory')
 const getSuggestions = require('../../lib/getSuggestions')
 
@@ -67,10 +68,23 @@ describe('getSuggestions', async () => {
     sinon.assert.called(context.log.error)
   })
 
-  it('should log if wrtiting to cache fails', async () => {
+  it('should log if writing to cache fails', async () => {
     context.storage.extension.set.rejects(new Error())
 
     await getSuggestions(context, { searchPhrase: 'raspberry' })
+    sinon.assert.called(context.log.error)
+  })
+
+  it('should not fail if FF content is invalid', async () => {
+    context.storage.extension.get.resolves(null)
+
+    clientStub.suggest
+      .withArgs({ query: 'unexpected search param that brakes the response', channel: 'de' })
+      .rejects(new FactFinderInvalidResponseError({response: {}}))
+
+    const suggestionsResult = await getSuggestions(context, { searchPhrase: 'unexpected search param that brakes the response' })
+    chai.assert.deepEqual(suggestionsResult.suggestions, [])
+    chai.assert.isTrue(suggestionsResult.hasOwnProperty('contentError'))
     sinon.assert.called(context.log.error)
   })
 })
