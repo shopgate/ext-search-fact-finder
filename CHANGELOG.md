@@ -5,8 +5,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+
+## [0.1.2] - 2018-09-06
 ### Fixed
-- invalid content error is now handled within getProducts and getFilters pipelines
+- Solving the invalid content error and allowing other steps to process it
 
 ## [0.1.1] - 2018-08-10
 ### Added
@@ -37,6 +39,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 ### Added
 - search and suggest implementation via Fact-Finder in Shopgate Connect
 
+[0.1.2]: https://github.com/shopgate/ext-search-fact-finder/compare/v0.1.1...v0.1.2
 [0.1.1]: https://github.com/shopgate/ext-search-fact-finder/compare/v0.1.0...v0.1.1
 [0.1.1-beta.5]: https://github.com/shopgate/ext-search-fact-finder/compare/v0.1.1-beta.4...v0.1.1-beta.5
 [0.1.1-beta.4]: https://github.com/shopgate/ext-search-fact-finder/compare/v0.1.1-beta.3...v0.1.1-beta.4
