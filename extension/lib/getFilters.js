@@ -4,11 +4,7 @@ const FactFinderClient = require('./factfinder/Client')
 const FactFinderClientFactory = require('./shopgate/FactFinderClientFactory')
 const { decorateError } = require('./shopgate/logDecorator')
 const { filterTypeMap, getFactFinderAppliedFilterFromShopgate } = require('./shopgate/product/search/filter')
-
-/**
- * @type {FactFinderClient}
- */
-let factFinderClient
+const FactFinderInvalidResponseError = require('./factfinder/client/errors/FactFinderInvalidResponseError')
 
 /**
  * @param {PipelineContext} context
@@ -20,9 +16,10 @@ module.exports = async function (context, input) {
     return { filters: [] }
   }
 
-  if (!factFinderClient) {
-    factFinderClient = FactFinderClientFactory.create(context.config, context.tracedRequest)
-  }
+  /**
+   * @type {FactFinderClient}
+   */
+  const factFinderClient = FactFinderClientFactory.create(context.config, context.tracedRequest)
 
   try {
     const searchRequest = FactFinderClient.searchRequestBuilder()
@@ -57,6 +54,15 @@ module.exports = async function (context, input) {
     return { filters }
   } catch (e) {
     context.log.error(decorateError(e), 'Failed getting the filters')
+    if (e instanceof FactFinderInvalidResponseError) {
+      return {
+        filters: [],
+        contentError: {
+          content: e.response
+        }
+      }
+    }
+
     throw e
   }
 }

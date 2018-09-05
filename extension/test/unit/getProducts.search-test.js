@@ -6,6 +6,7 @@ const Logger = require('bunyan')
 chai.use(require('chai-as-promised')).should()
 
 const FactFinderClient = require('../../lib/factfinder/Client')
+const FactFinderInvalidResponseError = require('../../lib/factfinder/client/errors/FactFinderInvalidResponseError')
 const FactFinderClientFactory = require('../../lib/shopgate/FactFinderClientFactory')
 const search = require('../../lib/getProducts.search')
 
@@ -200,6 +201,17 @@ describe('getProducts.search', async () => {
       .rejects(new Error())
 
     await search(context, { searchPhrase: 'raspberry' }).should.be.rejected
+    sinon.assert.called(context.log.error)
+  })
+
+  it('should not fail if FF content is invalid', async () => {
+    clientStub.search
+      .rejects(new FactFinderInvalidResponseError({response: {}}))
+
+    const searchResult = await search(context, { searchPhrase: 'unexpected search param that brakes the response' })
+    chai.assert.deepEqual(searchResult.productIds, [])
+    chai.assert.strictEqual(searchResult.searchProductCount, 0)
+    chai.assert.property(searchResult, 'contentError')
     sinon.assert.called(context.log.error)
   })
 })

@@ -3,6 +3,7 @@ const FactFinderClientFactory = require('./shopgate/FactFinderClientFactory')
 const ExpirationStorage = require('./shopgate/storage/ExpirationStorage')
 const { createHash } = require('crypto')
 const { decorateError } = require('./shopgate/logDecorator')
+const FactFinderInvalidResponseError = require('./factfinder/client/errors/FactFinderInvalidResponseError')
 
 /**
  * @param {PipelineContext} context
@@ -35,6 +36,16 @@ module.exports = async (context, input) => {
     return { suggestions }
   } catch (e) {
     context.log.error(decorateError(e), 'Failed getting suggestions')
+
+    if (e instanceof FactFinderInvalidResponseError) {
+      return {
+        suggestions: [],
+        contentError: {
+          content: e.response
+        }
+      }
+    }
+
     throw e
   }
 }
