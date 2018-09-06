@@ -96,7 +96,11 @@ class FactFinderClientSearch extends AbstractFactFinderClientAction {
     const response = await this.request(url, httpAuth)
 
     if (!response.body || !response.body.searchResult || !response.body.searchResult.records) {
-      throw new FactFinderInvalidResponseError(response)
+      throw new FactFinderInvalidResponseError({
+        headers: response.headers,
+        statusCode: response.statusCode,
+        body: response.body
+      })
     }
 
     const factFinderSearchResult = response.body.searchResult
