@@ -2,7 +2,7 @@
 
 class FactFinderInvalidResponseError extends Error {
   /**
-   * @param {Object} response
+   * @param {FactFinderInvalidResponse} response
    */
   constructor (response) {
     super()

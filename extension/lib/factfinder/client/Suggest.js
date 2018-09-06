@@ -45,7 +45,11 @@ class FactFinderClientSuggest extends AbstractFactFinderClientAction {
     const response = await this.request(url, httpAuth)
 
     if (!response.body || !response.body.suggestions) {
-      throw new FactFinderInvalidResponseError(response)
+      throw new FactFinderInvalidResponseError({
+        headers: response.headers,
+        statusCode: response.statusCode,
+        body: response.body
+      })
     }
 
     return response.body.suggestions
