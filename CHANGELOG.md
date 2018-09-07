@@ -6,9 +6,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 
 ## [Unreleased]
 
+## [0.1.3] - 2018-09-07
+### Fixed
+- implemented feedback from review process of Shopgate extensions 
+
 ## [0.1.2] - 2018-09-06
 ### Fixed
-- Solving the invalid content error and allowing other steps to process it
+- solving the invalid content error and allowing other steps to process it
 
 ## [0.1.1] - 2018-08-10
 ### Added
