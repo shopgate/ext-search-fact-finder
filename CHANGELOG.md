@@ -6,7 +6,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 
 ## [Unreleased]
 
-## [0.1.4] - 2018-11-05
+## [0.1.4] - 2018-11-06
 ### Fixed
 - filtering and sorting within catalog/categories was broken
 
