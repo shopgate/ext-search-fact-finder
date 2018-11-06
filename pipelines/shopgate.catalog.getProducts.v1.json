@@ -39,6 +39,8 @@
           {"key": "characteristics", "id": "751", "optional": true}
         ],
         "output": [
+          {"key": "filters", "id": "3", "optional": true},
+          {"key": "sort", "id": "6", "optional": true},
           {"key": "productIds", "id": "7", "optional": true},
           {"key": "searchProductCount", "id": "2000", "optional": true}
         ]
@@ -49,8 +51,10 @@
         "path": "@shopgate/products/products/getProducts.js",
         "input": [
           {"key": "categoryId", "id": "1", "optional": true},
+          {"key": "filters", "id": "3", "optional": true},
           {"key": "offset", "id": "4", "optional": true},
           {"key": "limit", "id": "5", "optional": true},
+          {"key": "sort", "id": "6", "optional": true},
           {"key": "productIds", "id": "7", "optional": true},
           {"key": "showInactive", "id": "15", "optional": true},
           {"key": "characteristics", "id": "751", "optional": true}
