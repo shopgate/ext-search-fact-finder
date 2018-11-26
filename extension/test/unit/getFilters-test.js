@@ -3,12 +3,11 @@ const chai = require('chai')
 const sinon = require('sinon')
 const Logger = require('bunyan')
 
-chai.use(require('chai-as-promised')).should()
-
 const FactFinderClient = require('../../lib/factfinder/Client')
 const FactFinderInvalidResponseError = require('../../lib/factfinder/client/errors/FactFinderInvalidResponseError')
 const FactFinderClientFactory = require('../../lib/shopgate/FactFinderClientFactory')
 const getFilters = require('../../lib/getFilters')
+const SearchBuilder = require('../../lib/factfinder/client/search/Builder')
 
 describe('getFilters', async () => {
   const sandbox = sinon.createSandbox()
@@ -31,6 +30,12 @@ describe('getFilters', async () => {
     sandbox.verifyAndRestore()
   })
 
+  it('should return any empty filters list if no searchPhrase is given', async () => {
+    const actual = await getFilters(context, { searchPhrase: '' })
+    
+    chai.assert.deepStrictEqual(actual, { filters: [] })
+  })
+  
   it('should return list of shopgate filters', async function () {
     const returnedFilters = [
       {
@@ -116,6 +121,28 @@ describe('getFilters', async () => {
     })
   })
 
+  it('should apply filters from input', async () => {
+    clientStub.search.resolves({ filters: [] })
+
+    const searchBuilder = new SearchBuilder()
+    sandbox.stub(FactFinderClient, 'searchRequestBuilder').returns(searchBuilder)
+    const addFilterSpy = sandbox.spy(searchBuilder, 'addFilter')
+
+    await getFilters(context, {
+      searchPhrase: 'raspberry',
+      filters: {
+        Marke: {
+          source: 'fact-finder',
+          type: 'multiselect',
+          values: [ 'Raspberry+Pi' ]
+        }
+      }
+    })
+    
+    sinon.assert.calledOnce(addFilterSpy)
+    sinon.assert.calledWithExactly(addFilterSpy, 'Marke', 'MULTISELECT', ["Raspberry+Pi"])
+  })
+  
   it('should not fail if FF content is invalid', async () => {
     clientStub.search
       .rejects(new FactFinderInvalidResponseError({response: {}}))
@@ -123,6 +150,14 @@ describe('getFilters', async () => {
     const filterResult = await getFilters(context, { searchPhrase: 'unexpected search param that brakes the response' })
     chai.assert.deepEqual(filterResult.filters, [])
     chai.assert.property(filterResult, 'contentError')
+    sinon.assert.called(context.log.error)
+  })
+  
+  it('should log and rethrow unknown errors', async () => {
+    clientStub.search
+      .rejects(new Error())
+
+    await chai.assert.isRejected(getFilters(context, { searchPhrase: 'test' }))
     sinon.assert.called(context.log.error)
   })
 })

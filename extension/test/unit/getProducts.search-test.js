@@ -108,6 +108,40 @@ describe('getProducts.search', async () => {
     ))
   })
 
+  it('should not fail for unsupported "sort" values', async () => {
+    const returnedProductIds = {
+      uids: [ '888888-88888', '77758-6985' ],
+      totalProductCount: 2,
+      followSearch: 111
+    }
+
+    clientStub.search
+      .resolves(returnedProductIds)
+
+    storageSetStub.returns(Promise.resolve())
+
+    await search(context, { searchPhrase: 'raspberry', sort: 'unsupported' })
+
+    sinon.assert.calledOnce(clientStub.search)
+  })
+
+  it("should not fail if storing 'followSearchCacheKey' doesn't work", async () => {
+    const returnedProductIds = {
+      uids: [ '888888-88888', '77758-6985' ],
+      totalProductCount: 2,
+      followSearch: 111
+    }
+
+    clientStub.search
+      .resolves(returnedProductIds)
+    
+    storageSetStub.rejects(new Error())
+
+    await search(context, { searchPhrase: 'raspberry', sort: 'priceAsc' })
+
+    sinon.assert.calledOnce(clientStub.search)
+  })
+  
   it('should apply filters', async function () {
     const returnedProductIds = {
       uids: [ '888888-88888', '77758-6985' ],
