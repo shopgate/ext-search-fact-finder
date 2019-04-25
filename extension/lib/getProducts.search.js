@@ -82,8 +82,6 @@ module.exports = async (context, input) => {
     context.log.debug(`got ${searchResults.totalProductCount} results from fact-finder for '${input.searchPhrase}'`)
 
     return {
-      filters: null,
-      sort: null,
       searchProductCount: searchResults.totalProductCount,
       productIds: searchResults.uids
     }
