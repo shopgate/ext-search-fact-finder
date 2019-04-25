@@ -56,9 +56,7 @@ describe('getProducts.search', async () => {
 
     chai.assert.deepEqual(await search(context, { searchPhrase: 'raspberry' }), {
       productIds: [ '888888-88888', '77758-6985' ],
-      searchProductCount: 2,
-      filters: null,
-      sort: null
+      searchProductCount: 2
     })
 
     sinon.assert.calledWith(clientStub.search, sinon.match(
