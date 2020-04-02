@@ -60,15 +60,23 @@ module.exports = async (context, input) => {
     }
 
     // pagination - limit and offset are optional
-    if (input.limit && input.offset) {
+    if (input.limit) {
       searchRequest.productsPerPage(input.limit)
-      searchRequest.page(1 + Math.floor(input.offset / input.limit))
     }
 
-    const followSearch = await context.storage.device.get(followSearchCacheKey)
-    if (followSearch) {
-      context.log.debug(decorateDebug(getCollectables(context, input, { followSearch })), 'Following search')
-      searchRequest.followSearch(followSearch)
+    let page = 1
+    if (input.limit && input.offset) {
+      page = 1 + Math.ceil(input.offset / input.limit)
+      searchRequest.page(page)
+    }
+
+    // Append follow search only for next pages (do not append to initial call)
+    if (page > 1) {
+      const followSearch = await context.storage.device.get(followSearchCacheKey)
+      if (followSearch) {
+        context.log.debug(decorateDebug(getCollectables(context, input, { followSearch })), 'Following search')
+        searchRequest.followSearch(followSearch)
+      }
     }
 
     const searchResults = await factFinderClient.search(searchRequest.build(), context.config.uidTemplate)
