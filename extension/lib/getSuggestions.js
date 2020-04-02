@@ -46,6 +46,11 @@ module.exports = async (context, input) => {
       }
     }
 
+    // ETIMEOUT code shows general error on ENGAGE
+    if (e.code === 'ESOCKETTIMEDOUT') {
+      e.code = 'ETIMEOUT'
+    }
+
     throw e
   }
 }

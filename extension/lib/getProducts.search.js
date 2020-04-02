@@ -101,6 +101,11 @@ module.exports = async (context, input) => {
       throw new ShopgateErrorBadRequest('We were unable to deliver results for a given search. Please check your input and try again.')
     }
 
+    // ETIMEOUT code shows general error on ENGAGE
+    if (err.code === 'ESOCKETTIMEDOUT') {
+      err.code = 'ETIMEOUT'
+    }
+
     throw err
   }
 }
