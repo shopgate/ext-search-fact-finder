@@ -63,6 +63,11 @@ module.exports = async function (context, input) {
       }
     }
 
+    // ETIMEOUT code shows general error on ENGAGE
+    if (e.code === 'ESOCKETTIMEDOUT' || e.code === 'ETIMEDOUT') {
+      e.code = 'ETIMEOUT'
+    }
+
     throw e
   }
 }
