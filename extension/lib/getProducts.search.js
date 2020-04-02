@@ -102,7 +102,7 @@ module.exports = async (context, input) => {
     }
 
     // ETIMEOUT code shows general error on ENGAGE
-    if (err.code === 'ESOCKETTIMEDOUT') {
+    if (err.code === 'ESOCKETTIMEDOUT' || err.code === 'ETIMEDOUT') {
       err.code = 'ETIMEOUT'
     }
 
