@@ -4,7 +4,11 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## [Unreleased]
+## [1.0.1] - 2020-04-02
+### Fixed
+- App tries to load products on search result page even after all products are loaded
+
+## [1.0.0] - 2019-04-26
 ### Fixed
 - Made compatible with Shopgate products version 2
 - Updated version of Sinon and Nyc to version not marked as having security vulnerabilities
@@ -36,6 +40,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 ### Added
 - search and suggest implementation via Fact-Finder in Shopgate Connect
 
+[1.0.1]: https://github.com/shopgate/ext-search-fact-finder/compare/v1.0.0...v1.0.1
+[1.0.0]: https://github.com/shopgate/ext-search-fact-finder/compare/v0.1.4...v1.0.0
 [0.1.4]: https://github.com/shopgate/ext-search-fact-finder/compare/v0.1.3...v0.1.4
 [0.1.3]: https://github.com/shopgate/ext-search-fact-finder/compare/v0.1.2...v0.1.3
 [0.1.2]: https://github.com/shopgate/ext-search-fact-finder/compare/v0.1.1...v0.1.2
