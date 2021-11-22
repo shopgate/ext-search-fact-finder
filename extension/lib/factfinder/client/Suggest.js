@@ -48,8 +48,6 @@ class FactFinderClientSuggest extends AbstractFactFinderClientAction {
       })
     }
 
-    console.log({suggestions: response.body.suggestions})
-
     return response.body.suggestions
       .filter(suggestion => suggestion.type === 'searchTerm')
       .map(suggestion => suggestion.name)
