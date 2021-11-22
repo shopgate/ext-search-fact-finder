@@ -34,7 +34,6 @@ describe('FactFinderClientSearch', function () {
 
   it('should return a list of filters', async () => {
     promisifyStub.returns((options) => {
-      console.log(options)
       chai.assert.deepEqual(options, {
         url: 'https://www.shopgate.com/search',
         json: true,
