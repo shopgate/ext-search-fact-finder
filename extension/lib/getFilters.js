@@ -34,22 +34,22 @@ module.exports = async function (context, input) {
     }
     const factFinderResponse = await factFinderClient.search(searchRequest.build(), context.config.uidTemplate)
 
-    const filters = factFinderResponse.filters.filter(group => undefined !== filterTypeMap[group.filterStyle])
-      .map(group => (
-        {
-          id: group.associatedFieldName,
-          label: group.name,
+    const filters = factFinderResponse.filters.filter(filter => undefined !== filterTypeMap[filter.filterStyle])
+      .map(filter => {
+        return {
+          id: filter.associatedFieldName,
+          label: filter.name,
           source: 'fact-finder',
-          type: filterTypeMap[group.filterStyle],
-          values: group.elements.map(element => {
+          type: filterTypeMap[filter.filterStyle],
+          values: filter.elements.map(element => {
             return {
               id: element.filterValue,
-              label: element.name,
-              hits: element.recordCount
+              label: element.text,
+              hits: element.totalHits
             }
           })
         }
-      ))
+      })
 
     return { filters }
   } catch (e) {

@@ -6,9 +6,8 @@ const AbstractFactFinderClientAction = require('./Abstract')
 const FactFinderInvalidResponseError = require('./errors/FactFinderInvalidResponseError')
 
 const { filterPrepareValueForSearchParams, filterDecodeValueFromSearchParams } = require('./search/filter')
-const { URLSearchParams } = require('url')
 
-const ENDPOINT = '/Search.ff'
+const ENDPOINT = '/search'
 
 /** @type FactFinderClientSearchFilterType */
 const filterType = {
@@ -75,27 +74,27 @@ class FactFinderClientSearch extends AbstractFactFinderClientAction {
   async execute (inputSearchRequest, httpAuth = {}) {
     let searchRequest = Object.assign({}, inputSearchRequest)
 
-    const searchParams = []
     searchRequest.query = urlencode(searchRequest.query, this._encoding)
-
-    searchParams.push('format=json')
-    searchParams.push('version=7.3')
-
-    Object.keys(searchRequest)
-      .filter(parameter => parameter !== 'filters')
-      .forEach(parameter => {
-        searchParams.push(`${parameter}=${searchRequest[parameter]}`)
-      })
 
     for (const filter of getFilters(searchRequest)) {
       const { filterName, filterValue } = filterPrepareValueForSearchParams(filter.name, filter.values)
-      searchParams.push(`${filterName}=${filterValue}`)
+      searchRequest.filters.push({
+        name: filterName,
+        substring: true,
+        values: [
+          {
+            type: 'or',
+            value: filterValue
+          }
+        ]
+      })
     }
 
-    const url = this.url + '?' + searchParams.join('&')
-    const response = await this.request(url, httpAuth)
+    const response = await this.request(this.url, {
+      params: searchRequest
+    }, httpAuth)
 
-    if (!response.body || !response.body.searchResult || !response.body.searchResult.records) {
+    if (!response.body || !response.body.hits) {
       throw new FactFinderInvalidResponseError({
         headers: response.headers,
         statusCode: response.statusCode,
@@ -103,16 +102,16 @@ class FactFinderClientSearch extends AbstractFactFinderClientAction {
       })
     }
 
-    const factFinderSearchResult = response.body.searchResult
+    const factFinderSearchResult = response.body.hits
 
     // `${product.record.shopid}-${product.id}`
     let filters = []
-    if (response.body.searchResult.groups) {
+    if (response.body.facets) {
       filters = prepareFiltersFromResponse(response)
     }
 
     return {
-      uids: factFinderSearchResult.records.map((product) => {
+      uids: factFinderSearchResult.map((product) => {
         if (!this._uidSelector.includes('{')) {
           // uidSelector can either be a JSON path...
           // e.g. "$.id"
@@ -123,8 +122,8 @@ class FactFinderClientSearch extends AbstractFactFinderClientAction {
         // e.g. "{$.record.shopid}-{$.id}"
         return this._uidSelector.replace(/(?:{([^}]*)})/g, (match, path) => jsonPath.query(product, path))
       }),
-      totalProductCount: factFinderSearchResult.resultCount,
-      followSearch: getValueFromSearchParams('followSearch', factFinderSearchResult.searchParams),
+      totalProductCount: response.body.totalHits,
+      followSearch: getValueFromSearchParams('followSearch', response.body.searchParams),
       filters
     }
   }
@@ -137,18 +136,17 @@ class FactFinderClientSearch extends AbstractFactFinderClientAction {
 function prepareFiltersFromResponse (response) {
   const filters = []
 
-  response.body.searchResult.groups.forEach(group => {
-    const firstElementWithFieldName = group.elements.find(element => element.associatedFieldName !== undefined)
-    if (!firstElementWithFieldName) {
+  response.body.facets.forEach(facet => {
+    if (!facet.associatedFieldName) {
       return
     }
 
     filters.push({
-      associatedFieldName: firstElementWithFieldName.associatedFieldName,
-      name: group.name,
-      filterStyle: group.filterStyle,
-      elements: group.elements.map(element => {
-        element.filterValue = filterDecodeValueFromSearchParams(element.associatedFieldName, element.searchParams)
+      associatedFieldName: facet.associatedFieldName,
+      name: facet.name,
+      filterStyle: facet.filterStyle,
+      elements: facet.elements.map(element => {
+        element.filterValue = filterDecodeValueFromSearchParams(facet.associatedFieldName, element.searchParams)
         return element
       })
     })
@@ -176,9 +174,11 @@ function getValueFromSearchParams (param, searchParams) {
     return null
   }
 
-  const urlSearchParams = new URLSearchParams(searchParams.replace(/^\//, ''))
+  if (!searchParams[param]) {
+    return null
+  }
 
-  return urlSearchParams.get(param)
+  return searchParams[param]
 }
 
 module.exports = {

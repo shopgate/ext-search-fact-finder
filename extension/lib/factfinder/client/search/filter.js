@@ -1,16 +1,21 @@
 /**
  * @param {string} filterName
- * @param {string} searchParams
+ * @param {object} searchParams
  * @return {string}
  */
 function filterDecodeValueFromSearchParams (filterName, searchParams) {
-  const filter = `filter${encodeURIComponent(filterName)}=(.+?)(?:$|&)`
-  const matches = searchParams.match(new RegExp(filter))
-  if (!matches) {
+  if (!searchParams.filters) {
     return null
   }
 
-  return matches[1]
+  const filter = searchParams.filters.find(f => f.name === filterName)
+
+  if (!filter || !filter.values) {
+    return null
+  }
+
+  // eventually creates a flatten array
+  return Array.prototype.concat.apply([], filter.values.map(value => value.value))[0]
 }
 
 /**
