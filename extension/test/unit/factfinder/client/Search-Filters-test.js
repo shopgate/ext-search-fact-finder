@@ -34,10 +34,19 @@ describe('FactFinderClientSearch', function () {
 
   it('should return a list of filters', async () => {
     promisifyStub.returns((options) => {
+      console.log(options)
       chai.assert.deepEqual(options, {
-        url: 'https://www.shopgate.com/Search.ff?format=json&version=7.3&query=raspberry&channel=de',
+        url: 'https://www.shopgate.com/search',
         json: true,
-        timeout: 10000
+        timeout: 10000,
+        method: 'POST',
+        body: {
+          params: {
+            query: 'raspberry',
+            filters: [],
+            channel: 'de'
+          }
+        }
       })
 
       return {

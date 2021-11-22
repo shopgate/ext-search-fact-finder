@@ -76,19 +76,26 @@ class FactFinderClientSearch extends AbstractFactFinderClientAction {
 
     searchRequest.query = urlencode(searchRequest.query, this._encoding)
 
+    /**
+     * @type {FactFinderClientSearchFilter[]}
+     */
+    const newFiltersStructure = []
     for (const filter of getFilters(searchRequest)) {
       const { filterName, filterValue } = filterPrepareValueForSearchParams(filter.name, filter.values)
-      searchRequest.filters.push({
+      newFiltersStructure.push({
         name: filterName,
         substring: true,
         values: [
           {
             type: 'or',
+            exclude: false,
             value: filterValue
           }
         ]
       })
     }
+
+    searchRequest.filters = newFiltersStructure
 
     const response = await this.request(this.url, {
       params: searchRequest
