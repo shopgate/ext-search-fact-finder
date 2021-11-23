@@ -25,7 +25,7 @@ function filterDecodeValueFromSearchParams (filterName, searchParams) {
  */
 function filterPrepareValueForSearchParams (filterName, values) {
   return {
-    filterName: encodeURIComponent(filterName),
+    filterName: filterName,
     filterValues: getFilterValues(values)
   }
 }
