@@ -1,7 +1,5 @@
 'use strict'
 
-const urlencode = require('urlencode')
-
 const URL = require('url').URL
 const ENDPOINT = '/suggest'
 
@@ -36,7 +34,6 @@ class FactFinderClientSuggest extends AbstractFactFinderClientAction {
     let searchRequest = Object.assign({}, inputSearchRequest)
 
     const url = new URL(this.url)
-    searchRequest.query = urlencode(searchRequest.query, this._encoding)
 
     const response = await this.request(url, searchRequest, httpAuth)
 

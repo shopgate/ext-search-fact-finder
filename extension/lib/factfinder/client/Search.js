@@ -1,5 +1,4 @@
 'use strict'
-const urlencode = require('urlencode')
 const jsonPath = require('jsonpath')
 
 const AbstractFactFinderClientAction = require('./Abstract')
@@ -74,8 +73,6 @@ class FactFinderClientSearch extends AbstractFactFinderClientAction {
   async execute (inputSearchRequest, httpAuth = {}) {
     let searchRequest = Object.assign({}, inputSearchRequest)
 
-    searchRequest.query = urlencode(searchRequest.query, this._encoding)
-
     /**
      * @type {FactFinderClientSearchFilter[]}
      */
@@ -90,6 +87,8 @@ class FactFinderClientSearch extends AbstractFactFinderClientAction {
     }
 
     searchRequest.filters = newFiltersStructure
+
+    console.log(searchRequest)
 
     const response = await this.request(this.url, {
       params: searchRequest
