@@ -21,25 +21,29 @@ function filterDecodeValueFromSearchParams (filterName, searchParams) {
 /**
  * @param {string} filterName
  * @param {*} values
- * @return {{filterName: string, filterValue: string}}
+ * @return {{filterName: string, filterValues: Object[]}}
  */
 function filterPrepareValueForSearchParams (filterName, values) {
   return {
     filterName: encodeURIComponent(filterName),
-    filterValue: getFilterValue(values)
+    filterValues: getFilterValues(values)
   }
 }
 
 /**
- * @param {any} value
- * @returns {string}
+ * @param {any} values
+ * @returns {Object}
  */
-function getFilterValue (value) {
-  if (Array.isArray(value)) {
-    return value.join('~~~')
+function getFilterValues (values) {
+  if (Array.isArray(values)) {
+    return values.map(value => ({
+      type: 'or',
+      exclude: false,
+      value
+    }))
   }
 
-  return value
+  return values
 }
 
 module.exports = {

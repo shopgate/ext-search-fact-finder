@@ -81,17 +81,11 @@ class FactFinderClientSearch extends AbstractFactFinderClientAction {
      */
     const newFiltersStructure = []
     for (const filter of getFilters(searchRequest)) {
-      const { filterName, filterValue } = filterPrepareValueForSearchParams(filter.name, filter.values)
+      const { filterName, filterValues } = filterPrepareValueForSearchParams(filter.name, filter.values)
       newFiltersStructure.push({
         name: filterName,
         substring: true,
-        values: [
-          {
-            type: 'or',
-            exclude: false,
-            value: filterValue
-          }
-        ]
+        values: filterValues
       })
     }
 
