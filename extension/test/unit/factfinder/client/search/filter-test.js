@@ -5,27 +5,42 @@ describe('FactFinderClientSearchFilter', function () {
   describe('filterDecodeValueFromSearchParams', function () {
     it('should provide a filter value from search params', function () {
       const searchParams = [
-        '/fact-finder/Search.ff?query=raspberry&filterPREIS=%3C+5.00&channel=de&followSearch=9998&format=JSON',
-        '/fact-finder/Search.ff?query=raspberry&filterPREIS=5.00+-+7.49&channel=de&followSearch=9998&format=JSON',
-        '/fact-finder/Search.ff?query=raspberry&filterPREIS=7.50+-+9.99&channel=de&followSearch=9998&format=JSON',
-        '/fact-finder/Search.ff?query=raspberry&filterPREIS=10.00+-+49.99&channel=de&followSearch=9998&format=JSON',
-        '/fact-finder/Search.ff?query=raspberry&filterPREIS=50.00+-+74.99&channel=de&followSearch=9998&format=JSON',
-        '/fact-finder/Search.ff?query=raspberry&filterPREIS=%3E%3D+75.00&channel=de&followSearch=9998&format=JSON'
+        {
+          filters: [
+            {
+              'name': 'PREIS',
+              'substring': true,
+              'values': [
+                {
+                  'type': 'or',
+                  'exclude': false,
+                  'value': '[17.9, 30)'
+                }
+              ]
+            },
+            {
+              'name': 'MARKE',
+              'substring': true,
+              'values': [
+                {
+                  'type': 'or',
+                  'exclude': false,
+                  'value': 'Intenso'
+                }
+              ]
+            }
+          ]
+        }
       ]
-      const expectedFilterValue = [
-        '%3C+5.00',
-        '5.00+-+7.49',
-        '7.50+-+9.99',
-        '10.00+-+49.99',
-        '50.00+-+74.99',
-        '%3E%3D+75.00'
+      const expectedPricesFilterValue = [
+        '>17.9'
       ]
 
-      assert.deepStrictEqual(expectedFilterValue.length, searchParams.length, 'The test is not correctly prepared, expectedFilterValue values and search param values must be of equal size')
+      assert.deepStrictEqual(expectedPricesFilterValue.length, searchParams.length, 'The test is not correctly prepared, expectedFilterValue values and search param values must be of equal size')
 
       let counter = searchParams.length
       while (counter--) {
-        assert.deepStrictEqual(filterDecodeValueFromSearchParams('PREIS', searchParams[counter]), expectedFilterValue[counter])
+        assert.deepStrictEqual(filterDecodeValueFromSearchParams('PREIS', searchParams[counter]), expectedPricesFilterValue[counter])
       }
     })
 

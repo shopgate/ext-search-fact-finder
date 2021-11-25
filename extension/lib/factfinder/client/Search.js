@@ -88,8 +88,6 @@ class FactFinderClientSearch extends AbstractFactFinderClientAction {
 
     searchRequest.filters = newFiltersStructure
 
-    console.log(searchRequest)
-
     const response = await this.request(this.url, {
       params: searchRequest
     }, httpAuth)
@@ -134,14 +132,12 @@ class FactFinderClientSearch extends AbstractFactFinderClientAction {
  * @return {FactFinderClientSearchFilter[]}
  */
 function prepareFiltersFromResponse (response) {
-  const filters = []
-
-  response.body.facets.forEach(facet => {
+  return response.body.facets.map(facet => {
     if (!facet.associatedFieldName) {
-      return
+      return null
     }
 
-    filters.push({
+    return {
       associatedFieldName: facet.associatedFieldName,
       name: facet.name,
       filterStyle: facet.filterStyle,
@@ -149,10 +145,8 @@ function prepareFiltersFromResponse (response) {
         element.filterValue = filterDecodeValueFromSearchParams(facet.associatedFieldName, element.searchParams)
         return element
       })
-    })
-  })
-
-  return filters
+    }
+  }).filter(Boolean)
 }
 
 /**

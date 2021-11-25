@@ -10,6 +10,7 @@ const FactFinderServerError = require('../../../../lib/factfinder/client/errors/
 const FactFinderInvalidResponseError = require('../../../../lib/factfinder/client/errors/FactFinderInvalidResponseError')
 
 let FactFinderClientSuggest = require('../../../../lib/factfinder/client/Suggest')
+const {factFinderConfig} = require('../../config')
 
 describe('FactFinderClientSuggest', function () {
   let requestStub, suggest, promisifyStub
@@ -24,7 +25,7 @@ describe('FactFinderClientSuggest', function () {
         'util': { promisify: promisifyStub }
       })
     })
-    suggest = new FactFinderClientSuggest('https://www.shopgate.com', 'utf8', requestStub)
+    suggest = new FactFinderClientSuggest(factFinderConfig.endPointBaseUrl, 'utf8', requestStub)
   })
 
   afterEach(() => {
@@ -34,9 +35,14 @@ describe('FactFinderClientSuggest', function () {
   it('should return a list of suggestions', async () => {
     promisifyStub.returns((options) => {
       chai.assert.deepEqual(options, {
-        url: 'https://www.shopgate.com/Suggest.ff?format=json&query=raspberry&channel=de',
+        url: `${factFinderConfig.endPointBaseUrl}/suggest`,
         json: true,
-        timeout: 10000
+        timeout: 10000,
+        method: 'POST',
+        body: {
+          channel: factFinderConfig.channel,
+          query: 'Ssd'
+        }
       })
 
       return {
@@ -46,13 +52,10 @@ describe('FactFinderClientSuggest', function () {
     })
 
     const expected = [
-      'RASPBERRY',
-      'RASPBERRY PI 3',
-      'RASPBERRY PI ZERO W',
-      'RASPBERRY GEHAEUSE',
-      'RASPBERRY PI GEHAEUSE'
+      'ssd'
     ]
-    const actual = await suggest.execute({ query: 'raspberry', channel: 'de' })
+    const actual = await suggest.execute({ query: 'Ssd', channel: factFinderConfig.channel })
+
     chai.assert.deepEqual(actual, expected)
   })
 
