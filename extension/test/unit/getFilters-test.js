@@ -34,81 +34,462 @@ describe('getFilters', async () => {
   it('should return list of shopgate filters', async function () {
     const returnedFilters = [
       {
-        associatedFieldName: 'breadcrumbROOT/Gitarren/Westerngitarren',
-        name: 'CategoryPath',
-        filterStyle: 'TREE',
+        name: 'Kategorie',
         elements: [
           {
-            associatedFieldName: 'breadcrumbROOT/Gitarren/Westerngitarren',
-            filterValue: 'Dreadnought',
+            text: 'Interne SSD Festplatten',
+            totalHits: 14,
+            searchParams: {
+              query: 'Ssd intenso',
+              filters: [
+                {
+                  name: 'category',
+                  values: [
+                    {
+                      value: [
+                        'Computer & Telefon',
+                        'Festplatten / Speichermedien',
+                        'Interne SSD Festplatten'
+                      ],
+                      type: 'or',
+                      exclude: false
+                    }
+                  ],
+                  substring: false
+                },
+                {
+                  name: 'category',
+                  values: [
+                    {
+                      value: [
+                        'Computer & Telefon'
+                      ],
+                      type: 'or',
+                      exclude: false
+                    }
+                  ],
+                  substring: true
+                }
+              ],
+              sortItems: [
+                {
+                  order: 'desc',
+                  name: 'Relevancy'
+                }
+              ],
+              channel: 'stage_pollin_de',
+              hitsPerPage: 32
+            },
+            selected: 'FALSE',
             clusterLevel: 2,
-            name: 'Dreadnought',
-            previewImageURL: null,
-            recordCount: 2,
-            searchParams: '/Shopgate6.8/Search.ff?query=roxette&filterFarbe=Schwarz&filterbreadcrumbROOT=Gitarren&filtermarke=Yamaha&filterbreadcrumbROOT%2FGitarren=Westerngitarren&filterbreadcrumbROOT%2FGitarren%2FWesterngitarren=Dreadnought&channel=de&followSearch=8855&format=JSON',
-            selected: false
+            filterValue: 'Interne SSD Festplatten'
           },
           {
-            associatedFieldName: 'breadcrumbROOT/Gitarren/Westerngitarren',
-            filterValue: 'Folk-Gitarren',
+            text: 'Externe SSD-Festplatten',
+            totalHits: 11,
+            searchParams: {
+              query: 'Ssd intenso',
+              filters: [
+                {
+                  name: 'category',
+                  values: [
+                    {
+                      value: [
+                        'Computer & Telefon',
+                        'Festplatten / Speichermedien',
+                        'Externe SSD-Festplatten'
+                      ],
+                      type: 'or',
+                      exclude: false
+                    }
+                  ],
+                  substring: false
+                },
+                {
+                  name: 'category',
+                  values: [
+                    {
+                      value: [
+                        'Computer & Telefon'
+                      ],
+                      type: 'or',
+                      exclude: false
+                    }
+                  ],
+                  substring: true
+                }
+              ],
+              sortItems: [
+                {
+                  order: 'desc',
+                  name: 'Relevancy'
+                }
+              ],
+              channel: 'stage_pollin_de',
+              hitsPerPage: 32
+            },
+            selected: 'FALSE',
             clusterLevel: 2,
-            name: 'Folk-Gitarren',
-            previewImageURL: null,
-            recordCount: 1,
-            searchParams: '/Shopgate6.8/Search.ff?query=roxette&filterFarbe=Schwarz&filterbreadcrumbROOT=Gitarren&filtermarke=Yamaha&filterbreadcrumbROOT%2FGitarren=Westerngitarren&filterbreadcrumbROOT%2FGitarren%2FWesterngitarren=Folk-Gitarren&channel=de&followSearch=8855&format=JSON',
-            selected: false
+            filterValue: 'Externe SSD-Festplatten'
           }
-        ]
+        ],
+        selectedElements: [
+          {
+            text: 'Computer & Telefon',
+            totalHits: 25,
+            searchParams: {
+              query: 'Ssd intenso',
+              filters: [
+                {
+                  name: 'category',
+                  values: [
+                    {
+                      value: [
+                        'Computer & Telefon'
+                      ],
+                      type: 'or',
+                      exclude: false
+                    }
+                  ],
+                  substring: true
+                }
+              ],
+              sortItems: [
+                {
+                  order: 'desc',
+                  name: 'Relevancy'
+                }
+              ],
+              channel: 'stage_pollin_de',
+              hitsPerPage: 32
+            },
+            selected: 'TRUE',
+            clusterLevel: 0
+          },
+          {
+            text: 'Festplatten / Speichermedien',
+            totalHits: 25,
+            searchParams: {
+              query: 'Ssd intenso',
+              filters: [
+                {
+                  name: 'category',
+                  values: [
+                    {
+                      value: [
+                        'Computer & Telefon'
+                      ],
+                      type: 'or',
+                      exclude: false
+                    }
+                  ],
+                  substring: false
+                },
+                {
+                  name: 'category',
+                  values: [
+                    {
+                      value: [
+                        'Computer & Telefon'
+                      ],
+                      type: 'or',
+                      exclude: false
+                    }
+                  ],
+                  substring: true
+                }
+              ],
+              sortItems: [
+                {
+                  order: 'desc',
+                  name: 'Relevancy'
+                }
+              ],
+              channel: 'stage_pollin_de',
+              hitsPerPage: 32
+            },
+            selected: 'IMPLICIT',
+            clusterLevel: 1
+          }
+        ],
+        detailedLinks: 5,
+        unit: '',
+        type: 'CATEGORY_PATH',
+        showPreviewImages: false,
+        filterStyle: 'TREE',
+        selectionType: 'singleHideUnselected',
+        associatedFieldName: 'category'
       },
       {
-        associatedFieldName: 'Tonabnehmer',
-        name: 'Tonabnehmer',
-        filterStyle: 'MULTISELECT',
+        name: 'Speicherkapazität in GB',
         elements: [
           {
-            associatedFieldName: 'Tonabnehmer',
-            filterValue: 'nein',
+            text: '< 150',
+            totalHits: 6,
+            searchParams: {
+              query: 'Ssd intenso',
+              filters: [
+                {
+                  name: 'Speicherkapazität~~GB',
+                  values: [
+                    {
+                      value: '[100.0, 150.0)',
+                      type: 'or',
+                      exclude: false
+                    }
+                  ],
+                  substring: false
+                },
+                {
+                  name: 'category',
+                  values: [
+                    {
+                      value: [
+                        'Computer & Telefon'
+                      ],
+                      type: 'or',
+                      exclude: false
+                    }
+                  ],
+                  substring: true
+                }
+              ],
+              sortItems: [
+                {
+                  order: 'desc',
+                  name: 'Relevancy'
+                }
+              ],
+              channel: 'stage_pollin_de',
+              hitsPerPage: 32
+            },
+            selected: 'FALSE',
             clusterLevel: 0,
-            name: 'nein',
-            previewImageURL: null,
-            recordCount: 2,
-            searchParams: '/Shopgate6.8/Search.ff?query=roxette&filterTonabnehmer=nein&filterFarbe=Schwarz&filterbreadcrumbROOT=Gitarren&filtermarke=Yamaha&filterbreadcrumbROOT%2FGitarren=Westerngitarren&channel=de&followSearch=8855&format=JSON',
-            selected: false
+            filterValue: '< 150'
           },
           {
-            associatedFieldName: 'Tonabnehmer',
-            filterValue: 'ja',
+            text: '150 - 249',
+            totalHits: 2,
+            searchParams: {
+              query: 'Ssd intenso',
+              filters: [
+                {
+                  name: 'Speicherkapazität~~GB',
+                  values: [
+                    {
+                      value: '[150.0, 250.0)',
+                      type: 'or',
+                      exclude: false
+                    }
+                  ],
+                  substring: false
+                },
+                {
+                  name: 'category',
+                  values: [
+                    {
+                      value: [
+                        'Computer & Telefon'
+                      ],
+                      type: 'or',
+                      exclude: false
+                    }
+                  ],
+                  substring: true
+                }
+              ],
+              sortItems: [
+                {
+                  order: 'desc',
+                  name: 'Relevancy'
+                }
+              ],
+              channel: 'stage_pollin_de',
+              hitsPerPage: 32
+            },
+            selected: 'FALSE',
             clusterLevel: 0,
-            name: 'ja',
-            previewImageURL: null,
-            recordCount: 1,
-            searchParams: '/Shopgate6.8/Search.ff?query=roxette&filterTonabnehmer=ja&filterFarbe=Schwarz&filterbreadcrumbROOT=Gitarren&filtermarke=Yamaha&filterbreadcrumbROOT%2FGitarren=Westerngitarren&channel=de&followSearch=8855&format=JSON',
-            selected: false
+            filterValue: '150 - 249'
+          },
+          {
+            text: '250 - 499',
+            totalHits: 6,
+            searchParams: {
+              query: 'Ssd intenso',
+              filters: [
+                {
+                  name: 'Speicherkapazität~~GB',
+                  values: [
+                    {
+                      value: '[250.0, 500.0)',
+                      type: 'or',
+                      exclude: false
+                    }
+                  ],
+                  substring: false
+                },
+                {
+                  name: 'category',
+                  values: [
+                    {
+                      value: [
+                        'Computer & Telefon'
+                      ],
+                      type: 'or',
+                      exclude: false
+                    }
+                  ],
+                  substring: true
+                }
+              ],
+              sortItems: [
+                {
+                  order: 'desc',
+                  name: 'Relevancy'
+                }
+              ],
+              channel: 'stage_pollin_de',
+              hitsPerPage: 32
+            },
+            selected: 'FALSE',
+            clusterLevel: 0,
+            filterValue: '250 - 499'
+          },
+          {
+            text: '500 - 749',
+            totalHits: 6,
+            searchParams: {
+              query: 'Ssd intenso',
+              filters: [
+                {
+                  name: 'Speicherkapazität~~GB',
+                  values: [
+                    {
+                      value: '[500.0, 750.0)',
+                      type: 'or',
+                      exclude: false
+                    }
+                  ],
+                  substring: false
+                },
+                {
+                  name: 'category',
+                  values: [
+                    {
+                      value: [
+                        'Computer & Telefon'
+                      ],
+                      type: 'or',
+                      exclude: false
+                    }
+                  ],
+                  substring: true
+                }
+              ],
+              sortItems: [
+                {
+                  order: 'desc',
+                  name: 'Relevancy'
+                }
+              ],
+              channel: 'stage_pollin_de',
+              hitsPerPage: 32
+            },
+            selected: 'FALSE',
+            clusterLevel: 0,
+            filterValue: '500 - 749'
+          },
+          {
+            text: '>= 750',
+            totalHits: 4,
+            searchParams: {
+              query: 'Ssd intenso',
+              filters: [
+                {
+                  name: 'Speicherkapazität~~GB',
+                  values: [
+                    {
+                      value: '[750.0, 1250.0)',
+                      type: 'or',
+                      exclude: false
+                    }
+                  ],
+                  substring: false
+                },
+                {
+                  name: 'category',
+                  values: [
+                    {
+                      value: [
+                        'Computer & Telefon'
+                      ],
+                      type: 'or',
+                      exclude: false
+                    }
+                  ],
+                  substring: true
+                }
+              ],
+              sortItems: [
+                {
+                  order: 'desc',
+                  name: 'Relevancy'
+                }
+              ],
+              channel: 'stage_pollin_de',
+              hitsPerPage: 32
+            },
+            selected: 'FALSE',
+            clusterLevel: 0,
+            filterValue: '>= 750'
           }
-        ]
+        ],
+        selectedElements: [],
+        detailedLinks: 5,
+        unit: 'GB',
+        type: 'FLOAT',
+        showPreviewImages: false,
+        filterStyle: 'MULTISELECT',
+        selectionType: 'multiSelectOr',
+        associatedFieldName: 'Speicherkapazität~~GB'
       }
     ]
 
     clientStub.search
-      .resolves({ filters: returnedFilters })
+      .resolves({filters: returnedFilters})
 
-    chai.assert.deepEqual(await getFilters(context, { searchPhrase: 'raspberry' }), {
+    chai.assert.deepEqual(await getFilters(context, {searchPhrase: 'Ssd Intenso'}), {
       filters: [
         {
-          id: 'Tonabnehmer',
-          label: 'Tonabnehmer',
+          id: 'Speicherkapazität~~GB',
+          label: 'Speicherkapazität in GB',
           source: 'fact-finder',
           type: 'multiselect',
           values: [
             {
-              id: 'nein',
-              label: 'nein',
+              label: '< 150',
+              hits: 6,
+              id: '< 150'
+            },
+            {
+              label: '150 - 249',
+              id: '150 - 249',
               hits: 2
             },
             {
-              id: 'ja',
-              label: 'ja',
-              hits: 1
+              label: '250 - 499',
+              id: '250 - 499',
+              hits: 6
+            },
+            {
+              label: '500 - 749',
+              id: '500 - 749',
+              hits: 6
+            },
+            {
+              label: '>= 750',
+              id: '>= 750',
+              hits: 4
             }
           ]
         }
@@ -120,7 +501,7 @@ describe('getFilters', async () => {
     clientStub.search
       .rejects(new FactFinderInvalidResponseError({response: {}}))
 
-    const filterResult = await getFilters(context, { searchPhrase: 'unexpected search param that brakes the response' })
+    const filterResult = await getFilters(context, {searchPhrase: 'unexpected search param that brakes the response'})
     chai.assert.deepEqual(filterResult.filters, [])
     chai.assert.property(filterResult, 'contentError')
     sinon.assert.called(context.log.error)

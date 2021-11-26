@@ -14,7 +14,7 @@ describe('FactFinderClientSearchFilter', function () {
                 {
                   'type': 'or',
                   'exclude': false,
-                  'value': '[17.9, 30)'
+                  'value': '>17.9'
                 }
               ]
             },
@@ -53,15 +53,52 @@ describe('FactFinderClientSearchFilter', function () {
     it('should provide a filter name and value usable in applying filter', function () {
       assert.deepStrictEqual(
         filterPrepareValueForSearchParams(
-          'PREIS',
+          'KATEGORIE',
           [
-            '5.00+-+7.49',
-            '7.50+-+9.99'
-          ]),
+            {
+              'name': 'category',
+              'substring': true,
+              'values': [
+                {
+                  'type': 'or',
+                  'exclude': false,
+                  'value': 'Interne SSD Festplatten'
+                },
+                {
+                  'type': 'or',
+                  'exclude': false,
+                  'value': 'Interne SSD Festplatten 2'
+                }
+              ]
+            }
+          ]
+        ),
         {
-          filterName: 'filterPREIS',
-          filterValue: '5.00+-+7.49~~~7.50+-+9.99'
-        })
+          'filterName': 'KATEGORIE',
+          'filterValues': [
+            {
+              'exclude': false,
+              'type': 'or',
+              'value': {
+                'name': 'category',
+                'substring': true,
+                'values': [
+                  {
+                    'exclude': false,
+                    'type': 'or',
+                    'value': 'Interne SSD Festplatten'
+                  },
+                  {
+                    'exclude': false,
+                    'type': 'or',
+                    'value': 'Interne SSD Festplatten 2'
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      )
     })
   })
 })
