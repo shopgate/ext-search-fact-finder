@@ -34,23 +34,27 @@ describe('FactFinderClientSearch', function () {
   it('should return uids with a simple selector', async function () {
     subjectUnderTest = new FactFinderClientSearch(configs.factFinderConfig.endPointBaseUrl, 'utf8', '{$.masterValues.ARTNR}', requestStub)
     promisifyStub.returns(() => ({ body: require('./mockedApiResponses/Search-uids') }))
-    assert.deepStrictEqual(await subjectUnderTest.execute({query: 'test', channel: 'test'}),
-      clientSearchSuccess
+
+    const { uids } = await subjectUnderTest.execute({query: 'test', channel: 'test'})
+
+    assert.deepStrictEqual(uids,
+      clientSearchSuccess.uids
     )
   })
 
   it('should return uids with a more complex selector', async function () {
     subjectUnderTest = new FactFinderClientSearch(configs.factFinderConfig.endPointBaseUrl, 'utf8', '{$.masterValues.shopid}-{$.masterValues.ean}', requestStub)
     promisifyStub.returns(() => ({ body: require('./mockedApiResponses/Search-uids') }))
-    assert.deepStrictEqual(await subjectUnderTest.execute({query: 'test', channel: 'test', filters: []}),
-      {
-        ...clientSearchSuccess,
-        uids: [
-          '74255-4034303023530',
-          '14640-4034303023479',
-          '14639-4034303023448'
-        ]
-      })
+
+    const { uids } = await subjectUnderTest.execute({query: 'test', channel: 'test'})
+
+    assert.deepStrictEqual(uids,
+      [
+        '74255-4034303023530',
+        '14640-4034303023479',
+        '14639-4034303023448'
+      ]
+    )
   })
 
   it('should handle 4xx errors from FACT-Finder', async () => {

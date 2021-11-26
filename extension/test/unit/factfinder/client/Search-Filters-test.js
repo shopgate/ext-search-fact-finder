@@ -55,6 +55,7 @@ describe('FactFinderClientSearch', function () {
       }
     })
 
+    // TODO: move to file
     const expected = [
       {
         associatedFieldName: 'category',
@@ -64,97 +65,11 @@ describe('FactFinderClientSearch', function () {
           {
             text: 'Interne SSD Festplatten',
             totalHits: 14,
-            searchParams: {
-              query: 'Ssd intenso',
-              filters: [
-                {
-                  name: 'category',
-                  values: [
-                    {
-                      value: [
-                        'Computer & Telefon',
-                        'Festplatten / Speichermedien',
-                        'Interne SSD Festplatten'
-                      ],
-                      type: 'or',
-                      exclude: false
-                    }
-                  ],
-                  substring: false
-                },
-                {
-                  name: 'category',
-                  values: [
-                    {
-                      value: [
-                        'Computer & Telefon'
-                      ],
-                      type: 'or',
-                      exclude: false
-                    }
-                  ],
-                  substring: true
-                }
-              ],
-              sortItems: [
-                {
-                  order: 'desc',
-                  name: 'Relevancy'
-                }
-              ],
-              channel: 'stage_pollin_de',
-              hitsPerPage: 32
-            },
-            selected: 'FALSE',
-            clusterLevel: 2,
             filterValue: 'Computer & Telefon'
           },
           {
             text: 'Externe SSD-Festplatten',
             totalHits: 11,
-            searchParams: {
-              query: 'Ssd intenso',
-              filters: [
-                {
-                  name: 'category',
-                  values: [
-                    {
-                      value: [
-                        'Computer & Telefon',
-                        'Festplatten / Speichermedien',
-                        'Externe SSD-Festplatten'
-                      ],
-                      type: 'or',
-                      exclude: false
-                    }
-                  ],
-                  substring: false
-                },
-                {
-                  name: 'category',
-                  values: [
-                    {
-                      value: [
-                        'Computer & Telefon'
-                      ],
-                      type: 'or',
-                      exclude: false
-                    }
-                  ],
-                  substring: true
-                }
-              ],
-              sortItems: [
-                {
-                  order: 'desc',
-                  name: 'Relevancy'
-                }
-              ],
-              channel: 'stage_pollin_de',
-              hitsPerPage: 32
-            },
-            selected: 'FALSE',
-            clusterLevel: 2,
             filterValue: 'Computer & Telefon'
           }
         ]
@@ -167,221 +82,26 @@ describe('FactFinderClientSearch', function () {
           {
             text: '< 150',
             totalHits: 6,
-            searchParams: {
-              query: 'Ssd intenso',
-              filters: [
-                {
-                  name: 'Speicherkapazität~~GB',
-                  values: [
-                    {
-                      value: '[100.0, 150.0)',
-                      type: 'or',
-                      exclude: false
-                    }
-                  ],
-                  substring: false
-                },
-                {
-                  name: 'category',
-                  values: [
-                    {
-                      value: [
-                        'Computer & Telefon'
-                      ],
-                      type: 'or',
-                      exclude: false
-                    }
-                  ],
-                  substring: true
-                }
-              ],
-              sortItems: [
-                {
-                  order: 'desc',
-                  name: 'Relevancy'
-                }
-              ],
-              channel: 'stage_pollin_de',
-              hitsPerPage: 32
-            },
-            selected: 'FALSE',
-            clusterLevel: 0,
             filterValue: '[100.0, 150.0)'
           },
           {
             text: '150 - 249',
             totalHits: 2,
-            searchParams: {
-              query: 'Ssd intenso',
-              filters: [
-                {
-                  name: 'Speicherkapazität~~GB',
-                  values: [
-                    {
-                      value: '[150.0, 250.0)',
-                      type: 'or',
-                      exclude: false
-                    }
-                  ],
-                  substring: false
-                },
-                {
-                  name: 'category',
-                  values: [
-                    {
-                      value: [
-                        'Computer & Telefon'
-                      ],
-                      type: 'or',
-                      exclude: false
-                    }
-                  ],
-                  substring: true
-                }
-              ],
-              sortItems: [
-                {
-                  order: 'desc',
-                  name: 'Relevancy'
-                }
-              ],
-              channel: 'stage_pollin_de',
-              hitsPerPage: 32
-            },
-            selected: 'FALSE',
-            clusterLevel: 0,
             filterValue: '[150.0, 250.0)'
           },
           {
             text: '250 - 499',
             totalHits: 6,
-            searchParams: {
-              query: 'Ssd intenso',
-              filters: [
-                {
-                  name: 'Speicherkapazität~~GB',
-                  values: [
-                    {
-                      value: '[250.0, 500.0)',
-                      type: 'or',
-                      exclude: false
-                    }
-                  ],
-                  substring: false
-                },
-                {
-                  name: 'category',
-                  values: [
-                    {
-                      value: [
-                        'Computer & Telefon'
-                      ],
-                      type: 'or',
-                      exclude: false
-                    }
-                  ],
-                  substring: true
-                }
-              ],
-              sortItems: [
-                {
-                  order: 'desc',
-                  name: 'Relevancy'
-                }
-              ],
-              channel: 'stage_pollin_de',
-              hitsPerPage: 32
-            },
-            selected: 'FALSE',
-            clusterLevel: 0,
             filterValue: '[250.0, 500.0)'
           },
           {
             text: '500 - 749',
             totalHits: 6,
-            searchParams: {
-              query: 'Ssd intenso',
-              filters: [
-                {
-                  name: 'Speicherkapazität~~GB',
-                  values: [
-                    {
-                      value: '[500.0, 750.0)',
-                      type: 'or',
-                      exclude: false
-                    }
-                  ],
-                  substring: false
-                },
-                {
-                  name: 'category',
-                  values: [
-                    {
-                      value: [
-                        'Computer & Telefon'
-                      ],
-                      type: 'or',
-                      exclude: false
-                    }
-                  ],
-                  substring: true
-                }
-              ],
-              sortItems: [
-                {
-                  order: 'desc',
-                  name: 'Relevancy'
-                }
-              ],
-              channel: 'stage_pollin_de',
-              hitsPerPage: 32
-            },
-            selected: 'FALSE',
-            clusterLevel: 0,
             filterValue: '[500.0, 750.0)'
           },
           {
             text: '>= 750',
             totalHits: 4,
-            searchParams: {
-              query: 'Ssd intenso',
-              filters: [
-                {
-                  name: 'Speicherkapazität~~GB',
-                  values: [
-                    {
-                      value: '[750.0, 1250.0)',
-                      type: 'or',
-                      exclude: false
-                    }
-                  ],
-                  substring: false
-                },
-                {
-                  name: 'category',
-                  values: [
-                    {
-                      value: [
-                        'Computer & Telefon'
-                      ],
-                      type: 'or',
-                      exclude: false
-                    }
-                  ],
-                  substring: true
-                }
-              ],
-              sortItems: [
-                {
-                  order: 'desc',
-                  name: 'Relevancy'
-                }
-              ],
-              channel: 'stage_pollin_de',
-              hitsPerPage: 32
-            },
-            selected: 'FALSE',
-            clusterLevel: 0,
             filterValue: '[750.0, 1250.0)'
           }
         ]

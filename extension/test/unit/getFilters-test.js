@@ -14,7 +14,7 @@ describe('getFilters', async () => {
   const sandbox = sinon.createSandbox()
   const context = {
     config: {
-      baseUri: 'https://www.shopgate.com/FactFinder',
+      baseUri: 'https://www.shopgate.com/FactFinder', // TODO: update
       channel: 'de'
     }
   }
@@ -32,6 +32,8 @@ describe('getFilters', async () => {
   })
 
   it('should return list of shopgate filters', async function () {
+
+    // TODO: move to external file
     const returnedFilters = [
       {
         name: 'Kategorie',

@@ -142,8 +142,11 @@ function prepareFiltersFromResponse (response) {
       name: facet.name,
       filterStyle: facet.filterStyle,
       elements: facet.elements.map(element => {
-        element.filterValue = filterDecodeValueFromSearchParams(facet.associatedFieldName, element.searchParams)
-        return element
+        return {
+          text: element.text,
+          totalHits: element.totalHits,
+          filterValue: filterDecodeValueFromSearchParams(facet.associatedFieldName, element.searchParams)
+        }
       })
     }
   }).filter(Boolean)
