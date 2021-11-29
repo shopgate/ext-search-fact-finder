@@ -59,6 +59,59 @@ describe('FactFinderClientSuggest', function () {
     chai.assert.deepEqual(actual, expected)
   })
 
+  it('should return a list of multiple suggestions', async () => {
+    promisifyStub.returns((options) => {
+      chai.assert.deepEqual(options, {
+        url: `${factFinderConfig.endPointBaseUrl}/suggest`,
+        json: true,
+        timeout: 10000,
+        method: 'POST',
+        body: {
+          channel: factFinderConfig.channel,
+          query: 'kabel'
+        }
+      })
+
+      return {
+        statusCode: 200,
+        body: require('./mockedApiResponses/getMultipleSuggestions.success.json')
+      }
+    })
+
+    const expected = [
+      'kabel',
+      'patchkabel'
+    ]
+    const actual = await suggest.execute({ query: 'kabel', channel: factFinderConfig.channel })
+
+    chai.assert.deepEqual(actual, expected)
+  })
+
+  it('should return an empty list for not existing suggestions', async () => {
+    promisifyStub.returns((options) => {
+      chai.assert.deepEqual(options, {
+        url: `${factFinderConfig.endPointBaseUrl}/suggest`,
+        json: true,
+        timeout: 10000,
+        method: 'POST',
+        body: {
+          channel: factFinderConfig.channel,
+          query: 'should not work'
+        }
+      })
+
+      return {
+        statusCode: 200,
+        body: require('./mockedApiResponses/getNoSuggestions.success.json')
+      }
+    })
+
+    const expected = []
+    const actual = await suggest.execute({ query: 'should not work', channel: factFinderConfig.channel })
+
+    chai.assert.deepEqual(actual, expected)
+  })
+
   it('should handle 4xx errors from FACT-Finder', async () => {
     promisifyStub
       .returns(() => ({
