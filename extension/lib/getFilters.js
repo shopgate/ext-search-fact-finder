@@ -54,10 +54,9 @@ module.exports = async function (context, input) {
           let max = -Infinity
 
           filter.elements.forEach(element => {
-            const {text} = element
-            const matches = /(\d*[,.]\d*) - (\d*[,.]\d*)/.exec(text)
-            min = Math.min(min, parseFloat(matches[1]))
-            max = Math.max(max, parseFloat(matches[2]))
+            const { absoluteMinValue, absoluteMaxValue } = element
+            min = Math.min(min, absoluteMinValue)
+            max = Math.max(max, absoluteMaxValue)
           })
 
           return {
@@ -78,7 +77,12 @@ module.exports = async function (context, input) {
             }
           })
         }
-      }).filter(Boolean)
+      }).filter(Boolean).reduce((acc, e) => {
+        if (e.id === context.config.priceSliderId) {
+          return [e, ...acc]
+        }
+        return [...acc, e]
+      }, [])
 
     return { filters }
   } catch (e) {

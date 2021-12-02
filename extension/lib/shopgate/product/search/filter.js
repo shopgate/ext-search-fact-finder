@@ -2,7 +2,7 @@ const FactFinderClient = require('../../../factfinder/Client')
 
 /**
  * Map of supported filters.
- * @type {{DEFAULT: string, MULTISELECT: string, , SLIDER: string}}
+ * @type {{DEFAULT: string, MULTISELECT: string, SLIDER: string}}
  */
 const filterTypeMap = {
   DEFAULT: 'single_select',
@@ -17,8 +17,6 @@ const filterTypeMap = {
 function getFactFinderAppliedFilterFromShopgate (shopgateFilter) {
   let filterStyle
   let value
-
-  console.log('shopgatefilter', shopgateFilter)
 
   switch (shopgateFilter.type) {
     case filterTypeMap.DEFAULT: {

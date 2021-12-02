@@ -88,8 +88,6 @@ class FactFinderClientSearch extends AbstractFactFinderClientAction {
 
     searchRequest.filters = newFiltersStructure
 
-    console.log('searchRequest', JSON.stringify(searchRequest, null, 2))
-
     const response = await this.request(this.url, {
       params: searchRequest
     }, httpAuth)
@@ -144,11 +142,18 @@ function prepareFiltersFromResponse (response) {
       name: facet.name,
       filterStyle: facet.filterStyle,
       elements: facet.elements.map(element => {
-        return {
+        const baseElement = {
           text: element.text,
           totalHits: element.totalHits,
           filterValue: filterDecodeValueFromSearchParams(facet.associatedFieldName, element.searchParams)
         }
+
+        if (facet.filterStyle === filterStyle.SLIDER) {
+          baseElement['absoluteMinValue'] = element.absoluteMinValue
+          baseElement['absoluteMaxValue'] = element.absoluteMaxValue
+        }
+
+        return baseElement
       })
     }
   }).filter(Boolean)
