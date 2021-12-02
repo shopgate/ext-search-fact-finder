@@ -29,7 +29,7 @@ function getFactFinderAppliedFilterFromShopgate (shopgateFilter) {
 
     case filterTypeMap.SLIDER: {
       filterStyle = FactFinderClient.groups.filterStyle.SLIDER
-      value = `[${shopgateFilter.minimum / 100}, ${shopgateFilter.maximum / 100}]`
+      value = [`[${shopgateFilter.minimum / 100}, ${shopgateFilter.maximum / 100}]`]
       break
     }
 

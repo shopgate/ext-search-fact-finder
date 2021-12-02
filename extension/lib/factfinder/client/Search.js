@@ -88,6 +88,8 @@ class FactFinderClientSearch extends AbstractFactFinderClientAction {
 
     searchRequest.filters = newFiltersStructure
 
+    console.log('searchRequest', JSON.stringify(searchRequest, null, 2))
+
     const response = await this.request(this.url, {
       params: searchRequest
     }, httpAuth)
