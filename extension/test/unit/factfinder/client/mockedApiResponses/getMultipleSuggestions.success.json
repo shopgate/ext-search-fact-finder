@@ -1,0 +1,424 @@
+{
+  "suggestions": [
+    {
+      "name": "Kabel T-Verbinder DAYTOOLS JW17-T, 5-polig, IP68, 450 V~",
+      "type": "productName",
+      "image": "https://project-stage.pollin.de/images/1600x1200x90/I521169.1-Kabel-T-Verbinder-DAYTOOLS-JW17-T-5-polig-IP68-450-V.jpg",
+      "hitCount": 0,
+      "attributes": {
+        "sourceField": "UEBERSCHRIFT",
+        "deeplink": "https://stage.pollin.de/p/kabel-t-verbinder-daytools-jw17-t-5-polig-ip68-450-v-521169",
+        "ARTNR": "521169"
+      },
+      "searchParams": {
+        "query": "Kabel T-Verbinder DAYTOOLS JW17-T, 5-polig, IP68, 450 V~",
+        "channel": "stage_pollin_de",
+        "customParameters": [
+          {
+            "name": "queryFromSuggest",
+            "values": [
+              "true"
+            ],
+            "cacheIrrelevant": true
+          }
+        ]
+      },
+      "score": 99.0
+    },
+    {
+      "name": "Kabel Y-Verbinder DAYTOOLS JW17-Y, 5-polig, IP68, 450 V~",
+      "type": "productName",
+      "image": "https://project-stage.pollin.de/images/1600x1200x90/I521170.1-Kabel-Y-Verbinder-DAYTOOLS-JW17-Y-5-polig-IP68-450-V.jpg",
+      "hitCount": 0,
+      "attributes": {
+        "sourceField": "UEBERSCHRIFT",
+        "deeplink": "https://stage.pollin.de/p/kabel-y-verbinder-daytools-jw17-y-5-polig-ip68-450-v-521170",
+        "ARTNR": "521170"
+      },
+      "searchParams": {
+        "query": "Kabel Y-Verbinder DAYTOOLS JW17-Y, 5-polig, IP68, 450 V~",
+        "channel": "stage_pollin_de",
+        "customParameters": [
+          {
+            "name": "queryFromSuggest",
+            "values": [
+              "true"
+            ],
+            "cacheIrrelevant": true
+          }
+        ]
+      },
+      "score": 99.0
+    },
+    {
+      "name": "Kabel-Sammelhalterung",
+      "type": "productName",
+      "image": "https://project-stage.pollin.de/images/1600x1200x90/I550711.1-Kabel-Sammelhalterung.jpg",
+      "hitCount": 0,
+      "attributes": {
+        "sourceField": "UEBERSCHRIFT",
+        "deeplink": "https://stage.pollin.de/p/kabel-sammelhalterung-550711",
+        "ARTNR": "550711"
+      },
+      "searchParams": {
+        "query": "Kabel-Sammelhalterung",
+        "channel": "stage_pollin_de",
+        "customParameters": [
+          {
+            "name": "queryFromSuggest",
+            "values": [
+              "true"
+            ],
+            "cacheIrrelevant": true
+          }
+        ]
+      },
+      "score": 99.0
+    },
+    {
+      "name": "Kabel-Spiralschlauch",
+      "type": "productName",
+      "image": "https://project-stage.pollin.de/images/1600x1200x90/I440650.1-Kabel-Spiralschlauch.jpg",
+      "hitCount": 0,
+      "attributes": {
+        "sourceField": "UEBERSCHRIFT",
+        "deeplink": "https://stage.pollin.de/p/kabel-spiralschlauch-440650",
+        "ARTNR": "440650"
+      },
+      "searchParams": {
+        "query": "Kabel-Spiralschlauch",
+        "channel": "stage_pollin_de",
+        "customParameters": [
+          {
+            "name": "queryFromSuggest",
+            "values": [
+              "true"
+            ],
+            "cacheIrrelevant": true
+          }
+        ]
+      },
+      "score": 99.0
+    },
+    {
+      "name": "Kabel-Sammelhalterung",
+      "type": "productName",
+      "image": "https://project-stage.pollin.de/images/1600x1200x90/I550710.1-Kabel-Sammelhalterung.jpg",
+      "hitCount": 0,
+      "attributes": {
+        "sourceField": "UEBERSCHRIFT",
+        "deeplink": "https://stage.pollin.de/p/kabel-sammelhalterung-550710",
+        "ARTNR": "550710"
+      },
+      "searchParams": {
+        "query": "Kabel-Sammelhalterung",
+        "channel": "stage_pollin_de",
+        "customParameters": [
+          {
+            "name": "queryFromSuggest",
+            "values": [
+              "true"
+            ],
+            "cacheIrrelevant": true
+          }
+        ]
+      },
+      "score": 99.0
+    },
+    {
+      "name": "HELUKABEL",
+      "type": "brand",
+      "image": "",
+      "hitCount": 0,
+      "attributes": {
+        "sourceField": "Marke"
+      },
+      "searchParams": {
+        "query": "*",
+        "filters": [
+          {
+            "name": "Marke",
+            "values": [
+              {
+                "value": "HELUKABEL",
+                "type": "or",
+                "exclude": false
+              }
+            ],
+            "substring": false
+          }
+        ],
+        "channel": "stage_pollin_de",
+        "customParameters": [
+          {
+            "name": "queryFromSuggest",
+            "values": [
+              "true"
+            ],
+            "cacheIrrelevant": true
+          }
+        ]
+      },
+      "score": 97.995
+    },
+    {
+      "name": "Kabel & Zubehör",
+      "type": "category",
+      "image": "",
+      "hitCount": 0,
+      "attributes": {
+        "sourceField": "category",
+        "parentCategory": "Sat %2F TV %2F Audio/Car-HiFi"
+      },
+      "searchParams": {
+        "query": "*",
+        "filters": [
+          {
+            "name": "category",
+            "values": [
+              {
+                "value": [
+                  "Sat / TV / Audio",
+                  "Car-HiFi",
+                  "Kabel & Zubehör"
+                ],
+                "type": "or",
+                "exclude": false
+              }
+            ],
+            "substring": false
+          }
+        ],
+        "channel": "stage_pollin_de",
+        "customParameters": [
+          {
+            "name": "queryFromSuggest",
+            "values": [
+              "true"
+            ],
+            "cacheIrrelevant": true
+          }
+        ]
+      },
+      "score": 97.0
+    },
+    {
+      "name": "Kabel / Leitungen",
+      "type": "category",
+      "image": "",
+      "hitCount": 0,
+      "attributes": {
+        "sourceField": "category",
+        "parentCategory": "Haus & Garten/Installation %2F Kabel %2F Litzen"
+      },
+      "searchParams": {
+        "query": "*",
+        "filters": [
+          {
+            "name": "category",
+            "values": [
+              {
+                "value": [
+                  "Haus & Garten",
+                  "Installation / Kabel / Litzen",
+                  "Kabel / Leitungen"
+                ],
+                "type": "or",
+                "exclude": false
+              }
+            ],
+            "substring": false
+          }
+        ],
+        "channel": "stage_pollin_de",
+        "customParameters": [
+          {
+            "name": "queryFromSuggest",
+            "values": [
+              "true"
+            ],
+            "cacheIrrelevant": true
+          }
+        ]
+      },
+      "score": 99.0
+    },
+    {
+      "name": "Audio-Kabel",
+      "type": "category",
+      "image": "",
+      "hitCount": 0,
+      "attributes": {
+        "sourceField": "category",
+        "parentCategory": "Sat %2F TV %2F Audio/Audio %2F Hifi"
+      },
+      "searchParams": {
+        "query": "*",
+        "filters": [
+          {
+            "name": "category",
+            "values": [
+              {
+                "value": [
+                  "Sat / TV / Audio",
+                  "Audio / Hifi",
+                  "Audio-Kabel"
+                ],
+                "type": "or",
+                "exclude": false
+              }
+            ],
+            "substring": false
+          }
+        ],
+        "channel": "stage_pollin_de",
+        "customParameters": [
+          {
+            "name": "queryFromSuggest",
+            "values": [
+              "true"
+            ],
+            "cacheIrrelevant": true
+          }
+        ]
+      },
+      "score": 98.36059476502597
+    },
+    {
+      "name": "Kamera-Kabel",
+      "type": "category",
+      "image": "",
+      "hitCount": 0,
+      "attributes": {
+        "sourceField": "category",
+        "parentCategory": "Haus & Garten/Sicherheitstechnik"
+      },
+      "searchParams": {
+        "query": "*",
+        "filters": [
+          {
+            "name": "category",
+            "values": [
+              {
+                "value": [
+                  "Haus & Garten",
+                  "Sicherheitstechnik",
+                  "Kamera-Kabel"
+                ],
+                "type": "or",
+                "exclude": false
+              }
+            ],
+            "substring": false
+          }
+        ],
+        "channel": "stage_pollin_de",
+        "customParameters": [
+          {
+            "name": "queryFromSuggest",
+            "values": [
+              "true"
+            ],
+            "cacheIrrelevant": true
+          }
+        ]
+      },
+      "score": 98.36059476502597
+    },
+    {
+      "name": "KFZ-Kabel & -Sicherungen",
+      "type": "category",
+      "image": "",
+      "hitCount": 0,
+      "attributes": {
+        "sourceField": "category",
+        "parentCategory": "Werkstatt & KFZ/KFZ-Zubehör"
+      },
+      "searchParams": {
+        "query": "*",
+        "filters": [
+          {
+            "name": "category",
+            "values": [
+              {
+                "value": [
+                  "Werkstatt & KFZ",
+                  "KFZ-Zubehör",
+                  "KFZ-Kabel & -Sicherungen"
+                ],
+                "type": "or",
+                "exclude": false
+              }
+            ],
+            "substring": false
+          }
+        ],
+        "channel": "stage_pollin_de",
+        "customParameters": [
+          {
+            "name": "queryFromSuggest",
+            "values": [
+              "true"
+            ],
+            "cacheIrrelevant": true
+          }
+        ]
+      },
+      "score": 96.36059476502597
+    },
+    {
+      "name": "kabel",
+      "type": "searchTerm",
+      "image": "",
+      "hitCount": 2234,
+      "attributes": {},
+      "searchParams": {
+        "query": "kabel",
+        "channel": "stage_pollin_de",
+        "customParameters": [
+          {
+            "name": "queryFromSuggest",
+            "values": [
+              "true"
+            ],
+            "cacheIrrelevant": true
+          }
+        ]
+      },
+      "score": 100.0
+    },
+    {
+      "name": "patchkabel",
+      "type": "searchTerm",
+      "image": "",
+      "hitCount": 864,
+      "attributes": {},
+      "searchParams": {
+        "query": "patchkabel",
+        "channel": "stage_pollin_de",
+        "customParameters": [
+          {
+            "name": "queryFromSuggest",
+            "values": [
+              "true"
+            ],
+            "cacheIrrelevant": true
+          }
+        ]
+      },
+      "score": 98.99375
+    }
+  ],
+  "fieldRoles": {
+    "ean": "ean",
+    "price": "PREIS",
+    "deeplink": "deeplink",
+    "imageUrl": "Bild",
+    "description": "LANGTEXT",
+    "productNumber": "ARTNR",
+    "brand": "Marke",
+    "productName": "UEBERSCHRIFT"
+  },
+  "splitDocuments": false,
+  "articleNumberSearchAllowed": false
+}

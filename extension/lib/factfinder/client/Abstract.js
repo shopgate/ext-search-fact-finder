@@ -8,11 +8,13 @@ class AbstractFactFinderClientAction {
     this._tracedRequest = tracedRequest
   }
 
-  async request (url, httpAuth) {
+  async request (url, body = null, httpAuth) {
     const options = {
       url: url.toString(),
       timeout: 10000,
-      json: true
+      json: true,
+      method: 'POST',
+      body
     }
     if (httpAuth && httpAuth.user && httpAuth.pass) {
       options.auth = httpAuth

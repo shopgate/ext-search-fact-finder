@@ -1,40 +1,49 @@
 /**
  * @param {string} filterName
- * @param {string} searchParams
+ * @param {object} searchParams
  * @return {string}
  */
 function filterDecodeValueFromSearchParams (filterName, searchParams) {
-  const filter = `filter${encodeURIComponent(filterName)}=(.+?)(?:$|&)`
-  const matches = searchParams.match(new RegExp(filter))
-  if (!matches) {
+  if (!searchParams.filters) {
     return null
   }
 
-  return matches[1]
+  const filter = searchParams.filters.find(f => f.name === filterName)
+
+  if (!filter || !filter.values) {
+    return null
+  }
+
+  // eventually creates a flatten array
+  return Array.prototype.concat.apply([], filter.values.map(value => value.value))[0]
 }
 
 /**
  * @param {string} filterName
  * @param {*} values
- * @return {{filterName: string, filterValue: string}}
+ * @return {{filterName: string, filterValues: Object[]}}
  */
 function filterPrepareValueForSearchParams (filterName, values) {
   return {
-    filterName: `filter${encodeURIComponent(filterName)}`,
-    filterValue: getFilterValue(values)
+    filterName: filterName,
+    filterValues: getFilterValues(values)
   }
 }
 
 /**
- * @param {any} value
- * @returns {string}
+ * @param {any} values
+ * @returns {Object}
  */
-function getFilterValue (value) {
-  if (Array.isArray(value)) {
-    return value.join('~~~')
+function getFilterValues (values) {
+  if (Array.isArray(values)) {
+    return values.map(value => ({
+      type: 'or',
+      exclude: false,
+      value
+    }))
   }
 
-  return value
+  return values
 }
 
 module.exports = {

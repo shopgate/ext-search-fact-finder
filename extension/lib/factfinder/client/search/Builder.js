@@ -43,11 +43,11 @@ class FactFinderClientSearchBuilder {
   }
 
   /**
-   * @param {number} productsPerPage
+   * @param {number} hitsPerPage
    * @returns {FactFinderClientSearchBuilder}
    */
-  productsPerPage (productsPerPage) {
-    this._productsPerPage = productsPerPage
+  productsPerPage (hitsPerPage) {
+    this._hitsPerPage = hitsPerPage
     return this
   }
 
@@ -111,15 +111,20 @@ class FactFinderClientSearchBuilder {
 
     parameters.filters = this._filters
 
+    parameters.sortItems = []
+
     if ([] !== this._sort) {
       this._sort.forEach(sort => {
-        parameters[`sort${sort.fieldName}`] = sort.direction
+        parameters.sortItems.push({
+          name: sort.fieldName,
+          order: sort.direction
+        })
       })
     }
 
     parameters.page = this._pageNumber || 1
-    if (this._productsPerPage) {
-      parameters.productsPerPage = this._productsPerPage
+    if (this._hitsPerPage) {
+      parameters.hitsPerPage = this._hitsPerPage
     }
 
     if (this._useCampaigns) {

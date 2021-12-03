@@ -5,6 +5,8 @@ let { FactFinderClientSearch } = require('../../../../lib/factfinder/client/Sear
 const FactFinderClientError = require('../../../../lib/factfinder/client/errors/FactFinderClientError')
 const FactFinderServerError = require('../../../../lib/factfinder/client/errors/FactFinderServerError')
 const FactFinderInvalidResponseError = require('../../../../lib/factfinder/client/errors/FactFinderInvalidResponseError')
+const configs = require('../../config')
+const clientSearchSuccess = require('./mockedExecutionResponses/clientSearch.success.json')
 
 describe('FactFinderClientSearch', function () {
   /** @type FactFinderClientSearch */
@@ -22,7 +24,7 @@ describe('FactFinderClientSearch', function () {
         'util': { promisify: promisifyStub }
       })
     }).FactFinderClientSearch
-    subjectUnderTest = new FactFinderClientSearch('http://shopgate.fact-finder.com', 'utf8', '$.id', requestStub)
+    subjectUnderTest = new FactFinderClientSearch(configs.factFinderConfig.endPointBaseUrl, 'utf8', '$.id', requestStub)
   })
 
   afterEach(() => {
@@ -30,33 +32,29 @@ describe('FactFinderClientSearch', function () {
   })
 
   it('should return uids with a simple selector', async function () {
-    subjectUnderTest = new FactFinderClientSearch('http://shopgate.fact-finder.com', 'utf8', '{$.record.ARTNR}', requestStub)
+    subjectUnderTest = new FactFinderClientSearch(configs.factFinderConfig.endPointBaseUrl, 'utf8', '{$.masterValues.ARTNR}', requestStub)
     promisifyStub.returns(() => ({ body: require('./mockedApiResponses/Search-uids') }))
-    assert.deepStrictEqual(await subjectUnderTest.execute({query: 'test', channel: 'test'}),
-      {
-        totalProductCount: 3309,
-        uids: [
-          '654321',
-          '456789'
-        ],
-        followSearch: '9995',
-        filters: []
-      })
+
+    const { uids } = await subjectUnderTest.execute({query: 'test', channel: 'test'})
+
+    assert.deepStrictEqual(uids,
+      clientSearchSuccess.uids
+    )
   })
 
   it('should return uids with a more complex selector', async function () {
-    subjectUnderTest = new FactFinderClientSearch('http://shopgate.fact-finder.com', 'utf8', '{$.record.shopid}-{$.record.ean}', requestStub)
+    subjectUnderTest = new FactFinderClientSearch(configs.factFinderConfig.endPointBaseUrl, 'utf8', '{$.masterValues.shopid}-{$.masterValues.ean}', requestStub)
     promisifyStub.returns(() => ({ body: require('./mockedApiResponses/Search-uids') }))
-    assert.deepStrictEqual(await subjectUnderTest.execute({query: 'test', channel: 'test', filters: []}),
-      {
-        totalProductCount: 3309,
-        uids: [
-          '43540-04712511128604',
-          '69923-04013833013525'
-        ],
-        followSearch: '9995',
-        filters: []
-      })
+
+    const { uids } = await subjectUnderTest.execute({query: 'test', channel: 'test'})
+
+    assert.deepStrictEqual(uids,
+      [
+        '74255-4034303023530',
+        '14640-4034303023479',
+        '14639-4034303023448'
+      ]
+    )
   })
 
   it('should handle 4xx errors from FACT-Finder', async () => {
@@ -65,7 +63,11 @@ describe('FactFinderClientSearch', function () {
         statusCode: 400
       }))
 
-    await subjectUnderTest.execute({ query: 'raspberry', filters: [] }).should.eventually.be.rejectedWith(FactFinderClientError)
+    await subjectUnderTest.execute({ query: 'raspberry', filters: [] })
+      .should
+      .eventually
+      .be
+      .rejectedWith(FactFinderClientError)
   })
 
   it('should handle 5xx errors from FACT-Finder', async () => {

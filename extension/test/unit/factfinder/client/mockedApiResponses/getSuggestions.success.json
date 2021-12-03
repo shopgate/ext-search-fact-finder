@@ -1,132 +1,244 @@
 {
   "suggestions": [
     {
+      "name": "SSD INTENSO High Performance 3813440, SATA III, 240 GB",
+      "type": "productName",
+      "image": "https://project-stage.pollin.de/images/1600x1200x90/I703089.1-SSD-INTENSO-High-Performance-3813440-SATA-III-240-GB.jpg",
+      "hitCount": 0,
       "attributes": {
-        "masterId": "810855",
-        "articleNr": "810855",
-        "deeplink": "https://www.shopgate.com/p/5-mp-kamera-fuer-raspberry-pi-joy-it-810855",
-        "id": "810855",
-        "campaignProductNr": "810855"
+        "sourceField": "UEBERSCHRIFT",
+        "deeplink": "https://stage.pollin.de/p/ssd-intenso-high-performance-3813440-sata-iii-240-gb-703089",
+        "ARTNR": "703089"
       },
-      "hitCount": 0,
-      "image": "https://www.shopgate.com/images/1600x1200x90/I810855.1-5-MP-Kamera-fuer-Raspberry-Pi-JOY-IT.jpg",
-      "name": "5 MP Kamera für Raspberry Pi, JOY-IT",
-      "searchParams": "/fact-finder/Search.ff?query=810855&channel=de",
-      "type": "productName"
+      "searchParams": {
+        "query": "SSD INTENSO High Performance 3813440, SATA III, 240 GB",
+        "channel": "stage_pollin_de",
+        "customParameters": [
+          {
+            "name": "queryFromSuggest",
+            "values": [
+              "true"
+            ],
+            "cacheIrrelevant": true
+          }
+        ]
+      },
+      "score": 99.0
     },
     {
+      "name": "SSD INTENSO High Performance 3813450, SATA III, 960 GB",
+      "type": "productName",
+      "image": "https://project-stage.pollin.de/images/1600x1200x90/I703530.1-SSD-INTENSO-High-Performance-3813450-SATA-III-960-GB.jpg",
+      "hitCount": 0,
       "attributes": {
-        "masterId": "810861",
-        "articleNr": "810861",
-        "deeplink": "https://www.shopgate.com/p/abstandsbolzen-set-m2-5-20-mm-fuer-raspberry-pi-810861",
-        "id": "810861",
-        "campaignProductNr": "810861"
+        "sourceField": "UEBERSCHRIFT",
+        "deeplink": "https://stage.pollin.de/p/ssd-intenso-high-performance-3813450-sata-iii-960-gb-703530",
+        "ARTNR": "703530"
       },
-      "hitCount": 0,
-      "image": "https://www.shopgate.com/images/1600x1200x90/I810861.1-Abstandsbolzen-Set-M2-5-20-mm-fuer-Raspberry-Pi.jpg",
-      "name": "Abstandsbolzen-Set M2,5, 20 mm, für Raspberry Pi",
-      "searchParams": "/fact-finder/Search.ff?query=810861&channel=de",
-      "type": "productName"
+      "searchParams": {
+        "query": "SSD INTENSO High Performance 3813450, SATA III, 960 GB",
+        "channel": "stage_pollin_de",
+        "customParameters": [
+          {
+            "name": "queryFromSuggest",
+            "values": [
+              "true"
+            ],
+            "cacheIrrelevant": true
+          }
+        ]
+      },
+      "score": 99.0
     },
     {
+      "name": "SSD INTENSO High Performance 3813430, SATA III, 120 GB",
+      "type": "productName",
+      "image": "https://project-stage.pollin.de/images/1600x1200x90/I703088.1-SSD-INTENSO-High-Performance-3813430-SATA-III-120-GB.jpg",
+      "hitCount": 0,
       "attributes": {
-        "masterId": "880251",
-        "articleNr": "880251",
-        "deeplink": "https://www.shopgate.com/p/baubox-franzis-raspberry-pi-fuer-kids-880251",
-        "id": "880251",
-        "campaignProductNr": "880251"
+        "sourceField": "UEBERSCHRIFT",
+        "deeplink": "https://stage.pollin.de/p/ssd-intenso-high-performance-3813430-sata-iii-120-gb-703088",
+        "ARTNR": "703088"
       },
-      "hitCount": 0,
-      "image": "https://www.shopgate.com/images/1600x1200x90/I880251.1-Baubox-FRANZIS-Raspberry-PI-fuer-Kids.jpg",
-      "name": "Baubox FRANZIS Raspberry PI für Kids",
-      "searchParams": "/fact-finder/Search.ff?query=880251&channel=de",
-      "type": "productName"
+      "searchParams": {
+        "query": "SSD INTENSO High Performance 3813430, SATA III, 120 GB",
+        "channel": "stage_pollin_de",
+        "customParameters": [
+          {
+            "name": "queryFromSuggest",
+            "values": [
+              "true"
+            ],
+            "cacheIrrelevant": true
+          }
+        ]
+      },
+      "score": 99.0
     },
     {
+      "name": "SSD INTENSO High Performance 3813450, SATA III, 480 GB",
+      "type": "productName",
+      "image": "https://project-stage.pollin.de/images/1600x1200x90/I703090.1-SSD-INTENSO-High-Performance-3813450-SATA-III-480-GB.jpg",
+      "hitCount": 0,
       "attributes": {
-        "masterId": "810625",
-        "articleNr": "810625",
-        "deeplink": "https://www.shopgate.com/p/erweiterungsplatine-explore-700-fuer-raspberry-pi-810625",
-        "id": "810625",
-        "campaignProductNr": "810625"
+        "sourceField": "UEBERSCHRIFT",
+        "deeplink": "https://stage.pollin.de/p/ssd-intenso-high-performance-3813450-sata-iii-480-gb-703090",
+        "ARTNR": "703090"
       },
-      "hitCount": 0,
-      "image": "https://www.shopgate.com/images/1600x1200x90/I810625.1-Erweiterungsplatine-Explore-700-fuer-Raspberry-Pi.jpg",
-      "name": "Erweiterungsplatine Explore 700 für Raspberry Pi",
-      "searchParams": "/fact-finder/Search.ff?query=810625&channel=de",
-      "type": "productName"
+      "searchParams": {
+        "query": "SSD INTENSO High Performance 3813450, SATA III, 480 GB",
+        "channel": "stage_pollin_de",
+        "customParameters": [
+          {
+            "name": "queryFromSuggest",
+            "values": [
+              "true"
+            ],
+            "cacheIrrelevant": true
+          }
+        ]
+      },
+      "score": 99.0
     },
     {
+      "name": "SSD INTENSO SATA III Top Performance, 512 GB",
+      "type": "productName",
+      "image": "https://project-stage.pollin.de/images/1600x1200x90/I712086.1-SSD-INTENSO-SATA-III-Top-Performance-512-GB.jpg",
+      "hitCount": 0,
       "attributes": {
-        "masterId": "702340",
-        "articleNr": "702340",
-        "deeplink": "https://www.shopgate.com/p/hutschienen-gehaeuse-fuer-raspberry-pi-model-b-6te-702340",
-        "id": "702340",
-        "campaignProductNr": "702340"
+        "sourceField": "UEBERSCHRIFT",
+        "deeplink": "https://stage.pollin.de/p/ssd-intenso-sata-iii-top-performance-512-gb-712086",
+        "ARTNR": "712086"
       },
-      "hitCount": 0,
-      "image": "https://www.shopgate.com/images/1600x1200x90/I702340.1-Hutschienen-Gehaeuse-fuer-Raspberry-Pi-Model-B-6TE.jpg",
-      "name": "Hutschienen-Gehäuse für Raspberry Pi Model B+, 6TE",
-      "searchParams": "/fact-finder/Search.ff?query=702340&channel=de",
-      "type": "productName"
+      "searchParams": {
+        "query": "SSD INTENSO SATA III Top Performance, 512 GB",
+        "channel": "stage_pollin_de",
+        "customParameters": [
+          {
+            "name": "queryFromSuggest",
+            "values": [
+              "true"
+            ],
+            "cacheIrrelevant": true
+          }
+        ]
+      },
+      "score": 99.0
     },
     {
+      "name": "Interne SSD Festplatten",
+      "type": "category",
+      "image": "",
+      "hitCount": 0,
       "attributes": {
-        "sourceField": "Marke"
+        "sourceField": "category",
+        "parentCategory": "Computer & Telefon/Festplatten %2F Speichermedien"
       },
+      "searchParams": {
+        "query": "*",
+        "filters": [
+          {
+            "name": "category",
+            "values": [
+              {
+                "value": [
+                  "Computer & Telefon",
+                  "Festplatten / Speichermedien",
+                  "Interne SSD Festplatten"
+                ],
+                "type": "or",
+                "exclude": false
+              }
+            ],
+            "substring": false
+          }
+        ],
+        "channel": "stage_pollin_de",
+        "customParameters": [
+          {
+            "name": "queryFromSuggest",
+            "values": [
+              "true"
+            ],
+            "cacheIrrelevant": true
+          }
+        ]
+      },
+      "score": 98.36059476502597
+    },
+    {
+      "name": "Externe SSD-Festplatten",
+      "type": "category",
+      "image": "",
       "hitCount": 0,
-      "image": "",
-      "name": "Raspberry Pi",
-      "searchParams": "/fact-finder/Search.ff?query=Raspberry+Pi+*&filterMarke=Raspberry+Pi&channel=de",
-      "type": "brand"
+      "attributes": {
+        "sourceField": "category",
+        "parentCategory": "Computer & Telefon/Festplatten %2F Speichermedien"
+      },
+      "searchParams": {
+        "query": "*",
+        "filters": [
+          {
+            "name": "category",
+            "values": [
+              {
+                "value": [
+                  "Computer & Telefon",
+                  "Festplatten / Speichermedien",
+                  "Externe SSD-Festplatten"
+                ],
+                "type": "or",
+                "exclude": false
+              }
+            ],
+            "substring": false
+          }
+        ],
+        "channel": "stage_pollin_de",
+        "customParameters": [
+          {
+            "name": "queryFromSuggest",
+            "values": [
+              "true"
+            ],
+            "cacheIrrelevant": true
+          }
+        ]
+      },
+      "score": 98.36059476502597
     },
     {
-      "attributes": {},
-      "hitCount": 245,
+      "name": "ssd",
+      "type": "searchTerm",
       "image": "",
-      "name": "RASPBERRY",
-      "searchParams": "/fact-finder/Search.ff?query=RASPBERRY&channel=de",
-      "type": "searchTerm"
-    },
-    {
+      "hitCount": 308,
       "attributes": {},
-      "hitCount": 136,
-      "image": "",
-      "name": "RASPBERRY PI 3",
-      "searchParams": "/fact-finder/Search.ff?query=RASPBERRY+PI+3&channel=de",
-      "type": "searchTerm"
-    },
-    {
-      "attributes": {},
-      "hitCount": 18,
-      "image": "",
-      "name": "RASPBERRY PI ZERO W",
-      "searchParams": "/fact-finder/Search.ff?query=RASPBERRY+PI+ZERO+W&channel=de",
-      "type": "searchTerm"
-    },
-    {
-      "attributes": {},
-      "hitCount": 61,
-      "image": "",
-      "name": "RASPBERRY GEHAEUSE",
-      "searchParams": "/fact-finder/Search.ff?query=RASPBERRY+GEHAEUSE&channel=de",
-      "type": "searchTerm"
-    },
-    {
-      "attributes": {},
-      "hitCount": 61,
-      "image": "",
-      "name": "RASPBERRY PI GEHAEUSE",
-      "searchParams": "/fact-finder/Search.ff?query=RASPBERRY+PI+GEHAEUSE&channel=de",
-      "type": "searchTerm"
-    },
-    {
-      "attributes": {},
-      "hitCount": 0,
-      "image": "",
-      "name": "raspberry pi3 + ",
-      "searchParams": "/fact-finder/Search.ff?query=raspberry+pi3+%2B&channel=de",
-      "type": "Service"
+      "searchParams": {
+        "query": "ssd",
+        "channel": "stage_pollin_de",
+        "customParameters": [
+          {
+            "name": "queryFromSuggest",
+            "values": [
+              "true"
+            ],
+            "cacheIrrelevant": true
+          }
+        ]
+      },
+      "score": 100.0
     }
-  ]
+  ],
+  "fieldRoles": {
+    "ean": "ean",
+    "price": "PREIS",
+    "deeplink": "deeplink",
+    "imageUrl": "Bild",
+    "description": "LANGTEXT",
+    "productNumber": "ARTNR",
+    "brand": "Marke",
+    "productName": "UEBERSCHRIFT"
+  },
+  "splitDocuments": false,
+  "articleNumberSearchAllowed": false
 }

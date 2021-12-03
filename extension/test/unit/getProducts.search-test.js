@@ -14,6 +14,7 @@ describe('getProducts.search', async () => {
   const sandbox = sinon.createSandbox()
   const context = {
     config: {
+      // TODO: update
       baseUri: 'https://www.shopgate.com/FactFinder',
       channel: 'de',
       uidTemplate: '{$.id}',

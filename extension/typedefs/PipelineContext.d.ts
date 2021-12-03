@@ -32,4 +32,5 @@ interface PipelineConfiguration {
   encoding: string,
   uidTemplate: string
   sortPriceName: string
+  priceSliderId: string
 }

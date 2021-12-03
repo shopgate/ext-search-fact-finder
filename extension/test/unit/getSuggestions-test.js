@@ -14,6 +14,7 @@ describe('getSuggestions', async () => {
   const sandbox = sinon.createSandbox()
   const context = {
     config: {
+      // TODO:
       baseUri: 'https://www.shopgate.com/FactFinder',
       channel: 'de'
     },

@@ -8,7 +8,8 @@ chai.use(require('chai-as-promised')).should()
 const FactFinderServerError = require('../../../../lib/factfinder/client/errors/FactFinderServerError')
 const FactFinderClientError = require('../../../../lib/factfinder/client/errors/FactFinderClientError')
 
-let { FactFinderClientSearch } = require('../../../../lib/factfinder/client/Search')
+let {FactFinderClientSearch} = require('../../../../lib/factfinder/client/Search')
+const {factFinderConfig} = require('../../config')
 
 describe('FactFinderClientSearch', function () {
   let requestStub, searchFilters, promisifyStub
@@ -21,11 +22,11 @@ describe('FactFinderClientSearch', function () {
 
     FactFinderClientSearch = proxyquire('../../../../lib/factfinder/client/Search', {
       './Abstract': proxyquire('../../../../lib/factfinder/client/Abstract', {
-        'util': { promisify: promisifyStub }
+        'util': {promisify: promisifyStub}
       })
     }).FactFinderClientSearch
 
-    searchFilters = new FactFinderClientSearch('https://www.shopgate.com', 'utf8', '$.id', requestStub)
+    searchFilters = new FactFinderClientSearch(factFinderConfig.endPointBaseUrl, 'utf8', '$.id', requestStub)
   })
 
   afterEach(() => {
@@ -35,9 +36,17 @@ describe('FactFinderClientSearch', function () {
   it('should return a list of filters', async () => {
     promisifyStub.returns((options) => {
       chai.assert.deepEqual(options, {
-        url: 'https://www.shopgate.com/Search.ff?format=json&version=7.3&query=raspberry&channel=de',
+        url: `${factFinderConfig.endPointBaseUrl}/search`,
         json: true,
-        timeout: 10000
+        timeout: 10000,
+        method: 'POST',
+        body: {
+          params: {
+            query: 'Ssd Intenso',
+            filters: [],
+            channel: factFinderConfig.channel
+          }
+        }
       })
 
       return {
@@ -46,144 +55,60 @@ describe('FactFinderClientSearch', function () {
       }
     })
 
+    // TODO: move to file
     const expected = [
       {
-        associatedFieldName: 'breadcrumbROOT/Gitarren/Westerngitarren',
-        name: 'CategoryPath',
+        associatedFieldName: 'category',
+        name: 'Kategorie',
         filterStyle: 'TREE',
         elements: [
           {
-            associatedFieldName: 'breadcrumbROOT/Gitarren/Westerngitarren',
-            filterValue: 'Dreadnought',
-            clusterLevel: 2,
-            name: 'Dreadnought',
-            previewImageURL: null,
-            recordCount: 2,
-            searchParams: '/Shopgate6.8/Search.ff?query=roxette&filterFarbe=Schwarz&filterbreadcrumbROOT=Gitarren&filtermarke=Yamaha&filterbreadcrumbROOT%2FGitarren=Westerngitarren&filterbreadcrumbROOT%2FGitarren%2FWesterngitarren=Dreadnought&channel=de&followSearch=8855&format=JSON',
-            selected: false
+            text: 'Interne SSD Festplatten',
+            totalHits: 14,
+            filterValue: 'Computer & Telefon'
           },
           {
-            associatedFieldName: 'breadcrumbROOT/Gitarren/Westerngitarren',
-            filterValue: 'Folk-Gitarren',
-            clusterLevel: 2,
-            name: 'Folk-Gitarren',
-            previewImageURL: null,
-            recordCount: 1,
-            searchParams: '/Shopgate6.8/Search.ff?query=roxette&filterFarbe=Schwarz&filterbreadcrumbROOT=Gitarren&filtermarke=Yamaha&filterbreadcrumbROOT%2FGitarren=Westerngitarren&filterbreadcrumbROOT%2FGitarren%2FWesterngitarren=Folk-Gitarren&channel=de&followSearch=8855&format=JSON',
-            selected: false
+            text: 'Externe SSD-Festplatten',
+            totalHits: 11,
+            filterValue: 'Computer & Telefon'
           }
         ]
       },
       {
-        associatedFieldName: 'serie',
-        name: 'Serie',
-        filterStyle: 'DEFAULT',
+        associatedFieldName: 'Speicherkapazität~~GB',
+        name: 'Speicherkapazität in GB',
+        filterStyle: 'MULTISELECT',
         elements: [
           {
-            associatedFieldName: 'serie',
-            filterValue: 'FG%2FFS+Series',
-            clusterLevel: 0,
-            name: 'FG/FS Series',
-            previewImageURL: null,
-            recordCount: 2,
-            searchParams: '/Shopgate6.8/Search.ff?query=roxette&filterserie=FG%2FFS+Series&filterFarbe=Schwarz&filterbreadcrumbROOT=Gitarren&filtermarke=Yamaha&filterbreadcrumbROOT%2FGitarren=Westerngitarren&channel=de&followSearch=8855&format=JSON',
-            selected: false
+            text: '< 150',
+            totalHits: 6,
+            filterValue: '[100.0, 150.0)'
           },
           {
-            associatedFieldName: 'serie',
-            filterValue: 'FGX%2FFSX+Series',
-            clusterLevel: 0,
-            name: 'FGX/FSX Series',
-            previewImageURL: null,
-            recordCount: 1,
-            searchParams: '/Shopgate6.8/Search.ff?query=roxette&filterserie=FGX%2FFSX+Series&filterFarbe=Schwarz&filterbreadcrumbROOT=Gitarren&filtermarke=Yamaha&filterbreadcrumbROOT%2FGitarren=Westerngitarren&channel=de&followSearch=8855&format=JSON',
-            selected: false
-          }
-        ]
-      },
-      {
-        associatedFieldName: 'Tonabnehmer',
-        name: 'Tonabnehmer',
-        filterStyle: 'DEFAULT',
-        elements: [
-          {
-            associatedFieldName: 'Tonabnehmer',
-            filterValue: 'nein',
-            clusterLevel: 0,
-            name: 'nein',
-            previewImageURL: null,
-            recordCount: 2,
-            searchParams: '/Shopgate6.8/Search.ff?query=roxette&filterTonabnehmer=nein&filterFarbe=Schwarz&filterbreadcrumbROOT=Gitarren&filtermarke=Yamaha&filterbreadcrumbROOT%2FGitarren=Westerngitarren&channel=de&followSearch=8855&format=JSON',
-            selected: false
+            text: '150 - 249',
+            totalHits: 2,
+            filterValue: '[150.0, 250.0)'
           },
           {
-            associatedFieldName: 'Tonabnehmer',
-            filterValue: 'ja',
-            clusterLevel: 0,
-            name: 'ja',
-            previewImageURL: null,
-            recordCount: 1,
-            searchParams: '/Shopgate6.8/Search.ff?query=roxette&filterTonabnehmer=ja&filterFarbe=Schwarz&filterbreadcrumbROOT=Gitarren&filtermarke=Yamaha&filterbreadcrumbROOT%2FGitarren=Westerngitarren&channel=de&followSearch=8855&format=JSON',
-            selected: false
-          }
-        ]
-      },
-      {
-        associatedFieldName: 'Korpusform',
-        name: 'Korpusform',
-        filterStyle: 'DEFAULT',
-        elements: [
-          {
-            associatedFieldName: 'Korpusform',
-            filterValue: 'Dreadnought',
-            clusterLevel: 0,
-            name: 'Dreadnought',
-            previewImageURL: null,
-            recordCount: 2,
-            searchParams: '/Shopgate6.8/Search.ff?query=roxette&filterFarbe=Schwarz&filterbreadcrumbROOT=Gitarren&filtermarke=Yamaha&filterbreadcrumbROOT%2FGitarren=Westerngitarren&filterKorpusform=Dreadnought&channel=de&followSearch=8855&format=JSON',
-            selected: false
+            text: '250 - 499',
+            totalHits: 6,
+            filterValue: '[250.0, 500.0)'
           },
           {
-            associatedFieldName: 'Korpusform',
-            filterValue: 'Folk',
-            clusterLevel: 0,
-            name: 'Folk',
-            previewImageURL: null,
-            recordCount: 1,
-            searchParams: '/Shopgate6.8/Search.ff?query=roxette&filterFarbe=Schwarz&filterbreadcrumbROOT=Gitarren&filtermarke=Yamaha&filterbreadcrumbROOT%2FGitarren=Westerngitarren&filterKorpusform=Folk&channel=de&followSearch=8855&format=JSON',
-            selected: false
-          }
-        ]
-      },
-      {
-        associatedFieldName: 'Cutaway',
-        name: 'Cutaway',
-        filterStyle: 'DEFAULT',
-        elements: [
-          {
-            associatedFieldName: 'Cutaway',
-            filterValue: 'nein',
-            clusterLevel: 0,
-            name: 'nein',
-            previewImageURL: null,
-            recordCount: 2,
-            searchParams: '/Shopgate6.8/Search.ff?query=roxette&filterCutaway=nein&filterFarbe=Schwarz&filterbreadcrumbROOT=Gitarren&filtermarke=Yamaha&filterbreadcrumbROOT%2FGitarren=Westerngitarren&channel=de&followSearch=8855&format=JSON',
-            selected: false
+            text: '500 - 749',
+            totalHits: 6,
+            filterValue: '[500.0, 750.0)'
           },
           {
-            associatedFieldName: 'Cutaway',
-            filterValue: 'ja',
-            clusterLevel: 0,
-            name: 'ja',
-            previewImageURL: null,
-            recordCount: 1,
-            searchParams: '/Shopgate6.8/Search.ff?query=roxette&filterCutaway=ja&filterFarbe=Schwarz&filterbreadcrumbROOT=Gitarren&filtermarke=Yamaha&filterbreadcrumbROOT%2FGitarren=Westerngitarren&channel=de&followSearch=8855&format=JSON',
-            selected: false
+            text: '>= 750',
+            totalHits: 4,
+            filterValue: '[750.0, 1250.0)'
           }
         ]
       }
     ]
-    const actual = await searchFilters.execute({ query: 'raspberry', channel: 'de', filters: [] })
+    const actual = await searchFilters.execute({query: 'Ssd Intenso', channel: factFinderConfig.channel, filters: []})
+
     chai.assert.deepEqual(actual.filters, expected)
   })
 
@@ -193,7 +118,11 @@ describe('FactFinderClientSearch', function () {
         statusCode: 500
       }))
 
-    await searchFilters.execute({ query: 'raspberry', channel: 'de', filters: [] }).should.eventually.be.rejectedWith(FactFinderServerError)
+    await searchFilters.execute({
+      query: 'raspberry',
+      channel: 'de',
+      filters: []
+    }).should.eventually.be.rejectedWith(FactFinderServerError)
   })
 
   it('should handle 4xx errors from FACT-Finder', async () => {
@@ -202,6 +131,9 @@ describe('FactFinderClientSearch', function () {
         statusCode: 400
       }))
 
-    await searchFilters.execute({ query: 'raspberry', filters: [] }).should.eventually.be.rejectedWith(FactFinderClientError)
+    await searchFilters.execute({
+      query: 'raspberry',
+      filters: []
+    }).should.eventually.be.rejectedWith(FactFinderClientError)
   })
 })

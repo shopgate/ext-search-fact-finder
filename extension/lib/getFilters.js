@@ -34,22 +34,55 @@ module.exports = async function (context, input) {
     }
     const factFinderResponse = await factFinderClient.search(searchRequest.build(), context.config.uidTemplate)
 
-    const filters = factFinderResponse.filters.filter(group => undefined !== filterTypeMap[group.filterStyle])
-      .map(group => (
-        {
-          id: group.associatedFieldName,
-          label: group.name,
+    const filters = factFinderResponse.filters.filter(filter => undefined !== filterTypeMap[filter.filterStyle])
+      .map(filter => {
+        const baseFilterObject = {
+          id: filter.associatedFieldName,
+          label: filter.name,
+          type: filterTypeMap[filter.filterStyle]
+        }
+
+        const isSlider = baseFilterObject.type === filterTypeMap.SLIDER
+        const isPriceField = context.config.priceSliderId === baseFilterObject.id
+
+        if (isSlider && !isPriceField) {
+          return null
+        }
+
+        if (isSlider && isPriceField) {
+          let min = Infinity
+          let max = -Infinity
+
+          filter.elements.forEach(element => {
+            const { absoluteMinValue, absoluteMaxValue } = element
+            min = Math.min(min, absoluteMinValue)
+            max = Math.max(max, absoluteMaxValue)
+          })
+
+          return {
+            ...baseFilterObject,
+            minimum: parseInt(min * 100),
+            maximum: parseInt(max * 100)
+          }
+        }
+
+        return {
+          ...baseFilterObject,
           source: 'fact-finder',
-          type: filterTypeMap[group.filterStyle],
-          values: group.elements.map(element => {
+          values: filter.elements.map(element => {
             return {
               id: element.filterValue,
-              label: element.name,
-              hits: element.recordCount
+              label: element.text,
+              hits: element.totalHits
             }
           })
         }
-      ))
+      }).filter(Boolean).reduce((acc, e) => {
+        if (e.id === context.config.priceSliderId) {
+          return [e, ...acc]
+        }
+        return [...acc, e]
+      }, [])
 
     return { filters }
   } catch (e) {

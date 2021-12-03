@@ -1,0 +1,226 @@
+{
+  "filters": [
+    {
+      "associatedFieldName": "category",
+      "elements": [
+        {
+          "clusterLevel": 2,
+          "filterValue": "Computer & Telefon",
+          "searchParams": {
+            "channel": "stage_pollin_de",
+            "filters": [
+              {
+                "name": "category",
+                "substring": false,
+                "values": [
+                  {
+                    "exclude": false,
+                    "type": "or",
+                    "value": [
+                      "Computer & Telefon",
+                      "Festplatten / Speichermedien",
+                      "Interne SSD Festplatten"
+                    ]
+                  }
+                ]
+              }
+            ],
+            "hitsPerPage": 32,
+            "query": "Ssd intenso",
+            "sortItems": [
+              {
+                "name": "Relevancy",
+                "order": "desc"
+              }
+            ]
+          },
+          "selected": "FALSE",
+          "text": "Interne SSD Festplatten",
+          "totalHits": 14
+        },
+        {
+          "clusterLevel": 2,
+          "filterValue": "Computer & Telefon",
+          "searchParams": {
+            "channel": "stage_pollin_de",
+            "filters": [
+              {
+                "name": "category",
+                "substring": false,
+                "values": [
+                  {
+                    "exclude": false,
+                    "type": "or",
+                    "value": [
+                      "Computer & Telefon",
+                      "Festplatten / Speichermedien",
+                      "Externe SSD-Festplatten"
+                    ]
+                  }
+                ]
+              }
+            ],
+            "hitsPerPage": 32,
+            "query": "Ssd intenso",
+            "sortItems": [
+              {
+                "name": "Relevancy",
+                "order": "desc"
+              }
+            ]
+          },
+          "selected": "FALSE",
+          "text": "Externe SSD-Festplatten",
+          "totalHits": 11
+        }
+      ],
+      "filterStyle": "TREE",
+      "name": "Kategorie"
+    },
+    {
+      "associatedFieldName": "Speicherkapazität~~GB",
+      "elements": [
+        {
+          "clusterLevel": 0,
+          "filterValue": "[100.0, 150.0)",
+          "searchParams": {
+            "channel": "stage_pollin_de",
+            "filters": [
+              {
+                "name": "Speicherkapazität~~GB",
+                "substring": false,
+                "values": [
+                  {
+                    "exclude": false,
+                    "type": "or",
+                    "value": "[100.0, 150.0)"
+                  }
+                ]
+              }
+            ],
+            "hitsPerPage": 32,
+            "query": "Ssd intenso",
+            "sortItems": [
+              {
+                "name": "Relevancy",
+                "order": "desc"
+              }
+            ]
+          },
+          "selected": "FALSE",
+          "text": "< 150",
+          "totalHits": 6
+        },
+        {
+          "clusterLevel": 0,
+          "filterValue": "[150.0, 250.0)",
+          "searchParams": {
+            "channel": "stage_pollin_de",
+            "filters": [
+              {
+                "name": "Speicherkapazität~~GB",
+                "substring": false,
+                "values": [
+                  {
+                    "exclude": false,
+                    "type": "or",
+                    "value": "[150.0, 250.0)"
+                  }
+                ]
+              }
+            ],
+            "hitsPerPage": 32,
+            "query": "Ssd intenso",
+            "sortItems": [
+              {
+                "name": "Relevancy",
+                "order": "desc"
+              }
+            ]
+          },
+          "selected": "FALSE",
+          "text": "150 - 249",
+          "totalHits": 2
+        }
+      ],
+      "filterStyle": "MULTISELECT",
+      "name": "Speicherkapazität in GB"
+    },
+    {
+      "associatedFieldName": "Intern/Extern",
+      "elements": [
+        {
+          "clusterLevel": 0,
+          "filterValue": "Extern",
+          "searchParams": {
+            "channel": "stage_pollin_de",
+            "filters": [
+              {
+                "name": "Intern/Extern",
+                "substring": false,
+                "values": [
+                  {
+                    "exclude": false,
+                    "type": "or",
+                    "value": "Extern"
+                  }
+                ]
+              }
+            ],
+            "hitsPerPage": 32,
+            "query": "Ssd intenso",
+            "sortItems": [
+              {
+                "name": "Relevancy",
+                "order": "desc"
+              }
+            ]
+          },
+          "selected": "FALSE",
+          "text": "Extern",
+          "totalHits": 11
+        },
+        {
+          "clusterLevel": 0,
+          "filterValue": "Intern",
+          "searchParams": {
+            "channel": "stage_pollin_de",
+            "filters": [
+              {
+                "name": "Intern/Extern",
+                "substring": false,
+                "values": [
+                  {
+                    "exclude": false,
+                    "type": "or",
+                    "value": "Intern"
+                  }
+                ]
+              }
+            ],
+            "hitsPerPage": 32,
+            "query": "Ssd intenso",
+            "sortItems": [
+              {
+                "name": "Relevancy",
+                "order": "desc"
+              }
+            ]
+          },
+          "selected": "FALSE",
+          "text": "Intern",
+          "totalHits": 14
+        }
+      ],
+      "filterStyle": "MULTISELECT",
+      "name": "Intern/Extern"
+    }
+  ],
+  "followSearch": null,
+  "totalProductCount": 25,
+  "uids": [
+    "703530",
+    "703089",
+    "703088"
+  ]
+}
