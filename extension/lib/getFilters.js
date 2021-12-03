@@ -36,11 +36,39 @@ module.exports = async function (context, input) {
 
     const filters = factFinderResponse.filters.filter(filter => undefined !== filterTypeMap[filter.filterStyle])
       .map(filter => {
-        return {
+        const baseFilterObject = {
           id: filter.associatedFieldName,
           label: filter.name,
+          type: filterTypeMap[filter.filterStyle]
+        }
+
+        const isSlider = baseFilterObject.type === filterTypeMap.SLIDER
+        const isPriceField = context.config.priceSliderId === baseFilterObject.id
+
+        if (isSlider && !isPriceField) {
+          return null
+        }
+
+        if (isSlider && isPriceField) {
+          let min = Infinity
+          let max = -Infinity
+
+          filter.elements.forEach(element => {
+            const { absoluteMinValue, absoluteMaxValue } = element
+            min = Math.min(min, absoluteMinValue)
+            max = Math.max(max, absoluteMaxValue)
+          })
+
+          return {
+            ...baseFilterObject,
+            minimum: parseInt(min * 100),
+            maximum: parseInt(max * 100)
+          }
+        }
+
+        return {
+          ...baseFilterObject,
           source: 'fact-finder',
-          type: filterTypeMap[filter.filterStyle],
           values: filter.elements.map(element => {
             return {
               id: element.filterValue,
@@ -49,7 +77,12 @@ module.exports = async function (context, input) {
             }
           })
         }
-      })
+      }).filter(Boolean).reduce((acc, e) => {
+        if (e.id === context.config.priceSliderId) {
+          return [e, ...acc]
+        }
+        return [...acc, e]
+      }, [])
 
     return { filters }
   } catch (e) {
