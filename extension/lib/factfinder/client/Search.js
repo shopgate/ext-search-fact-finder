@@ -1,14 +1,12 @@
 'use strict'
-const urlencode = require('urlencode')
 const jsonPath = require('jsonpath')
 
 const AbstractFactFinderClientAction = require('./Abstract')
 const FactFinderInvalidResponseError = require('./errors/FactFinderInvalidResponseError')
 
 const { filterPrepareValueForSearchParams, filterDecodeValueFromSearchParams } = require('./search/filter')
-const { URLSearchParams } = require('url')
 
-const ENDPOINT = '/Search.ff'
+const ENDPOINT = '/search'
 
 /** @type FactFinderClientSearchFilterType */
 const filterType = {
@@ -75,27 +73,26 @@ class FactFinderClientSearch extends AbstractFactFinderClientAction {
   async execute (inputSearchRequest, httpAuth = {}) {
     let searchRequest = Object.assign({}, inputSearchRequest)
 
-    const searchParams = []
-    searchRequest.query = urlencode(searchRequest.query, this._encoding)
-
-    searchParams.push('format=json')
-    searchParams.push('version=7.3')
-
-    Object.keys(searchRequest)
-      .filter(parameter => parameter !== 'filters')
-      .forEach(parameter => {
-        searchParams.push(`${parameter}=${searchRequest[parameter]}`)
-      })
-
+    /**
+     * @type {FactFinderClientSearchFilter[]}
+     */
+    const newFiltersStructure = []
     for (const filter of getFilters(searchRequest)) {
-      const { filterName, filterValue } = filterPrepareValueForSearchParams(filter.name, filter.values)
-      searchParams.push(`${filterName}=${filterValue}`)
+      const { filterName, filterValues } = filterPrepareValueForSearchParams(filter.name, filter.values)
+      newFiltersStructure.push({
+        name: filterName,
+        substring: true,
+        values: filterValues
+      })
     }
 
-    const url = this.url + '?' + searchParams.join('&')
-    const response = await this.request(url, httpAuth)
+    searchRequest.filters = newFiltersStructure
 
-    if (!response.body || !response.body.searchResult || !response.body.searchResult.records) {
+    const response = await this.request(this.url, {
+      params: searchRequest
+    }, httpAuth)
+
+    if (!response.body || !response.body.hits) {
       throw new FactFinderInvalidResponseError({
         headers: response.headers,
         statusCode: response.statusCode,
@@ -103,16 +100,16 @@ class FactFinderClientSearch extends AbstractFactFinderClientAction {
       })
     }
 
-    const factFinderSearchResult = response.body.searchResult
+    const factFinderSearchResult = response.body.hits
 
     // `${product.record.shopid}-${product.id}`
     let filters = []
-    if (response.body.searchResult.groups) {
+    if (response.body.facets) {
       filters = prepareFiltersFromResponse(response)
     }
 
     return {
-      uids: factFinderSearchResult.records.map((product) => {
+      uids: factFinderSearchResult.map((product) => {
         if (!this._uidSelector.includes('{')) {
           // uidSelector can either be a JSON path...
           // e.g. "$.id"
@@ -123,8 +120,8 @@ class FactFinderClientSearch extends AbstractFactFinderClientAction {
         // e.g. "{$.record.shopid}-{$.id}"
         return this._uidSelector.replace(/(?:{([^}]*)})/g, (match, path) => jsonPath.query(product, path))
       }),
-      totalProductCount: factFinderSearchResult.resultCount,
-      followSearch: getValueFromSearchParams('followSearch', factFinderSearchResult.searchParams),
+      totalProductCount: response.body.totalHits,
+      followSearch: getValueFromSearchParams('followSearch', response.body.searchParams),
       filters
     }
   }
@@ -135,26 +132,31 @@ class FactFinderClientSearch extends AbstractFactFinderClientAction {
  * @return {FactFinderClientSearchFilter[]}
  */
 function prepareFiltersFromResponse (response) {
-  const filters = []
-
-  response.body.searchResult.groups.forEach(group => {
-    const firstElementWithFieldName = group.elements.find(element => element.associatedFieldName !== undefined)
-    if (!firstElementWithFieldName) {
-      return
+  return response.body.facets.map(facet => {
+    if (!facet.associatedFieldName) {
+      return null
     }
 
-    filters.push({
-      associatedFieldName: firstElementWithFieldName.associatedFieldName,
-      name: group.name,
-      filterStyle: group.filterStyle,
-      elements: group.elements.map(element => {
-        element.filterValue = filterDecodeValueFromSearchParams(element.associatedFieldName, element.searchParams)
-        return element
-      })
-    })
-  })
+    return {
+      associatedFieldName: facet.associatedFieldName,
+      name: facet.name,
+      filterStyle: facet.filterStyle,
+      elements: facet.elements.map(element => {
+        const baseElement = {
+          text: element.text,
+          totalHits: element.totalHits,
+          filterValue: filterDecodeValueFromSearchParams(facet.associatedFieldName, element.searchParams)
+        }
 
-  return filters
+        if (facet.filterStyle === filterStyle.SLIDER) {
+          baseElement['absoluteMinValue'] = element.absoluteMinValue
+          baseElement['absoluteMaxValue'] = element.absoluteMaxValue
+        }
+
+        return baseElement
+      })
+    }
+  }).filter(Boolean)
 }
 
 /**
@@ -176,9 +178,11 @@ function getValueFromSearchParams (param, searchParams) {
     return null
   }
 
-  const urlSearchParams = new URLSearchParams(searchParams.replace(/^\//, ''))
+  if (!searchParams[param]) {
+    return null
+  }
 
-  return urlSearchParams.get(param)
+  return searchParams[param]
 }
 
 module.exports = {
