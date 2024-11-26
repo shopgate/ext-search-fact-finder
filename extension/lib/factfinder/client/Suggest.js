@@ -1,7 +1,6 @@
 'use strict'
 
 const URL = require('url').URL
-const ENDPOINT = '/suggest'
 
 const AbstractFactFinderClientAction = require('./Abstract')
 const FactFinderInvalidResponseError = require('./errors/FactFinderInvalidResponseError')
@@ -19,13 +18,6 @@ class FactFinderClientSuggest extends AbstractFactFinderClientAction {
   }
 
   /**
-   * @returns {string}
-   */
-  get url () {
-    return this._baseUri + ENDPOINT
-  }
-
-  /**
    * @param {FactFinderClientSearchRequest} inputSearchRequest
    * @param {Object} [httpAuth]
    * @returns {Promise<string[]>}
@@ -33,8 +25,10 @@ class FactFinderClientSuggest extends AbstractFactFinderClientAction {
   async execute (inputSearchRequest, httpAuth = {}) {
     let searchRequest = Object.assign({}, inputSearchRequest)
 
-    const url = new URL(this.url)
+    const { channel } = searchRequest
+    delete searchRequest.channel
 
+    const url = new URL(`${this._baseUri}/suggest/${channel}`)
     const response = await this.request(url, searchRequest, httpAuth)
 
     if (!response.body || !response.body.suggestions) {

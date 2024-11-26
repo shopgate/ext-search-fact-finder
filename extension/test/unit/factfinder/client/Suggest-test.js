@@ -35,12 +35,11 @@ describe('FactFinderClientSuggest', function () {
   it('should return a list of suggestions', async () => {
     promisifyStub.returns((options) => {
       chai.assert.deepEqual(options, {
-        url: `${factFinderConfig.endPointBaseUrl}/suggest`,
+        url: `${factFinderConfig.endPointBaseUrl}/suggest/${factFinderConfig.channel}`,
         json: true,
         timeout: 10000,
         method: 'POST',
         body: {
-          channel: factFinderConfig.channel,
           query: 'Ssd'
         }
       })
@@ -62,12 +61,11 @@ describe('FactFinderClientSuggest', function () {
   it('should return a list of multiple suggestions', async () => {
     promisifyStub.returns((options) => {
       chai.assert.deepEqual(options, {
-        url: `${factFinderConfig.endPointBaseUrl}/suggest`,
+        url: `${factFinderConfig.endPointBaseUrl}/suggest/${factFinderConfig.channel}`,
         json: true,
         timeout: 10000,
         method: 'POST',
         body: {
-          channel: factFinderConfig.channel,
           query: 'kabel'
         }
       })
@@ -90,12 +88,11 @@ describe('FactFinderClientSuggest', function () {
   it('should return an empty list for not existing suggestions', async () => {
     promisifyStub.returns((options) => {
       chai.assert.deepEqual(options, {
-        url: `${factFinderConfig.endPointBaseUrl}/suggest`,
+        url: `${factFinderConfig.endPointBaseUrl}/suggest/${factFinderConfig.channel}`,
         json: true,
         timeout: 10000,
         method: 'POST',
         body: {
-          channel: factFinderConfig.channel,
           query: 'should not work'
         }
       })

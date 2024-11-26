@@ -6,8 +6,6 @@ const FactFinderInvalidResponseError = require('./errors/FactFinderInvalidRespon
 
 const { filterPrepareValueForSearchParams, filterDecodeValueFromSearchParams } = require('./search/filter')
 
-const ENDPOINT = '/search'
-
 /** @type FactFinderClientSearchFilterType */
 const filterType = {
   NUMBER: 'number',
@@ -59,13 +57,6 @@ class FactFinderClientSearch extends AbstractFactFinderClientAction {
   }
 
   /**
-   * @returns {string}
-   */
-  get url () {
-    return this._baseUri + ENDPOINT
-  }
-
-  /**
    * @param {FactFinderClientSearchRequest} inputSearchRequest
    * @param {Object} [httpAuth]
    * @returns {Promise<FactFinderClientSearchResponse>}
@@ -88,7 +79,10 @@ class FactFinderClientSearch extends AbstractFactFinderClientAction {
 
     searchRequest.filters = newFiltersStructure
 
-    const response = await this.request(this.url, {
+    const { channel } = searchRequest
+    delete searchRequest.channel
+
+    const response = await this.request(`${this._baseUri}/search/${channel}`, {
       params: searchRequest
     }, httpAuth)
 

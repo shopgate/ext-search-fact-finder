@@ -1,6 +1,6 @@
 module.exports = {
   factFinderConfig: {
-    endPointBaseUrl: 'https://pollin-ng.fact-finder.de/fact-finder/rest/v4',
+    endPointBaseUrl: 'https://pollin-ng.fact-finder.de/fact-finder/rest/v5',
     channel: 'stage_pollin_de',
     auth: {
       user: 'shopgate',

@@ -36,15 +36,14 @@ describe('FactFinderClientSearch', function () {
   it('should return a list of filters', async () => {
     promisifyStub.returns((options) => {
       chai.assert.deepEqual(options, {
-        url: `${factFinderConfig.endPointBaseUrl}/search`,
+        url: `${factFinderConfig.endPointBaseUrl}/search/${factFinderConfig.channel}`,
         json: true,
         timeout: 10000,
         method: 'POST',
         body: {
           params: {
             query: 'Ssd Intenso',
-            filters: [],
-            channel: factFinderConfig.channel
+            filters: []
           }
         }
       })
