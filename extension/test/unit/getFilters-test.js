@@ -9,13 +9,15 @@ const FactFinderClient = require('../../lib/factfinder/Client')
 const FactFinderInvalidResponseError = require('../../lib/factfinder/client/errors/FactFinderInvalidResponseError')
 const FactFinderClientFactory = require('../../lib/shopgate/FactFinderClientFactory')
 const getFilters = require('../../lib/getFilters')
+const {factFinderConfig} = require('./config')
+const returnedFiltersByFactFinder = require('./factfinder/client/mockedApiResponses/returnedFiltersByFactFinder.json')
 
 describe('getFilters', async () => {
   const sandbox = sinon.createSandbox()
   const context = {
     config: {
-      baseUri: 'https://www.shopgate.com/FactFinder',
-      channel: 'de'
+      baseUri: factFinderConfig.endPointBaseUrl,
+      channel: factFinderConfig.channel
     }
   }
 
@@ -32,83 +34,41 @@ describe('getFilters', async () => {
   })
 
   it('should return list of shopgate filters', async function () {
-    const returnedFilters = [
-      {
-        associatedFieldName: 'breadcrumbROOT/Gitarren/Westerngitarren',
-        name: 'CategoryPath',
-        filterStyle: 'TREE',
-        elements: [
-          {
-            associatedFieldName: 'breadcrumbROOT/Gitarren/Westerngitarren',
-            filterValue: 'Dreadnought',
-            clusterLevel: 2,
-            name: 'Dreadnought',
-            previewImageURL: null,
-            recordCount: 2,
-            searchParams: '/Shopgate6.8/Search.ff?query=roxette&filterFarbe=Schwarz&filterbreadcrumbROOT=Gitarren&filtermarke=Yamaha&filterbreadcrumbROOT%2FGitarren=Westerngitarren&filterbreadcrumbROOT%2FGitarren%2FWesterngitarren=Dreadnought&channel=de&followSearch=8855&format=JSON',
-            selected: false
-          },
-          {
-            associatedFieldName: 'breadcrumbROOT/Gitarren/Westerngitarren',
-            filterValue: 'Folk-Gitarren',
-            clusterLevel: 2,
-            name: 'Folk-Gitarren',
-            previewImageURL: null,
-            recordCount: 1,
-            searchParams: '/Shopgate6.8/Search.ff?query=roxette&filterFarbe=Schwarz&filterbreadcrumbROOT=Gitarren&filtermarke=Yamaha&filterbreadcrumbROOT%2FGitarren=Westerngitarren&filterbreadcrumbROOT%2FGitarren%2FWesterngitarren=Folk-Gitarren&channel=de&followSearch=8855&format=JSON',
-            selected: false
-          }
-        ]
-      },
-      {
-        associatedFieldName: 'Tonabnehmer',
-        name: 'Tonabnehmer',
-        filterStyle: 'MULTISELECT',
-        elements: [
-          {
-            associatedFieldName: 'Tonabnehmer',
-            filterValue: 'nein',
-            clusterLevel: 0,
-            name: 'nein',
-            previewImageURL: null,
-            recordCount: 2,
-            searchParams: '/Shopgate6.8/Search.ff?query=roxette&filterTonabnehmer=nein&filterFarbe=Schwarz&filterbreadcrumbROOT=Gitarren&filtermarke=Yamaha&filterbreadcrumbROOT%2FGitarren=Westerngitarren&channel=de&followSearch=8855&format=JSON',
-            selected: false
-          },
-          {
-            associatedFieldName: 'Tonabnehmer',
-            filterValue: 'ja',
-            clusterLevel: 0,
-            name: 'ja',
-            previewImageURL: null,
-            recordCount: 1,
-            searchParams: '/Shopgate6.8/Search.ff?query=roxette&filterTonabnehmer=ja&filterFarbe=Schwarz&filterbreadcrumbROOT=Gitarren&filtermarke=Yamaha&filterbreadcrumbROOT%2FGitarren=Westerngitarren&channel=de&followSearch=8855&format=JSON',
-            selected: false
-          }
-        ]
-      }
-    ]
-
     clientStub.search
-      .resolves({ filters: returnedFilters })
+      .resolves({filters: returnedFiltersByFactFinder.result})
 
-    chai.assert.deepEqual(await getFilters(context, { searchPhrase: 'raspberry' }), {
+    chai.assert.deepEqual(await getFilters(context, {searchPhrase: 'Ssd Intenso'}), {
       filters: [
         {
-          id: 'Tonabnehmer',
-          label: 'Tonabnehmer',
+          id: 'Speicherkapazität~~GB',
+          label: 'Speicherkapazität in GB',
           source: 'fact-finder',
           type: 'multiselect',
           values: [
             {
-              id: 'nein',
-              label: 'nein',
+              label: '< 150',
+              hits: 6,
+              id: '< 150'
+            },
+            {
+              label: '150 - 249',
+              id: '150 - 249',
               hits: 2
             },
             {
-              id: 'ja',
-              label: 'ja',
-              hits: 1
+              label: '250 - 499',
+              id: '250 - 499',
+              hits: 6
+            },
+            {
+              label: '500 - 749',
+              id: '500 - 749',
+              hits: 6
+            },
+            {
+              label: '>= 750',
+              id: '>= 750',
+              hits: 4
             }
           ]
         }
@@ -120,7 +80,7 @@ describe('getFilters', async () => {
     clientStub.search
       .rejects(new FactFinderInvalidResponseError({response: {}}))
 
-    const filterResult = await getFilters(context, { searchPhrase: 'unexpected search param that brakes the response' })
+    const filterResult = await getFilters(context, {searchPhrase: 'unexpected search param that brakes the response'})
     chai.assert.deepEqual(filterResult.filters, [])
     chai.assert.property(filterResult, 'contentError')
     sinon.assert.called(context.log.error)

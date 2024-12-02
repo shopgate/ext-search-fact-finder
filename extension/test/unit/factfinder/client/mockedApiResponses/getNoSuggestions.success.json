@@ -1,0 +1,15 @@
+{
+  "suggestions": [],
+  "fieldRoles": {
+    "ean": "ean",
+    "price": "PREIS",
+    "deeplink": "deeplink",
+    "imageUrl": "Bild",
+    "description": "LANGTEXT",
+    "productNumber": "ARTNR",
+    "brand": "Marke",
+    "productName": "UEBERSCHRIFT"
+  },
+  "splitDocuments": false,
+  "articleNumberSearchAllowed": false
+}

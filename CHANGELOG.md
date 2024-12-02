@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.0.0] - 2021-11-22
+### Changed
+- Made compatible with NG1.2 by [Migration guide from 7.3 to NG1.2 (german)](https://doku.fact-finder.de/doc/latest/fact-finder-integration/migration-guides/migration-guide-7-3-zu-ng-1-2-rest)
+
 ## [1.0.1] - 2020-04-02
 ### Fixed
 - App tries to load products on search result page even after all products are loaded
@@ -19,7 +23,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 
 ## [0.1.3] - 2018-09-07
 ### Fixed
-- implemented feedback from review process of Shopgate extensions 
+- implemented feedback from review process of Shopgate extensions
 
 ## [0.1.2] - 2018-09-06
 ### Fixed
